@@ -1,6 +1,7 @@
 package View
 
 import Model.Monster.Action
+import Model.Monster.ActionUsage
 import Model.Monster.Monster
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -80,13 +81,25 @@ fun actionItem(action: Action, modifier: Modifier) {
 
         // TODO display dc
 
-        if (!action.attacks.isEmpty()) {
+        if (action.attacks.isNotEmpty()) {
             // TODO display attacks
         }
-        if(!action.damage.isEmpty()) {
+        if(action.damage.isNotEmpty()) {
             // TODO display attack damages
         }
 
         // TODO display usage item
+        ActionUsageView(action.usage)
     }
+}
+
+@Composable
+fun ActionUsageView(usage : ActionUsage) {
+
+    if(!usage.type.isNullOrEmpty() && !usage.dice.isNullOrEmpty() && usage.min_value != null)
+        Column {
+            Text(usage.type)
+            Text("Dice : ${usage.dice}")
+            Text("Minimum value : ${usage.min_value}")
+        }
 }
