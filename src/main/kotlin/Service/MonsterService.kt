@@ -19,7 +19,7 @@ class MonsterService {
 
     fun getMonster(monsterName : String) : Monster {
         val request = HttpRequest.newBuilder()
-            .uri(URI(API_URL + monsterName))
+            .uri(URI(API_URL + formatMonsterName(monsterName)))
             .GET()
             .build()
 
@@ -28,5 +28,13 @@ class MonsterService {
         val monster = Json.decodeFromString<Monster>(response.body())
 
         return monster
+    }
+
+    // Changes the format of the search string to match the format of the api
+    private fun formatMonsterName(name : String) : String {
+        return name
+            .replace(' ', '-')
+            .trim()
+            .lowercase()
     }
 }
