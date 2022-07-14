@@ -67,18 +67,15 @@ fun actionItem(action: Action, modifier: Modifier) {
     ) {
         action.name?.let {
             Text(it)
-            //Spacer(Modifier.height(5.dp))
         }
         action.desc?.let {
             Text(it)
-            //Spacer(Modifier.height(5.dp))
         }
 
-        // TODO display options
+        ChoiceView(action.options, modifier)
 
         action.attack_bonus?.let {
             Text("Attack Bonus : $it")
-            //Spacer(Modifier.height(5.dp))
         }
 
         // TODO display dc
