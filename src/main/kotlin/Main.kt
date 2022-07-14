@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 
@@ -50,6 +51,24 @@ fun App(monsterService: MonsterService) {
                 SpeedView(
                     monster.value.speed,
                     modifier = Modifier.background(Color.DarkGray)
+                )
+                SimpleTextList(
+                    label = "Vulnerabilities",
+                    items = monster.value.damage_vulnerabilities,
+                    modifier = Modifier.padding(vertical = 5.dp)
+                )
+                SimpleTextList(
+                    label = "Resistances",
+                    items = monster.value.damage_resistances,
+                    modifier = Modifier.padding(vertical = 5.dp)
+                )
+                SimpleTextList(
+                    label = "Immunities",
+                    items = monster.value.damage_immunities + monster
+                        .value
+                        .condition_immunities
+                        .mapNotNull { it.name },
+                    modifier = Modifier.padding(vertical = 5.dp)
                 )
             }
             Row {
