@@ -8,10 +8,22 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 
 
 @Composable
-fun SensesView(sense: Sense, modifier: Modifier) {
+fun SensesView(sense: Sense, modifier: Modifier = Modifier) {
+
+    val textSize = 0.8.em
+
+    @Composable
+    fun TextCell(text : String, modifier: Modifier = Modifier) =
+        Text(
+            text = text,
+            fontSize = textSize,
+            modifier = modifier
+        )
+
 
     LazyColumn(
         modifier = Modifier
@@ -24,13 +36,13 @@ fun SensesView(sense: Sense, modifier: Modifier) {
         }
         item {
             sense.passive_perception?.let {
-                Text("Passive : $it")
+                TextCell("Passive : $it")
             }
 
-            sense.blindsight?.let { Text(it) }
-            sense.darkvision?.let { Text(it) }
-            sense.tremorsense?.let { Text(it) }
-            sense.truesight?.let { Text(it) }
+            sense.blindsight?.let { TextCell("Blindsight: $it") }
+            sense.darkvision?.let { TextCell("Darkvision: $it") }
+            sense.tremorsense?.let { TextCell("Tremorsense: $it") }
+            sense.truesight?.let { TextCell("Truesight: $it") }
         }
     }
 }

@@ -59,10 +59,7 @@ fun App(monsterService: MonsterService) {
                         monster.value.speed,
                         modifier = Modifier
                     )
-                    SensesView(
-                        monster.value.senses,
-                        modifier = Modifier
-                    )
+                    SensesView(monster.value.senses)
                 }
 
                 SimpleTextList(
