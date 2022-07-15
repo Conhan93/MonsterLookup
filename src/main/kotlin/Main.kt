@@ -41,10 +41,7 @@ fun App(monsterService: MonsterService) {
             Row {
                 Box() {
                     Column {
-                        SearchInput(
-                            monsterService,
-                            Modifier.background(Color.DarkGray)
-                        )
+                        SearchInput(monsterService)
                         CharacterInfo(monster.value)
                     }
                 }

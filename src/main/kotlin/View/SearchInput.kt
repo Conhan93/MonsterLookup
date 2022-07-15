@@ -21,7 +21,7 @@ import kotlinx.coroutines.runBlocking
 
 
 @Composable
-fun SearchInput(monsterService : MonsterService, modifier : Modifier) {
+fun SearchInput(monsterService : MonsterService, modifier : Modifier = Modifier) {
 
     var name by remember { mutableStateOf("") }
 
