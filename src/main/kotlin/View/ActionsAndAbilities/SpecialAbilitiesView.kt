@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SpecialAbilitiesView(monster: MutableState<Monster>, modifier: Modifier) {
+fun SpecialAbilitiesView(monster: MutableState<Monster>, modifier: Modifier = Modifier) {
 
     val specialAbilities = monster.value.special_abilities
 
