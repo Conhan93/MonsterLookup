@@ -103,7 +103,8 @@ fun App(monsterService: MonsterService) {
 
                 ActionsView(monster, modifier = elementWeight)
                 SpecialAbilitiesView(monster, modifier = elementWeight)
-                ReactionsView(monster, modifier = elementWeight)
+                if(monster.value.reactions.isNotEmpty())
+                    ReactionsView(monster, modifier = elementWeight)
             }
 
         }
