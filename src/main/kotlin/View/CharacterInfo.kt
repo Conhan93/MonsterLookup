@@ -18,35 +18,46 @@ fun CharacterInfo(character : Monster, modifier : Modifier) {
     Box(
         modifier = modifier
     ) {
-        Column(
-            modifier = Modifier
-                .background(color = Color.DarkGray)
-                .padding(15.dp)
-        ) {
-            Row {
-                Column {
-                    Text("Name : ${character.name ?: "Unavailable"}")
-                    Column { Text(text = character.desc.joinToString()) }
+        Row {
+            Column(
+                modifier = Modifier
+                    .padding(15.dp)
+            ) {
+                Row {
+                    Column {
+                        Text("Name : ${character.name ?: "Unavailable"}")
+                        Column { Text(text = character.desc.joinToString()) }
+                    }
+
                 }
+                Row {
+                    Text("STR : ${character.strength ?: "N/A" }")
+                    Spacer(Modifier.width(10.dp))
+                    Text("CON : ${character.constitution ?: "N/A" }")
+                    Spacer(Modifier.width(10.dp))
+                    Text("WIS : ${character.wisdom ?: "N/A" }")
+                    Spacer(Modifier.width(10.dp))
 
+                }
+                Row {
+                    Text("DEX : ${character.dexterity ?: "N/A" }")
+                    Spacer(Modifier.width(10.dp))
+                    Text("INT : ${character.intelligence ?: "N/A" }")
+                    Spacer(Modifier.width(10.dp))
+                    Text("CHA : ${character.intelligence ?: "N/A" }")
+                    Spacer(Modifier.width(10.dp))
+                }
             }
-            Row {
-                Text("STR : ${character.strength ?: "N/A" }")
-                Spacer(Modifier.width(10.dp))
-                Text("CON : ${character.constitution ?: "N/A" }")
-                Spacer(Modifier.width(10.dp))
-                Text("WIS : ${character.wisdom ?: "N/A" }")
-                Spacer(Modifier.width(10.dp))
 
-            }
-            Row {
-                Text("DEX : ${character.dexterity ?: "N/A" }")
-                Spacer(Modifier.width(10.dp))
-                Text("INT : ${character.intelligence ?: "N/A" }")
-                Spacer(Modifier.width(10.dp))
-                Text("CHA : ${character.intelligence ?: "N/A" }")
-                Spacer(Modifier.width(10.dp))
+            Column {
+                Text("Type : ${character.type ?: "N/A"}")
+                character.subtype?.let { Text("Subtype : ${character.subtype}") }
+                Text("Size : ${character.size ?: "N/A"}")
+                Text("Alignment : ${character.alignment ?: "N/A"}")
+                Text("AC : ${character.armor_class ?: "N/A"}")
+                Text("HP : ${character.hit_points ?: "N/A"}")
             }
         }
+
     }
 }
