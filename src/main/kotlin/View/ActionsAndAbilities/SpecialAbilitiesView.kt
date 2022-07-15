@@ -23,6 +23,9 @@ fun SpecialAbilitiesView(monster: MutableState<Monster>, modifier: Modifier) {
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
+        // header
+        item { Text("Special Abilities") }
+
         items(specialAbilities) {
             SpecialAbilityItem(
                 it,

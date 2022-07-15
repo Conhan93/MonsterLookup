@@ -94,10 +94,16 @@ fun App(monsterService: MonsterService) {
                     )
                     .fillMaxWidth(1f)
             )
-            Row {
-                ActionsView(monster, modifier = Modifier.background(Color.DarkGray))
-                SpecialAbilitiesView(monster, modifier = Modifier.background(Color.DarkGray))
-                ReactionsView(monster)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(1f),
+            ) {
+
+                val elementWeight = Modifier.weight(1f, fill = true)
+
+                ActionsView(monster, modifier = elementWeight)
+                SpecialAbilitiesView(monster, modifier = elementWeight)
+                ReactionsView(monster, modifier = elementWeight)
             }
 
         }
