@@ -14,6 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 @Composable
@@ -22,6 +26,9 @@ fun SearchInput(monsterService : MonsterService, modifier : Modifier) {
     var name by remember { mutableStateOf("") }
 
     val padding = PaddingValues(5.dp)
+
+    // Coroutine scope for the http request
+    val requestScope = CoroutineScope(Dispatchers.IO)
 
     Row {
 
@@ -40,7 +47,9 @@ fun SearchInput(monsterService : MonsterService, modifier : Modifier) {
 
         Button(
             onClick =  {
-                monsterService.monster.value = monsterService.getMonster(name)
+                requestScope.launch {
+                    monsterService.monster.value = monsterService.getMonster(name)
+                }
             },
             modifier = modifier
                 .padding(padding)
