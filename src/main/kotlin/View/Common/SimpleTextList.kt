@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun SimpleTextList(label : String, items : List<String>, modifier: Modifier) {
+fun SimpleTextList(label : String, items : List<String>, modifier: Modifier = Modifier) {
 
     val textBody =
         if(items.isEmpty())
