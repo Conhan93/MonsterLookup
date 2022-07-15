@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 @Composable()
 fun CharacterInfo(character : Monster, modifier : Modifier) {
 
-    Card(
+    Box(
         modifier = modifier
     ) {
         Column(
