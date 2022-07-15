@@ -53,10 +53,15 @@ fun App(monsterService: MonsterService) {
                 }
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = 5.dp)
+                        .padding(
+                            horizontal = 5.dp,
+                            vertical = 5.dp
+                        ),
                 ) {
-                    SpeedView(monster.value.speed)
-                    SensesView(monster.value.senses)
+                    val elementWeight = Modifier.weight(1f, fill = false)
+
+                    SpeedView(monster.value.speed, elementWeight)
+                    SensesView(monster.value.senses, elementWeight)
                 }
 
                 SimpleTextList(
