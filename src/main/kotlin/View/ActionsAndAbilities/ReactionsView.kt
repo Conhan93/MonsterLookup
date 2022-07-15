@@ -43,7 +43,7 @@ private fun ReactionItem(reaction: Reaction, modifier: Modifier = Modifier) {
         reaction.name?.let { Text(it) }
         reaction.desc?.let { Text(it) }
 
-        ChoiceView(reaction.options, Modifier)
+        ChoiceView(reaction.options)
 
         reaction.attack_bonus?.let { Text("Attack Bonus : $it") }
     }

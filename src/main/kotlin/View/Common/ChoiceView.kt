@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun ChoiceView(choice: Choice, modifier: Modifier) {
+fun ChoiceView(choice: Choice, modifier: Modifier = Modifier) {
 
     Column(
         modifier = modifier

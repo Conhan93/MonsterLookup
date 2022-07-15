@@ -73,7 +73,7 @@ fun actionItem(action: Action, modifier: Modifier) {
             Text(it)
         }
 
-        ChoiceView(action.options, modifier)
+        ChoiceView(action.options)
 
         action.attack_bonus?.let {
             Text("Attack Bonus : $it")
