@@ -50,10 +50,20 @@ fun App(monsterService: MonsterService) {
                         )
                     }
                 }
-                SpeedView(
-                    monster.value.speed,
-                    modifier = Modifier.background(Color.DarkGray)
-                )
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                ) {
+                    SpeedView(
+                        monster.value.speed,
+                        modifier = Modifier
+                    )
+                    SensesView(
+                        monster.value.senses,
+                        modifier = Modifier
+                    )
+                }
+
                 SimpleTextList(
                     label = "Vulnerabilities",
                     items = monster.value.damage_vulnerabilities,
