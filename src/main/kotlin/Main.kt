@@ -45,10 +45,7 @@ fun App(monsterService: MonsterService) {
                             monsterService,
                             Modifier.background(Color.DarkGray)
                         )
-                        CharacterInfo(
-                            monster.value,
-                            Modifier.background(Color.DarkGray)
-                        )
+                        CharacterInfo(monster.value)
                     }
                 }
                 Column(

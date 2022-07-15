@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable()
-fun CharacterInfo(character : Monster, modifier : Modifier) {
+fun CharacterInfo(character : Monster, modifier : Modifier = Modifier) {
 
     Box(
         modifier = modifier
