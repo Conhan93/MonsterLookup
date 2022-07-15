@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun SpeedView(speed: Speed, modifier: Modifier) {
+fun SpeedView(speed: Speed, modifier: Modifier = Modifier) {
 
     Column(
         modifier = modifier

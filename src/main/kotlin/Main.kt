@@ -55,10 +55,7 @@ fun App(monsterService: MonsterService) {
                     modifier = Modifier
                         .padding(horizontal = 5.dp)
                 ) {
-                    SpeedView(
-                        monster.value.speed,
-                        modifier = Modifier
-                    )
+                    SpeedView(monster.value.speed)
                     SensesView(monster.value.senses)
                 }
 
