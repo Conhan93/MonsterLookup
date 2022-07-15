@@ -6,6 +6,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -83,6 +84,16 @@ fun App(monsterService: MonsterService) {
                     modifier = Modifier.padding(vertical = 5.dp)
                 )
             }
+            Divider(
+                color = Color.Gray,
+                thickness = 1.dp,
+                modifier = Modifier
+                    .padding(
+                        vertical = 10.dp,
+                        horizontal = 10.dp
+                    )
+                    .fillMaxWidth(1f)
+            )
             Row {
                 ActionsView(monster, modifier = Modifier.background(Color.DarkGray))
                 SpecialAbilitiesView(monster, modifier = Modifier.background(Color.DarkGray))
