@@ -97,6 +97,7 @@ fun App(monsterService: MonsterService) {
             Row {
                 ActionsView(monster, modifier = Modifier.background(Color.DarkGray))
                 SpecialAbilitiesView(monster, modifier = Modifier.background(Color.DarkGray))
+                ReactionsView(monster)
             }
 
         }
