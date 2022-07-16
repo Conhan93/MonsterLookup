@@ -1,6 +1,7 @@
 package View
 
 import Service.MonsterService
+import State
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
@@ -22,6 +23,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import state
+import java.io.IOException
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -37,7 +40,13 @@ fun SearchInput(monsterService : MonsterService, modifier : Modifier = Modifier)
 
     fun performRequest(name : String) {
         requestScope.launch {
-            monsterService.monster.value = monsterService.getMonster(name)
+            try {
+                monsterService.monster.value = monsterService.getMonster(name)
+                state.value = State.SUCCESS
+            } catch (e : Exception) {
+                state.value = State.ERROR
+            }
+            //monsterService.monster.value = monsterService.getMonster(name)
         }
     }
 
