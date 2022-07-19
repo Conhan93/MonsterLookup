@@ -30,7 +30,7 @@ fun App(monsterService: MonsterService) {
     MaterialTheme {
         when (state.value) {
             State.SUCCESS -> DisplayMonster(monster, monsterService)
-            State.START -> DisplayStart(monster, monsterService)
+            State.START -> Start(monsterService)
             State.ERROR -> Text("wtf")
         }
 
@@ -111,11 +111,6 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
             Sidebar(monster = monster)
         }
     }
-}
-
-@Composable
-fun DisplayStart(monster : MutableState<Monster>, monsterService: MonsterService) {
-    SearchInput(monsterService)
 }
 
 fun main() = application {
