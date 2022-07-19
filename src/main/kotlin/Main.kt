@@ -38,6 +38,9 @@ fun App(monsterService: MonsterService) {
 
 @Composable
 fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterService) {
+
+    val topPadding = Modifier.padding(vertical = 5.dp)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,19 +64,22 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
             ) {
                 val elementWeight = Modifier.weight(1f, fill = false)
 
-                SpeedView(monster.value.speed, elementWeight)
+                SpeedView(
+                    monster.value.speed,
+                    elementWeight
+                        .then(topPadding))
                 SensesView(monster.value.senses, elementWeight)
             }
 
             SimpleTextList(
                 label = "Vulnerabilities",
                 items = monster.value.damage_vulnerabilities,
-                modifier = Modifier.padding(vertical = 5.dp)
+                modifier = topPadding
             )
             SimpleTextList(
                 label = "Resistances",
                 items = monster.value.damage_resistances,
-                modifier = Modifier.padding(vertical = 5.dp)
+                modifier = topPadding
             )
             SimpleTextList(
                 label = "Immunities",
@@ -81,7 +87,7 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
                     .value
                     .condition_immunities
                     .mapNotNull { it.name },
-                modifier = Modifier.padding(vertical = 5.dp)
+                modifier = topPadding
             )
         }
         Divider(
