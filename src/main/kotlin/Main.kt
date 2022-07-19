@@ -15,6 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -123,6 +125,7 @@ fun main() = application {
             width = 1300.dp,
             height = 600.dp
         ),
+        icon = painterResource("icons8-dungeons-and-dragons-48.png"),
         onCloseRequest = ::exitApplication
 
     ) {
