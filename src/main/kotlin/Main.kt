@@ -113,6 +113,15 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
             if (monster.value.reactions.isNotEmpty())
                 ReactionsView(monster, modifier = elementWeight)
 
+            // Sidebar divider
+            Divider(
+                color = Color.Gray,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(5.dp)
+                    .width(1.dp)
+
+            )
             Sidebar(monster = monster)
         }
     }
