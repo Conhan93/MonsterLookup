@@ -36,12 +36,6 @@ fun ActionsView(monster: MutableState<Monster>, modifier: Modifier = Modifier) {
                 "Actions",
                 modifier = Modifier
                     .absolutePadding(left = 15.dp)
-                    .background(Brush.horizontalGradient(
-                        colors = listOf(
-                            Color.DarkGray,
-                            Color.Gray
-                        )
-                    ))
             )
 
             Spacer(Modifier.height(5.dp))
@@ -79,16 +73,6 @@ fun actionItem(action: Action, modifier: Modifier) {
             Text("Attack Bonus : $it")
         }
 
-        // TODO display dc
-
-        if (action.attacks.isNotEmpty()) {
-            // TODO display attacks
-        }
-        if(action.damage.isNotEmpty()) {
-            // TODO display attack damages
-        }
-
-        // TODO display usage item
         ActionUsageView(action.usage)
     }
 }
