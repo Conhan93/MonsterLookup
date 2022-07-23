@@ -78,6 +78,9 @@ fun SearchInput(monsterService : MonsterService, modifier : Modifier = Modifier)
             onClick =  {
                        performRequest(name)
             },
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.primaryVariant
+            ),
             modifier = modifier
                 .padding(padding)
         ) {
