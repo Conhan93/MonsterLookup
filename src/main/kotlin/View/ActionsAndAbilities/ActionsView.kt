@@ -24,8 +24,9 @@ fun ActionsView(monster: MutableState<Monster>, modifier: Modifier = Modifier) {
 
 
     LazyColumn(
-        modifier = modifier
+        modifier = Modifier
             .padding(horizontal = 10.dp)
+            .then(modifier)
         ,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
@@ -45,8 +46,9 @@ fun ActionsView(monster: MutableState<Monster>, modifier: Modifier = Modifier) {
         items(actions) {
             actionItem(
                 it,
-                modifier
+                Modifier
                     .padding(5.dp)
+                    .then(modifier)
             )
         }
     }
@@ -57,8 +59,9 @@ fun ActionsView(monster: MutableState<Monster>, modifier: Modifier = Modifier) {
 fun actionItem(action: Action, modifier: Modifier) {
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth(0.5f)
+            .then(modifier)
     ) {
         action.name?.let {
             Text(it)
