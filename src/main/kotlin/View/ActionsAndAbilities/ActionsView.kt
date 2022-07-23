@@ -25,6 +25,7 @@ fun ActionsView(monster: MutableState<Monster>, modifier: Modifier = Modifier) {
 
     LazyColumn(
         modifier = Modifier
+            .fillMaxHeight()
             .padding(horizontal = 10.dp)
             .then(modifier)
         ,

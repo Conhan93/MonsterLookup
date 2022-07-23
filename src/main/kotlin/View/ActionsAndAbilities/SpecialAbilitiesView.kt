@@ -2,10 +2,7 @@ package View
 
 import Model.Monster.Monster
 import Model.Monster.SpecialAbilities
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
@@ -20,7 +17,10 @@ fun SpecialAbilitiesView(monster: MutableState<Monster>, modifier: Modifier = Mo
     val specialAbilities = monster.value.special_abilities
 
     LazyColumn(
-        modifier = modifier,
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(5.dp)
+            .then(modifier),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         // header
@@ -45,31 +45,20 @@ fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier) {
     ) {
         ability.name?.let {
             Text(it)
-            //Spacer(Modifier.height(5.dp))
         }
         ability.desc?.let {
             Text(it)
-            //Spacer(Modifier.height(5.dp))
         }
 
-        // TODO display options
 
         ability.attack_bonus?.let {
             Text("Attack Bonus : $it")
-            //Spacer(Modifier.height(5.dp))
         }
 
-        if (!ability.damage.isEmpty()) {
-            // TODO display damage
-        }
-
-        // TODO display dc
 
 
         ability.spellCasting.let {
             it.school?.let { it1 -> Text(it1) }
         }
-
-        // TODO display usage item
     }
 }
