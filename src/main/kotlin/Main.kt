@@ -1,13 +1,16 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 import Model.Monster.Monster
 import Service.MonsterService
+import Theme.darkColours
 import View.*
 import View.InfoAndStats.Sidebar
 import androidx.compose.material.MaterialTheme
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
@@ -26,7 +29,9 @@ fun App(monsterService: MonsterService) {
     var monster = remember { monsterService.monster }
 
 
-    MaterialTheme {
+    MaterialTheme(
+        colors = darkColours
+    ) {
         when (state.value) {
             State.SUCCESS -> DisplayMonster(monster, monsterService)
             State.START -> Start(monsterService)
@@ -44,52 +49,55 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.DarkGray),
+            .background(MaterialTheme.colors.background),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
-        Row {
-            Box() {
-                Column {
-                    SearchInput(monsterService)
-                    CharacterInfo(monster.value)
+        Surface {
+            Row {
+                Box() {
+                    Column {
+                        SearchInput(monsterService)
+                        CharacterInfo(monster.value)
+                    }
                 }
-            }
-            Column(
-                modifier = Modifier
-                    .padding(
-                        horizontal = 5.dp,
-                        vertical = 5.dp
-                    ),
-            ) {
-                val elementWeight = Modifier.weight(1f, fill = false)
+                Column(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 5.dp,
+                            vertical = 5.dp
+                        ),
+                ) {
+                    val elementWeight = Modifier.weight(1f, fill = false)
 
-                SpeedView(
-                    monster.value.speed,
-                    elementWeight
-                        .then(topPadding))
-                SensesView(monster.value.senses, elementWeight)
-            }
+                    SpeedView(
+                        monster.value.speed,
+                        elementWeight
+                            .then(topPadding))
+                    SensesView(monster.value.senses, elementWeight)
+                }
 
-            SimpleTextList(
-                label = "Vulnerabilities",
-                items = monster.value.damage_vulnerabilities,
-                modifier = topPadding
-            )
-            SimpleTextList(
-                label = "Resistances",
-                items = monster.value.damage_resistances,
-                modifier = topPadding
-            )
-            SimpleTextList(
-                label = "Immunities",
-                items = monster.value.damage_immunities + monster
-                    .value
-                    .condition_immunities
-                    .mapNotNull { it.name },
-                modifier = topPadding
-            )
+                SimpleTextList(
+                    label = "Vulnerabilities",
+                    items = monster.value.damage_vulnerabilities,
+                    modifier = topPadding
+                )
+                SimpleTextList(
+                    label = "Resistances",
+                    items = monster.value.damage_resistances,
+                    modifier = topPadding
+                )
+                SimpleTextList(
+                    label = "Immunities",
+                    items = monster.value.damage_immunities + monster
+                        .value
+                        .condition_immunities
+                        .mapNotNull { it.name },
+                    modifier = topPadding
+                )
+            }
         }
+
         Divider(
             color = Color.Gray,
             thickness = 1.dp,
@@ -100,30 +108,37 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
                 )
                 .fillMaxWidth(1f)
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(1f),
-        ) {
-
-            val elementWeight = Modifier.weight(1f, fill = true)
-
-            ActionsView(monster, modifier = elementWeight)
-            SpecialAbilitiesView(monster, modifier = elementWeight)
-
-            if (monster.value.reactions.isNotEmpty())
-                ReactionsView(monster, modifier = elementWeight)
-
-            // Sidebar divider
-            Divider(
-                color = Color.Gray,
+        Surface {
+            Row(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(5.dp)
-                    .width(1.dp)
+                    .fillMaxWidth(1f)
+            ) {
 
-            )
-            Sidebar(monster = monster)
+                val elementWeight = Modifier.weight(1f, fill = true)
+                    .background(
+                        color = MaterialTheme.colors.primary,
+                        shape = CutCornerShape(3.dp)
+                    )
+
+                ActionsView(monster, modifier = elementWeight)
+                SpecialAbilitiesView(monster, modifier = elementWeight)
+
+                if (monster.value.reactions.isNotEmpty())
+                    ReactionsView(monster, modifier = elementWeight)
+
+                // Sidebar divider
+                Divider(
+                    color = Color.Gray,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(5.dp)
+                        .width(1.dp)
+
+                )
+                Sidebar(monster = monster)
+            }
         }
+
     }
 }
 
