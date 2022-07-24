@@ -3,6 +3,7 @@ import Model.Monster.Monster
 import Service.MonsterService
 import Theme.darkColours
 import View.*
+import View.InfoAndStats.Conditions
 import View.InfoAndStats.Sidebar
 import androidx.compose.material.MaterialTheme
 import androidx.compose.desktop.ui.tooling.preview.Preview
@@ -88,25 +89,8 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
                     SensesView(monster.value.senses, elementWeight)
                 }
 
-                SimpleTextList(
-                    label = "Vulnerabilities",
-                    items = monster.value.damage_vulnerabilities,
-                    backgroundColour = MaterialTheme.colors.secondary,
-                    modifier = topPadding
-                )
-                SimpleTextList(
-                    label = "Resistances",
-                    items = monster.value.damage_resistances,
-                    backgroundColour = MaterialTheme.colors.secondary,
-                    modifier = topPadding
-                )
-                SimpleTextList(
-                    label = "Immunities",
-                    items = monster.value.damage_immunities + monster
-                        .value
-                        .condition_immunities
-                        .mapNotNull { it.name },
-                    backgroundColour = MaterialTheme.colors.secondary,
+                Conditions(
+                    monster = monster,
                     modifier = topPadding
                 )
             }
