@@ -49,6 +49,7 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
         color = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(3.dp)
     )
+    val topRowHeight = 180.dp
 
     Column(
         modifier = Modifier
@@ -60,6 +61,7 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
         Surface {
             Row(modifier = Modifier
                 .fillMaxWidth()
+                .height(topRowHeight)
                 .then(simplePrimaryBackground)
             ) {
                 Box {
@@ -70,10 +72,12 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
                 }
                 Column(
                     modifier = Modifier
+                        .fillMaxHeight()
                         .padding(
                             horizontal = 5.dp,
                             vertical = 5.dp
                         ),
+                    verticalArrangement = Arrangement.SpaceAround
                 ) {
                     val elementWeight = Modifier.weight(1f, fill = false)
 
