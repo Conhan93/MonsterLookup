@@ -8,7 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -45,6 +45,10 @@ fun App(monsterService: MonsterService) {
 fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterService) {
 
     val topPadding = Modifier.padding(vertical = 5.dp)
+    val simplePrimaryBackground = Modifier.background(
+        color = MaterialTheme.colors.primary,
+        shape = RoundedCornerShape(3.dp)
+    )
 
     Column(
         modifier = Modifier
@@ -54,8 +58,11 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
         verticalArrangement = Arrangement.Top
     ) {
         Surface {
-            Row {
-                Box() {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .then(simplePrimaryBackground)
+            ) {
+                Box {
                     Column {
                         SearchInput(monsterService)
                         CharacterInfo(monster.value)
@@ -115,16 +122,15 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
             ) {
 
                 val elementWeight = Modifier.weight(1f, fill = true)
-                    .background(
-                        color = MaterialTheme.colors.primary,
-                        shape = CutCornerShape(3.dp)
-                    )
 
-                ActionsView(monster, modifier = elementWeight)
-                SpecialAbilitiesView(monster, modifier = elementWeight)
+                ActionsView(monster, modifier = elementWeight
+                    .then(simplePrimaryBackground))
+                SpecialAbilitiesView(monster, modifier = elementWeight
+                    .then(simplePrimaryBackground))
 
                 if (monster.value.reactions.isNotEmpty())
-                    ReactionsView(monster, modifier = elementWeight)
+                    ReactionsView(monster, modifier = elementWeight
+                        .then(simplePrimaryBackground))
 
                 // Sidebar divider
                 Divider(
@@ -135,7 +141,10 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
                         .width(1.dp)
 
                 )
-                Sidebar(monster = monster)
+                Sidebar(
+                    monster = monster,
+                    modifier = simplePrimaryBackground
+                )
             }
         }
 
