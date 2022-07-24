@@ -2,6 +2,7 @@ package View
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -13,7 +14,12 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun SimpleTextList(label : String, items : List<String>, modifier: Modifier = Modifier) {
+fun SimpleTextList(
+    label : String,
+    items : List<String>,
+    backgroundColour : Color,
+    modifier: Modifier = Modifier
+) {
 
     val textBody =
         if(items.isEmpty())
@@ -32,7 +38,7 @@ fun SimpleTextList(label : String, items : List<String>, modifier: Modifier = Mo
         readOnly = true,
         label = { Text(label) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color.Gray
+            backgroundColor = backgroundColour
         ),
     )
 }

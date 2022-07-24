@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -29,13 +30,15 @@ fun Sidebar(monster : MutableState<Monster>, modifier: Modifier = Modifier) {
         if(languages.isNotEmpty())
             SimpleTextList(
                 label = "Languages",
-                items = languages
+                items = languages,
+                backgroundColour = MaterialTheme.colors.secondary
             )
         if(monster.value.proficiencies.isNotEmpty())
             SimpleTextList(
                 label = "Proficiencies",
                 items = monster.value.proficiencies
-                    .map { "${it.proficiency.name}: ${it.value}" }
+                    .map { "${it.proficiency.name}: ${it.value}" },
+                backgroundColour = MaterialTheme.colors.secondary
             )
     }
 }

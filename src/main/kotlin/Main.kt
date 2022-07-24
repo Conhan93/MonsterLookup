@@ -87,11 +87,13 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
                 SimpleTextList(
                     label = "Vulnerabilities",
                     items = monster.value.damage_vulnerabilities,
+                    backgroundColour = MaterialTheme.colors.secondary,
                     modifier = topPadding
                 )
                 SimpleTextList(
                     label = "Resistances",
                     items = monster.value.damage_resistances,
+                    backgroundColour = MaterialTheme.colors.secondary,
                     modifier = topPadding
                 )
                 SimpleTextList(
@@ -100,6 +102,7 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
                         .value
                         .condition_immunities
                         .mapNotNull { it.name },
+                    backgroundColour = MaterialTheme.colors.secondary,
                     modifier = topPadding
                 )
             }
