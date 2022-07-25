@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun ActionsView(monster: MutableState<Monster>, modifier: Modifier = Modifier) {
+fun ActionsView(monster: Monster, modifier: Modifier = Modifier) {
 
-    val actions = monster.value.actions
+    val actions = monster.actions
 
 
 

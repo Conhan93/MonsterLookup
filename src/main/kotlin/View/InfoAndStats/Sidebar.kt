@@ -13,13 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Sidebar(monster : MutableState<Monster>, modifier: Modifier = Modifier) {
+fun Sidebar(monster : Monster, modifier: Modifier = Modifier) {
 
     val languages =
-        if(monster.value.languages.isNullOrEmpty())
+        if(monster.languages.isNullOrEmpty())
             listOf()
         else
-            monster.value.languages!!.split(",")
+            monster.languages!!.split(",")
 
     Column(
         modifier = Modifier
@@ -33,10 +33,10 @@ fun Sidebar(monster : MutableState<Monster>, modifier: Modifier = Modifier) {
                 items = languages,
                 backgroundColour = MaterialTheme.colors.secondary
             )
-        if(monster.value.proficiencies.isNotEmpty())
+        if(monster.proficiencies.isNotEmpty())
             SimpleTextList(
                 label = "Proficiencies",
-                items = monster.value.proficiencies
+                items = monster.proficiencies
                     .map { "${it.proficiency.name}: ${it.value}" },
                 backgroundColour = MaterialTheme.colors.secondary
             )

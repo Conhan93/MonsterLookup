@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun Conditions(monster : MutableState<Monster>, modifier : Modifier = Modifier) {
+fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
 
 
     Row(
@@ -21,20 +21,19 @@ fun Conditions(monster : MutableState<Monster>, modifier : Modifier = Modifier) 
     ) {
         SimpleTextList(
             label = "Vulnerabilities",
-            items = monster.value.damage_vulnerabilities,
+            items = monster.damage_vulnerabilities,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = Modifier.weight(1f, fill = false)
         )
         SimpleTextList(
             label = "Resistances",
-            items = monster.value.damage_resistances,
+            items = monster.damage_resistances,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = Modifier.weight(1f, fill = false)
         )
         SimpleTextList(
             label = "Immunities",
-            items = monster.value.damage_immunities + monster
-                .value
+            items = monster.damage_immunities + monster
                 .condition_immunities
                 .mapNotNull { it.name },
             backgroundColour = MaterialTheme.colors.secondary,

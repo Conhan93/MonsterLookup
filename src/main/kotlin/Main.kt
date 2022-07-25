@@ -1,6 +1,7 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 import Model.Monster.Monster
 import Service.MonsterService
+import State.State
 import Theme.darkColours
 import View.*
 import View.InfoAndStats.Conditions
@@ -12,8 +13,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,23 +32,40 @@ import androidx.compose.ui.window.application
 @Composable
 @Preview
 fun App(monsterService: MonsterService) {
-    var monster = remember { monsterService.monster }
+
+    var appState = mutableStateOf<State<Monster>?>(null)
 
 
     MaterialTheme(
         colors = darkColours
     ) {
-        when (state.value) {
-            State.SUCCESS -> DisplayMonster(monster, monsterService)
-            State.START -> Start(monsterService)
-            State.ERROR -> Error(monsterService)
+        when (val state = appState.value) {
+            is State.Content -> DisplayMonster(
+                monster = state.data,
+                state = appState,
+                monsterService = monsterService
+            )
+            is State.Error -> Error(
+                error = state,
+                state = appState,
+                monsterService = monsterService
+                )
+            is State.Loading -> Text("Loading animation")
+            null -> Start(
+                state = appState,
+                monsterService = monsterService
+            )
         }
 
     }
 }
 
 @Composable
-fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterService) {
+fun DisplayMonster(
+    monster : Monster,
+    state: MutableState<State<Monster>?>,
+    monsterService: MonsterService
+) {
 
     val topPadding = Modifier.padding(vertical = 5.dp)
     val simplePrimaryBackground = Modifier.background(
@@ -67,8 +89,11 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
             ) {
                 Box {
                     Column {
-                        SearchInput(monsterService)
-                        CharacterInfo(monster.value)
+                        SearchInput(
+                            state = state,
+                            monsterService = monsterService
+                        )
+                        CharacterInfo(monster)
                     }
                 }
                 Column(
@@ -83,10 +108,10 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
                     val elementWeight = Modifier.weight(1f, fill = false)
 
                     SpeedView(
-                        monster.value.speed,
+                        monster.speed,
                         elementWeight
                             .then(topPadding))
-                    SensesView(monster.value.senses, elementWeight)
+                    SensesView(monster.senses, elementWeight)
                 }
 
                 Conditions(
@@ -119,7 +144,7 @@ fun DisplayMonster(monster : MutableState<Monster>,monsterService: MonsterServic
                 SpecialAbilitiesView(monster, modifier = elementWeight
                     .then(simplePrimaryBackground))
 
-                if (monster.value.reactions.isNotEmpty())
+                if (monster.reactions.isNotEmpty())
                     ReactionsView(monster, modifier = elementWeight
                         .then(simplePrimaryBackground))
 

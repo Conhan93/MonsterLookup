@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ReactionsView(monster: MutableState<Monster>, modifier: Modifier = Modifier) {
+fun ReactionsView(monster: Monster, modifier: Modifier = Modifier) {
 
-    val reactions = monster.value.reactions
+    val reactions = monster.reactions
 
     LazyColumn(
         modifier = Modifier

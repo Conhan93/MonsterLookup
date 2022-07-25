@@ -1,7 +1,7 @@
 package View
 
 import Model.Monster.Monster
-import Model.Monster.SpecialAbilities
+import Model.Monster.Spells.SpecialAbilities
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SpecialAbilitiesView(monster: MutableState<Monster>, modifier: Modifier = Modifier) {
+fun SpecialAbilitiesView(monster: Monster, modifier: Modifier = Modifier) {
 
-    val specialAbilities = monster.value.special_abilities
+    val specialAbilities = monster.special_abilities
 
     LazyColumn(
         modifier = Modifier
@@ -56,8 +56,8 @@ fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier) {
         }
 
 
-
-        ability.spellCasting.let {
+        // TODO display spells
+        ability.spellcasting.let {
             it.school?.let { it1 -> Text(it1) }
         }
     }

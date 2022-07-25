@@ -1,20 +1,12 @@
 package View
 
+import Model.Monster.Monster
 import Service.MonsterService
-import State
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
@@ -22,14 +14,17 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import state
-import java.io.IOException
+import State.State
+import androidx.compose.runtime.*
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SearchInput(monsterService : MonsterService, modifier : Modifier = Modifier) {
+fun SearchInput(
+    state: MutableState<State<Monster>?>,
+    monsterService : MonsterService,
+    modifier : Modifier = Modifier
+) {
 
     var name by remember { mutableStateOf("") }
 
@@ -41,12 +36,13 @@ fun SearchInput(monsterService : MonsterService, modifier : Modifier = Modifier)
     fun performRequest(name : String) {
         requestScope.launch {
             try {
-                monsterService.monster.value = monsterService.getMonster(name)
-                state.value = State.SUCCESS
+                val monster = monsterService.getMonster(name)
+                monsterService.monster.value = monster
+
+                state.value = State.Content(monster)
             } catch (e : Exception) {
-                state.value = State.ERROR
+                state.value = State.Error(e)
             }
-            //monsterService.monster.value = monsterService.getMonster(name)
         }
     }
 
