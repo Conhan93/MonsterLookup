@@ -120,17 +120,19 @@ fun DisplayMonster(
                 )
             }
         }
+        Surface {
+            Divider(
+                color = Color.Gray,
+                thickness = 1.dp,
+                modifier = Modifier
+                    .padding(
+                        vertical = 10.dp,
+                        horizontal = 10.dp
+                    )
+                    .fillMaxWidth(1f)
+            )
+        }
 
-        Divider(
-            color = Color.Gray,
-            thickness = 1.dp,
-            modifier = Modifier
-                .padding(
-                    vertical = 10.dp,
-                    horizontal = 10.dp
-                )
-                .fillMaxWidth(1f)
-        )
         Surface {
             Row(
                 modifier = Modifier
