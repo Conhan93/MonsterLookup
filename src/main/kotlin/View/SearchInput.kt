@@ -64,6 +64,10 @@ fun SearchInput(
                                 true
                 },
             shape = CutCornerShape(5.dp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                backgroundColor = MaterialTheme.colors.secondary,
+                focusedBorderColor = MaterialTheme.colors.secondaryVariant
+            ),
             placeholder = { Text("Enter name of monster") },
         )
 
