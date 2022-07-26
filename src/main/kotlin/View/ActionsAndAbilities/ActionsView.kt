@@ -27,7 +27,11 @@ fun ActionsView(monster: Monster, modifier: Modifier = Modifier) {
 
     LazyColumn(
         modifier = Modifier
-            .padding(horizontal = 10.dp)
+            .fillMaxHeight()
+            .padding(
+                horizontal = 10.dp,
+                vertical = 5.dp
+            )
             .then(modifier)
         ,
         verticalArrangement = Arrangement.spacedBy(4.dp)
