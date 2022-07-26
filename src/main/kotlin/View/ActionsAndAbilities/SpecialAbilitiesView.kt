@@ -2,9 +2,12 @@ package View
 
 import Model.Monster.Monster
 import Model.Monster.Spells.SpecialAbilities
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -30,18 +33,23 @@ fun SpecialAbilitiesView(monster: Monster, modifier: Modifier = Modifier) {
             SpecialAbilityItem(
                 it,
                 modifier
+                    .fillMaxWidth()
                     .padding(5.dp)
+                    .background(
+                        color = MaterialTheme.colors.primaryVariant,
+                        shape = RoundedCornerShape(4.dp)
+                    )
             )
         }
     }
 }
 
 @Composable
-fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier) {
+fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier = Modifier) {
 
     Column(
-        modifier = modifier
-            .fillMaxWidth(0.5f)
+        modifier = Modifier
+            .then(modifier)
     ) {
         ability.name?.let {
             Text(it)
@@ -55,8 +63,6 @@ fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier) {
             Text("Attack Bonus : $it")
         }
 
-
-        // TODO display spells
         ability.spellcasting.let {
             it.school?.let { it1 -> Text(it1) }
         }
