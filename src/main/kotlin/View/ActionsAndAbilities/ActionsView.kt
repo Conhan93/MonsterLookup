@@ -71,8 +71,6 @@ fun actionItem(action: Action, modifier: Modifier) {
             Text(it)
         }
 
-        ChoiceView(action.options)
-
         ActionUsageView(action.usage)
     }
 }
