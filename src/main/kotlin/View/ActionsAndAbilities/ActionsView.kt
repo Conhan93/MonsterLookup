@@ -7,6 +7,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -25,7 +27,6 @@ fun ActionsView(monster: Monster, modifier: Modifier = Modifier) {
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxHeight()
             .padding(horizontal = 10.dp)
             .then(modifier)
         ,
@@ -34,11 +35,7 @@ fun ActionsView(monster: Monster, modifier: Modifier = Modifier) {
 
         // action view header
         item {
-            Text(
-                "Actions",
-                modifier = Modifier
-                    .absolutePadding(left = 15.dp)
-            )
+            Text("Actions")
 
             Spacer(Modifier.height(5.dp))
         }
@@ -48,8 +45,12 @@ fun ActionsView(monster: Monster, modifier: Modifier = Modifier) {
             actionItem(
                 it,
                 Modifier
+                    .fillMaxWidth()
                     .padding(5.dp)
-                    .then(modifier)
+                    .background(
+                        color = MaterialTheme.colors.primaryVariant,
+                        shape = RoundedCornerShape(4.dp)
+                    )
             )
         }
     }
@@ -61,7 +62,6 @@ fun actionItem(action: Action, modifier: Modifier) {
 
     Column(
         modifier = Modifier
-            .fillMaxWidth(0.5f)
             .then(modifier)
     ) {
         action.name?.let {
@@ -72,10 +72,6 @@ fun actionItem(action: Action, modifier: Modifier) {
         }
 
         ChoiceView(action.options)
-
-        action.attack_bonus?.let {
-            Text("Attack Bonus : $it")
-        }
 
         ActionUsageView(action.usage)
     }
