@@ -19,7 +19,7 @@ fun Sidebar(monster : Monster, modifier: Modifier = Modifier) {
         if(monster.languages.isNullOrEmpty())
             listOf()
         else
-            monster.languages!!.split(",")
+            monster.languages!!.split(",").map(String::trim)
 
     Column(
         modifier = Modifier
