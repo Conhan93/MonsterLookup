@@ -69,6 +69,7 @@ private fun TopBar(
 
     Row(modifier = Modifier
         .fillMaxWidth()
+        .padding(5.dp)
         .height(topRowHeight)
         .then(simplePrimaryBackground)
     ) {
