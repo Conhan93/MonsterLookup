@@ -10,6 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 
@@ -36,9 +39,21 @@ fun SimpleTextList(
             .then(modifier),
         shape = CutCornerShape(5.dp),
         readOnly = true,
-        label = { Text(label) },
+        label = { listLabel(label) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             backgroundColor = backgroundColour
         ),
+    )
+}
+
+@Composable
+private fun listLabel(label : String) {
+    Text(
+        text = label,
+        style = TextStyle(
+            color = MaterialTheme.colors.background,
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Italic
+        )
     )
 }
