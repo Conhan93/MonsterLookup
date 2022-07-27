@@ -21,41 +21,21 @@ fun Error(
     state : MutableState<State<Monster>?>,
     monsterService: MonsterService
 ) {
-    Surface(
-        modifier = Modifier
-            .fillMaxSize(),
-        color = MaterialTheme.colors.background
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceAround,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
+    startBackground {
+        startBox {
+            ErrorMessage(
+                error = error.error,
                 modifier = Modifier
-                    .fillMaxSize(0.5f)
-                    .background(
-                        color = MaterialTheme.colors.primary,
-                        shape = RoundedCornerShape(15.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
+                    .align(Alignment.TopCenter)
+                    .padding(vertical = 10.dp)
+            )
 
-                ErrorMessage(
-                    error = error.error,
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .padding(vertical = 10.dp)
-                )
-
-                SearchInput(
-                    state = state,
-                    monsterService = monsterService,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                )
-            }
+            SearchInput(
+                state = state,
+                monsterService = monsterService,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+            )
         }
     }
 }
