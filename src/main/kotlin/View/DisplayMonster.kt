@@ -62,7 +62,7 @@ private fun TopBar(
 ) {
     val topPadding = Modifier.padding(vertical = 5.dp)
     val simplePrimaryBackground = Modifier.background(
-        color = MaterialTheme.colors.primary,
+        color = MaterialTheme.colors.primaryVariant,
         shape = RoundedCornerShape(3.dp)
     )
     val topRowHeight = 180.dp
@@ -110,10 +110,18 @@ private fun TopBar(
 @Composable
 private fun BottomBar(monster: Monster) {
 
-    val simplePrimaryBackground = Modifier.background(
-        color = MaterialTheme.colors.primary,
-        shape = RoundedCornerShape(3.dp)
-    )
+    @Composable
+    fun bottomSurface(
+        modifier: Modifier = Modifier,
+        content : @Composable () -> Unit
+    ) = Surface(
+            modifier = modifier,
+            color = MaterialTheme.colors.primaryVariant,
+            shape = RoundedCornerShape(3.dp),
+            elevation = 1.dp
+        ) {
+            content()
+        }
 
 
     Row(
@@ -121,16 +129,22 @@ private fun BottomBar(monster: Monster) {
             .fillMaxWidth(1f)
     ) {
 
-        val elementWeight = Modifier.weight(1f, fill = true)
+        val elementModifier = Modifier
+            .weight(1f, fill = true)
+            .padding(10.dp)
 
-        ActionsView(monster, modifier = elementWeight
-            .then(simplePrimaryBackground))
-        SpecialAbilitiesView(monster, modifier = elementWeight
-            .then(simplePrimaryBackground))
+        bottomSurface(elementModifier) {
+            ActionsView(monster)
+        }
+
+        bottomSurface(elementModifier) {
+            SpecialAbilitiesView(monster)
+        }
 
         if (monster.reactions.isNotEmpty())
-            ReactionsView(monster, modifier = elementWeight
-                .then(simplePrimaryBackground))
+            bottomSurface(elementModifier) {
+                ReactionsView(monster)
+            }
 
         // Sidebar divider
         Divider(
@@ -141,9 +155,10 @@ private fun BottomBar(monster: Monster) {
                 .width(1.dp)
 
         )
-        Sidebar(
-            monster = monster,
-            modifier = simplePrimaryBackground
-        )
+        bottomSurface(Modifier
+            .weight(0.6f, fill = true)
+            .padding(10.dp)) {
+            Sidebar(monster)
+        }
     }
 }
