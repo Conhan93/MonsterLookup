@@ -10,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -32,11 +31,11 @@ fun SpecialAbilitiesView(monster: Monster, modifier: Modifier = Modifier) {
         items(specialAbilities) {
             SpecialAbilityItem(
                 it,
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .padding(5.dp)
                     .background(
-                        color = MaterialTheme.colors.primaryVariant,
+                        color = MaterialTheme.colors.primary,
                         shape = RoundedCornerShape(4.dp)
                     )
             )
