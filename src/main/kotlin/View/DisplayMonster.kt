@@ -61,49 +61,49 @@ private fun TopBar(
     monsterService: MonsterService
 ) {
     val topPadding = Modifier.padding(vertical = 5.dp)
-    val simplePrimaryBackground = Modifier.background(
+
+    Surface(
+        modifier = Modifier
+            .height(180.dp)
+            .fillMaxWidth()
+            .padding(5.dp),
         color = MaterialTheme.colors.primaryVariant,
-        shape = RoundedCornerShape(3.dp)
-    )
-    val topRowHeight = 180.dp
-
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(5.dp)
-        .height(topRowHeight)
-        .then(simplePrimaryBackground)
+        shape = RoundedCornerShape(3.dp),
+        elevation = 1.dp
     ) {
-        Box {
-            Column {
-                SearchInput(
-                    state = state,
-                    monsterService = monsterService
-                )
-                CharacterInfo(monster)
+        Row {
+            Box {
+                Column {
+                    SearchInput(
+                        state = state,
+                        monsterService = monsterService
+                    )
+                    CharacterInfo(monster)
+                }
             }
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(
-                    horizontal = 5.dp,
-                    vertical = 5.dp
-                ),
-            verticalArrangement = Arrangement.SpaceAround
-        ) {
-            val elementWeight = Modifier.weight(1f, fill = false)
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(
+                        horizontal = 5.dp,
+                        vertical = 5.dp
+                    ),
+                verticalArrangement = Arrangement.SpaceAround
+            ) {
+                val elementWeight = Modifier.weight(1f, fill = false)
 
-            SpeedView(
-                monster.speed,
-                elementWeight
-                    .then(topPadding))
-            SensesView(monster.senses, elementWeight)
-        }
+                SpeedView(
+                    monster.speed,
+                    elementWeight
+                        .then(topPadding))
+                SensesView(monster.senses, elementWeight)
+            }
 
-        Conditions(
-            monster = monster,
-            modifier = topPadding
-        )
+            Conditions(
+                monster = monster,
+                modifier = topPadding
+            )
+        }
     }
 }
 
