@@ -3,6 +3,7 @@ import Model.Monster.Monster
 import Service.MonsterService
 import State.State
 import Theme.darkColours
+import Theme.lightColours
 import View.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.desktop.ui.tooling.preview.Preview
@@ -23,7 +24,7 @@ fun App(monsterService: MonsterService) {
 
 
     MaterialTheme(
-        colors = darkColours
+        colors = lightColours //darkColours
     ) {
         when (val state = appState.value) {
             is State.Content -> DisplayMonster(
