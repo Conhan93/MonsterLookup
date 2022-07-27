@@ -2,6 +2,7 @@
 import Model.Monster.Monster
 import Service.MonsterService
 import State.State
+import Theme.AppTheme
 import Theme.darkColours
 import Theme.lightColours
 import View.*
@@ -23,9 +24,7 @@ fun App(monsterService: MonsterService) {
     var appState = mutableStateOf<State<Monster>?>(null)
 
 
-    MaterialTheme(
-        colors = lightColours //darkColours
-    ) {
+    AppTheme(isDarkMode = false) {
         when (val state = appState.value) {
             is State.Content -> DisplayMonster(
                 monster = state.data,
