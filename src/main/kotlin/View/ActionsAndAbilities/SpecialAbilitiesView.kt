@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,10 +35,6 @@ fun SpecialAbilitiesView(monster: Monster, modifier: Modifier = Modifier) {
                 Modifier
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .background(
-                        color = MaterialTheme.colors.primary,
-                        shape = RoundedCornerShape(4.dp)
-                    )
             )
         }
     }
@@ -46,24 +43,30 @@ fun SpecialAbilitiesView(monster: Monster, modifier: Modifier = Modifier) {
 @Composable
 fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier = Modifier) {
 
-    Column(
-        modifier = Modifier
-            .then(modifier)
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colors.primary,
+        shape = RoundedCornerShape(4.dp),
+        elevation = 2.dp
     ) {
-        ability.name?.let {
-            Text(it)
-        }
-        ability.desc?.let {
-            Text(it)
-        }
+        Column(
+            modifier = Modifier.padding(5.dp)
+        ) {
+            ability.name?.let {
+                Text(it)
+            }
+            ability.desc?.let {
+                Text(it)
+            }
 
 
-        ability.attack_bonus?.let {
-            Text("Attack Bonus : $it")
-        }
+            ability.attack_bonus?.let {
+                Text("Attack Bonus : $it")
+            }
 
-        ability.spellcasting.let {
-            it.school?.let { it1 -> Text(it1) }
+            ability.spellcasting.let {
+                it.school?.let { it1 -> Text(it1) }
+            }
         }
     }
 }

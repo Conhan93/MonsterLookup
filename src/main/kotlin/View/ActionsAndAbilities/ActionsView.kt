@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -46,10 +47,6 @@ fun ActionsView(monster: Monster, modifier: Modifier = Modifier) {
                 Modifier
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .background(
-                        color = MaterialTheme.colors.primary,
-                        shape = RoundedCornerShape(4.dp)
-                    )
             )
         }
     }
@@ -57,21 +54,27 @@ fun ActionsView(monster: Monster, modifier: Modifier = Modifier) {
 
 
 @Composable
-fun actionItem(action: Action, modifier: Modifier) {
-
-    Column(
-        modifier = Modifier
-            .then(modifier)
+fun actionItem(action: Action, modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colors.primary,
+        shape = RoundedCornerShape(4.dp),
+        elevation = 2.dp
     ) {
-        action.name?.let {
-            Text(it)
-        }
-        action.desc?.let {
-            Text(it)
-        }
+        Column(
+            modifier = Modifier.padding(5.dp)
+        ) {
+            action.name?.let {
+                Text(it)
+            }
+            action.desc?.let {
+                Text(it)
+            }
 
-        ActionUsageView(action.usage)
+            ActionUsageView(action.usage)
+        }
     }
+
 }
 
 @Composable
