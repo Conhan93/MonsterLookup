@@ -86,7 +86,7 @@ fun searchButton(
     Button(
         onClick =  { searchAction() },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primaryVariant
+            backgroundColor = MaterialTheme.colors.secondaryVariant
         ),
         modifier = modifier
             .padding(top = 3.dp)
