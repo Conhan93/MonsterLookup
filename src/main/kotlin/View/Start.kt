@@ -20,7 +20,7 @@ fun Start(
 ) {
     startBackground {
         startBox {
-            SearchInput(
+            Search(
                 state = state,
                 monsterService = monsterService
             )

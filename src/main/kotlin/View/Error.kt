@@ -3,10 +3,8 @@ package View
 import Model.Monster.Monster
 import Service.MonsterService
 import State.State
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -30,7 +28,7 @@ fun Error(
                     .padding(vertical = 10.dp)
             )
 
-            SearchInput(
+            Search(
                 state = state,
                 monsterService = monsterService,
                 modifier = Modifier

@@ -18,17 +18,15 @@ import State.State
 import androidx.compose.runtime.*
 
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SearchInput(
+fun Search(
     state: MutableState<State<Monster>?>,
     monsterService : MonsterService,
     modifier : Modifier = Modifier
 ) {
+    var name = mutableStateOf("")
 
-    var name by remember { mutableStateOf("") }
-
-    val padding = PaddingValues(5.dp)
+    val padding = Modifier.padding(5.dp) //PaddingValues(5.dp)
 
     // Coroutine scope for the http request
     val requestScope = CoroutineScope(Dispatchers.IO)
@@ -46,36 +44,47 @@ fun SearchInput(
         }
     }
 
-    Row {
-        // search box
-        OutlinedTextField(
-            name,
-            onValueChange = {
-                    if(!it.contains("\n"))
-                        name = it
-            },
-            modifier = modifier
-                .padding(padding)
-                .onKeyEvent {
-                            if(it.key.equals(Key.Enter)) {
-                                performRequest(name)
-                                return@onKeyEvent true
-                            } else
-                                true
-                },
-            shape = CutCornerShape(5.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                backgroundColor = MaterialTheme.colors.secondary,
-                focusedBorderColor = MaterialTheme.colors.secondaryVariant
-            ),
-            placeholder = { Text("Enter name of monster") },
-        )
+    Row(modifier) {
+        searchField(
+            name = name,
+            modifier = padding,
+        ) { performRequest(name.value) }
 
         Spacer(Modifier.width(10.dp))
 
-        // search button
-        searchButton(Modifier.padding(padding)) { performRequest(name) }
+        searchButton(padding) { performRequest(name.value) }
     }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun searchField(
+    name : MutableState<String>,
+    modifier: Modifier = Modifier,
+    onEnterPressed : () -> Unit
+) {
+
+    OutlinedTextField(
+        name.value,
+        onValueChange = {
+            if(!it.contains("\n"))
+                name.value = it
+        },
+        modifier = modifier
+            .onKeyEvent {
+                if(it.key.equals(Key.Enter)) {
+                    onEnterPressed()
+                    return@onKeyEvent true
+                } else
+                    true
+            },
+        shape = CutCornerShape(5.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = MaterialTheme.colors.secondary,
+            focusedBorderColor = MaterialTheme.colors.secondaryVariant
+        ),
+        placeholder = { Text("Enter name of monster") },
+    )
 }
 
 @Composable

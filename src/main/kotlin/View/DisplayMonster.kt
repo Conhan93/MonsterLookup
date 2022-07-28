@@ -72,32 +72,33 @@ private fun TopBar(
         elevation = 1.dp
     ) {
         Row {
-            Box {
                 Column {
-                    SearchInput(
+                    Search(
                         state = state,
                         monsterService = monsterService
                     )
                     CharacterInfo(monster)
                 }
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(
-                        horizontal = 5.dp,
-                        vertical = 5.dp
-                    ),
-                verticalArrangement = Arrangement.SpaceAround
-            ) {
-                val elementWeight = Modifier.weight(1f, fill = false)
 
-                SpeedView(
-                    monster.speed,
-                    elementWeight
-                        .then(topPadding))
-                SensesView(monster.senses, elementWeight)
-            }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(
+                            horizontal = 5.dp,
+                            vertical = 5.dp
+                        ),
+                    verticalArrangement = Arrangement.SpaceAround
+                ) {
+                    val elementWeight = Modifier.weight(1f, fill = false)
+
+                    SpeedView(
+                        monster.speed,
+                        elementWeight
+                            .then(topPadding)
+                    )
+                    SensesView(monster.senses, elementWeight)
+                }
 
             Conditions(
                 monster = monster,
