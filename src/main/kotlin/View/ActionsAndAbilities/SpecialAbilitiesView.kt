@@ -27,7 +27,12 @@ fun SpecialAbilitiesView(monster: Monster, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         // header
-        item { Text("Special Abilities") }
+        item {
+            Text(
+                text = "Special Abilities",
+                style = MaterialTheme.typography.h6
+            )
+        }
 
         items(specialAbilities) {
             SpecialAbilityItem(

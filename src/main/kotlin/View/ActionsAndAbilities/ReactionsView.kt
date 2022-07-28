@@ -28,7 +28,10 @@ fun ReactionsView(monster: Monster, modifier: Modifier = Modifier) {
     ) {
 
         item {
-            Text("Reactions")
+            Text(
+                text = "Reactions",
+                style = MaterialTheme.typography.h6
+            )
             Spacer(Modifier.height(5.dp))
         }
 

@@ -13,6 +13,9 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 
@@ -35,7 +38,10 @@ fun ActionsView(monster: Monster, modifier: Modifier = Modifier) {
 
         // action view header
         item {
-            Text("Actions")
+            Text(
+                text = "Actions",
+                style = MaterialTheme.typography.h6
+            )
 
             Spacer(Modifier.height(5.dp))
         }
