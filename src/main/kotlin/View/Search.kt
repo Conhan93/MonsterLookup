@@ -15,6 +15,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import State.State
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 
 
@@ -102,6 +104,10 @@ fun searchButton(
             .height(IntrinsicSize.Min)
             .width(IntrinsicSize.Min)
     ) {
-        Text("Search")
+        Icon(
+            imageVector = Icons.Filled.Search,
+            contentDescription = "search button",
+            tint = MaterialTheme.colors.background
+        )
     }
 }
