@@ -74,17 +74,24 @@ fun SearchInput(
         Spacer(Modifier.width(10.dp))
 
         // search button
-        Button(
-            onClick =  {
-                       performRequest(name)
-            },
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.primaryVariant
-            ),
-            modifier = modifier
-                .padding(padding)
-        ) {
-            Text("Search")
-        }
+        searchButton(Modifier.padding(padding)) { performRequest(name) }
+    }
+}
+
+@Composable
+fun searchButton(
+    modifier: Modifier = Modifier,
+    searchAction : () -> Unit,
+) {
+    Button(
+        onClick =  { searchAction() },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = MaterialTheme.colors.primaryVariant
+        ),
+        modifier = modifier
+            .height(IntrinsicSize.Min)
+            .width(IntrinsicSize.Min)
+    ) {
+        Text("Search")
     }
 }
