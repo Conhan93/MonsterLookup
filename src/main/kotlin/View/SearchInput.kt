@@ -89,6 +89,7 @@ fun searchButton(
             backgroundColor = MaterialTheme.colors.primaryVariant
         ),
         modifier = modifier
+            .padding(top = 3.dp)
             .height(IntrinsicSize.Min)
             .width(IntrinsicSize.Min)
     ) {
