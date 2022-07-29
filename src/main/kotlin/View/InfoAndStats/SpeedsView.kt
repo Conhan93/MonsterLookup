@@ -4,11 +4,15 @@ import Model.Monster.Speed
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,21 +35,31 @@ fun SpeedView(speed: Speed, modifier: Modifier = Modifier) {
             modifier = modifier
         )
 
-    LazyColumn(
+    Surface(
         modifier = Modifier
-            .then(modifier)
+            .fillMaxWidth()
+            .padding(3.dp)
+            .then(modifier),
+        shape = RoundedCornerShape(3.dp),
+        color = MaterialTheme.colors.primary,
+        elevation = 2.dp
     ) {
+        LazyColumn(
+            modifier = Modifier
+                .padding(2.dp)
+        ) {
 
-        item {
-            Text("Speeds")
-        }
+            item {
+                Text("Speeds")
+            }
 
-        item {
-            speed.walk?.let { TextCell("Walking: $it") }
-            speed.burrow?.let { TextCell("Burrowing: $it") }
-            speed.swim?.let { TextCell("Swimming: $it") }
-            speed.climb?.let { TextCell("Climbing: $it") }
-            speed.fly?.let {TextCell("Flying: $it")}
+            item {
+                speed.walk?.let { TextCell("Walking: $it") }
+                speed.burrow?.let { TextCell("Burrowing: $it") }
+                speed.swim?.let { TextCell("Swimming: $it") }
+                speed.climb?.let { TextCell("Climbing: $it") }
+                speed.fly?.let {TextCell("Flying: $it")}
+            }
         }
     }
 }
