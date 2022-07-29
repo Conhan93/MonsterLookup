@@ -4,9 +4,13 @@ import Model.Monster.Monster
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -16,53 +20,79 @@ import androidx.compose.ui.unit.em
 @Composable()
 fun CharacterInfo(character : Monster, modifier : Modifier = Modifier) {
 
-
-        Row(
+    Row(
+        modifier = Modifier
+            .width(IntrinsicSize.Max)
+            .padding(10.dp)
+            .then(modifier),
+    ) {
+        Column(
             modifier = Modifier
-                .padding(15.dp)
-                .then(modifier)
+                .fillMaxHeight()
+                .width(IntrinsicSize.Max),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row {
-                    Column {
-                        Text("Name : ${character.name ?: "Unavailable"}")
-                        Column { Text(text = character.desc.joinToString()) }
-                    }
-                }
-                Stats(character = character)
+            characterName(character.name)
 
-            }
-
-            About(
+            Stats(
                 character = character,
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.padding(3.dp)
             )
+
         }
+
+        About(
+            character = character,
+            modifier = Modifier.fillMaxHeight()
+        )
+    }
+}
+
+@Composable
+fun characterName(name : String?, modifier: Modifier = Modifier) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(3.dp)
+            .then(modifier),
+        shape = RoundedCornerShape(3.dp),
+        color = MaterialTheme.colors.primary,
+        elevation = 2.dp
+    ) {
+        Text("Name : ${name ?: "Unavailable"}")
+    }
 }
 
 @Composable
 fun Stats(character: Monster, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Row {
-            Text("STR : ${character.strength ?: "N/A" }")
-            Spacer(Modifier.width(10.dp))
-            Text("CON : ${character.constitution ?: "N/A" }")
-            Spacer(Modifier.width(10.dp))
-            Text("WIS : ${character.wisdom ?: "N/A" }")
-            Spacer(Modifier.width(10.dp))
 
-        }
-        Row {
-            Text("DEX : ${character.dexterity ?: "N/A" }")
-            Spacer(Modifier.width(10.dp))
-            Text("INT : ${character.intelligence ?: "N/A" }")
-            Spacer(Modifier.width(10.dp))
-            Text("CHA : ${character.intelligence ?: "N/A" }")
-            Spacer(Modifier.width(10.dp))
+    Surface(
+        modifier = Modifier
+            .padding(2.dp)
+            .then(modifier),
+        shape = RoundedCornerShape(3.dp),
+        color = MaterialTheme.colors.primary,
+        elevation = 2.dp
+    ) {
+        Column {
+            Row(
+                modifier = Modifier.padding(2.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text("STR : ${character.strength ?: "N/A"}")
+                Text("CON : ${character.constitution ?: "N/A"}")
+                Text("WIS : ${character.wisdom ?: "N/A"}")
+
+            }
+            Row(
+                modifier = Modifier.padding(2.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text("DEX : ${character.dexterity ?: "N/A"}")
+                Text("INT : ${character.intelligence ?: "N/A"}")
+                Text("CHA : ${character.intelligence ?: "N/A"}")
+            }
         }
     }
 }
@@ -70,26 +100,35 @@ fun Stats(character: Monster, modifier: Modifier = Modifier) {
 @Composable
 fun About(character: Monster, modifier: Modifier = Modifier) {
 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.SpaceEvenly
+    Surface(
+        modifier = Modifier
+            .padding(2.dp)
+            .then(modifier),
+        shape = RoundedCornerShape(3.dp),
+        color = MaterialTheme.colors.primary,
+        elevation = 2.dp
     ) {
+        Column(
+            modifier = Modifier.padding(start = 2.dp),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
 
-        val textSize = 0.7.em
+            val textSize = 0.7.em
 
-        @Composable
-        fun TextCell(text : String, modifier: Modifier = Modifier) =
-            Text(
-                text = text,
-                fontSize = textSize,
-                modifier = modifier
-            )
+            @Composable
+            fun TextCell(text : String, modifier: Modifier = Modifier) =
+                Text(
+                    text = text,
+                    fontSize = textSize,
+                    modifier = modifier
+                )
 
-        TextCell("Type : ${character.type ?: "N/A"}")
-        character.subtype?.let { TextCell("Subtype : ${character.subtype}") }
-        TextCell("Size : ${character.size ?: "N/A"}")
-        TextCell("Alignment : ${character.alignment ?: "N/A"}")
-        TextCell("AC : ${character.armor_class ?: "N/A"}")
-        TextCell("HP : ${character.hit_points ?: "N/A"}")
+            TextCell("Type : ${character.type ?: "N/A"}")
+            character.subtype?.let { TextCell("Subtype : ${character.subtype}") }
+            TextCell("Size : ${character.size ?: "N/A"}")
+            TextCell("Alignment : ${character.alignment ?: "N/A"}")
+            TextCell("AC : ${character.armor_class ?: "N/A"}")
+            TextCell("HP : ${character.hit_points ?: "N/A"}")
+        }
     }
 }
