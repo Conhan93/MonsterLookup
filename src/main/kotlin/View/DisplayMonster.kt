@@ -61,12 +61,13 @@ private fun TopBar(
     monsterService: MonsterService
 ) {
     val topPadding = Modifier.padding(vertical = 5.dp)
+    val topBarHeight = Modifier.height(195.dp)
 
     Surface(
         modifier = Modifier
-            .height(180.dp)
             .fillMaxWidth()
-            .padding(5.dp),
+            .padding(vertical = 10.dp, horizontal = 10.dp)
+            .then(topBarHeight),
         color = MaterialTheme.colors.primaryVariant,
         shape = RoundedCornerShape(3.dp),
         elevation = 1.dp
