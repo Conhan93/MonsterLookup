@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import java.util.Arrays
 
 @Preview
 @Composable()
@@ -34,6 +35,23 @@ fun CharacterInfo(character : Monster, modifier : Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             characterName(character.name)
+
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(3.dp),
+                shape = RoundedCornerShape(3.dp),
+                color = MaterialTheme.colors.primary,
+                elevation = 2.dp
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 3.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    character.challenge_rating?.let { Text("Rating : $it") }
+                    character.xp?.let { Text("XP : $it") }
+                }
+            }
 
             Stats(
                 character = character,
