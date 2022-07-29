@@ -85,13 +85,15 @@ private fun TopBar(
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
+                        .width(140.dp)
                         .padding(
-                            horizontal = 5.dp,
-                            vertical = 5.dp
+                            start = 5.dp,
+                            end = 5.dp,
+                            bottom = 10.dp
                         ),
                     verticalArrangement = Arrangement.SpaceAround
                 ) {
-                    val elementWeight = Modifier.weight(1f, fill = false)
+                    val elementWeight = Modifier.weight(1f, fill = true)
 
                     SpeedView(
                         monster.speed,
