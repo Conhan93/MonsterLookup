@@ -1,6 +1,7 @@
-package Model.Monster
+package Model.Monster.Spells
 
 import Model.Base.APIReference
+import Model.Monster.Usage
 import kotlinx.serialization.Serializable
 
 @Serializable

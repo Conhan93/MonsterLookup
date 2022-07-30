@@ -1,8 +1,7 @@
 package View
 
 import Model.Monster.Monster
-import Model.Monster.Spells.SpecialAbilities
-import androidx.compose.foundation.background
+import Model.Monster.SpecialAbilities
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items

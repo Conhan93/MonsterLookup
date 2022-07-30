@@ -1,8 +1,6 @@
-package Model.Monster.Spells
+package Model.Monster
 
-import Model.Monster.DC
-import Model.Monster.Damage
-import Model.Monster.Usage
+import Model.Monster.Spells.SpellCasting
 import kotlinx.serialization.Serializable
 
 @Serializable
