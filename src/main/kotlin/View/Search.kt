@@ -84,7 +84,7 @@ fun searchField(
             backgroundColor = MaterialTheme.colors.secondary,
             focusedBorderColor = MaterialTheme.colors.secondaryVariant
         ),
-        placeholder = { Text("Enter name of monster") },
+        placeholder = { Text("Enter name of monster", color = MaterialTheme.colors.background) },
     )
 }
 
