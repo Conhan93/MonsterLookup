@@ -20,7 +20,11 @@ class MonsterService(
             .GET()
             .build()
 
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        val response =  try {
+            client.send(request, HttpResponse.BodyHandlers.ofString())
+        } catch (e : Exception) {
+            return State.Error(ConnectionException("Error connecting to server", e))
+        }
 
         val monster  = State.Content(Json.decodeFromString<Monster>(response.body()))
 
