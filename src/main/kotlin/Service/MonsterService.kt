@@ -9,11 +9,10 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-class MonsterService {
-
-    private val API_URL = "https://www.dnd5eapi.co/api/monsters/"
-
-    private val client = HttpClient.newHttpClient()
+class MonsterService(
+    private val client : HttpClient = HttpClient.newHttpClient()
+) {
+    private val API_URL : String = "https://www.dnd5eapi.co/api/monsters/"
 
     fun getMonster(monsterName : String) : State<Monster> {
         val request = HttpRequest.newBuilder()
