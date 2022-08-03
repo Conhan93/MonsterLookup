@@ -23,6 +23,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
 }
 
 tasks.test {
