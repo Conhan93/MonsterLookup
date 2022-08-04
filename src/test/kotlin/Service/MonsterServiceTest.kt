@@ -6,9 +6,16 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 
-import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
+
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 
 internal class MonsterServiceTest {
 
@@ -24,5 +31,20 @@ internal class MonsterServiceTest {
         val monsterExpected = Json.decodeFromString<Monster>(expectedMonsterJson)
 
         kotlin.test.assertEquals(monsterExpected, monsterActual.data)
+    }
+
+    @Test
+    fun `Should return state with connection error on client send throw`() {
+        val mockClient = mock(HttpClient::class.java)
+
+        `when`(mockClient.send(Mockito.any(HttpRequest::class.java),Mockito.eq(HttpResponse.BodyHandlers.ofString())))
+            .thenThrow(InterruptedException("foo"))
+
+        val service = MonsterService(client = mockClient)
+
+        val state = service.getMonster("adult-black-dragon")
+
+        assertTrue(state is State.Error && state.error.message.equals("Error connecting to server"))
+
     }
 }
