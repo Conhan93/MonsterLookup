@@ -26,7 +26,8 @@ class MonsterService(
             return State.Error(ConnectionException("Error connecting to server", e))
         }
 
-        val monster  = State.Content(Json.decodeFromString<Monster>(response.body()))
+        val json = Json { ignoreUnknownKeys = true }
+        val monster  = State.Content(json.decodeFromString<Monster>(response.body()))
 
         return monster
     }
