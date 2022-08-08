@@ -30,7 +30,7 @@ class SpellContentService(
         }
 
         val json = Json { ignoreUnknownKeys = true }
-        return State.Content(json.decodeFromString(response.body()))
+        return State.Content(spell = json.decodeFromString(response.body()))
     }
 
     override fun getContent(reference: APIReference): State {
@@ -54,6 +54,6 @@ class SpellContentService(
         }
 
         val json = Json { ignoreUnknownKeys = true }
-        return State.Content(json.decodeFromString(response.body()))
+        return State.Content(spell = json.decodeFromString(response.body()))
     }
 }
