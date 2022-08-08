@@ -18,13 +18,13 @@ import androidx.compose.ui.window.application
 @Preview
 fun App(monsterService: MonsterContentService) {
 
-    var appState = mutableStateOf<State<Monster>?>(null)
+    var appState = mutableStateOf<State?>(null)
 
 
     AppTheme(isDarkMode = false) {
         when (val state = appState.value) {
             is State.Content -> DisplayMonster(
-                monster = state.data,
+                monster = state.monster!!,
                 state = appState,
                 monsterService = monsterService
             )

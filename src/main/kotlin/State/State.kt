@@ -1,8 +1,11 @@
 package State
 
+import Model.Monster.Monster
+import Model.Spell.Spell
 
-sealed class State<out T> {
-    object Loading : State<Nothing>()
-    data class Content<T>(val data: T) : State<T>()
-    data class Error(val error : Throwable) : State<Nothing>()
+
+sealed class State {
+    object Loading : State()
+    data class Content(val monster: Monster? = null, val spell: Spell? = null) : State()
+    data class Error(val error : Throwable) : State()
 }

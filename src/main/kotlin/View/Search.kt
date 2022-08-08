@@ -1,6 +1,5 @@
 package View
 
-import Model.Monster.Monster
 import Service.MonsterContentService
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
@@ -22,7 +21,7 @@ import androidx.compose.runtime.*
 
 @Composable
 fun Search(
-    state: MutableState<State<Monster>?>,
+    state: MutableState<State?>,
     monsterService : MonsterContentService,
     modifier : Modifier = Modifier
 ) {
@@ -36,9 +35,9 @@ fun Search(
     fun performRequest(name : String) {
         requestScope.launch {
             try {
-                val monster = monsterService.getContent(name)
+                //val monster = monsterService.getContent(name)
 
-                state.value = monster
+                state.value = monsterService.getContent(name)
             } catch (e : Exception) {
                 state.value = State.Error(e)
             }

@@ -1,6 +1,5 @@
 package View
 
-import Model.Monster.Monster
 import Service.MonsterContentService
 import State.State
 import androidx.compose.foundation.layout.*
@@ -15,7 +14,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Start(
-    state : MutableState<State<Monster>?>,
+    state: MutableState<State?>,
     monsterService : MonsterContentService
 ) {
     startBackground {

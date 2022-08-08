@@ -1,6 +1,5 @@
 package View
 
-import Model.Monster.Monster
 import Service.MonsterContentService
 import State.State
 import androidx.compose.foundation.layout.*
@@ -16,7 +15,7 @@ import java.io.IOException
 @Composable
 fun Error(
     error : State.Error,
-    state : MutableState<State<Monster>?>,
+    state: MutableState<State?>,
     monsterService: MonsterContentService
 ) {
     startBackground {

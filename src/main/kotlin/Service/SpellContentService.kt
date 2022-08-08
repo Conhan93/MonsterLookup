@@ -12,11 +12,11 @@ import java.net.http.HttpResponse
 
 class SpellContentService(
     private val client : HttpClient = HttpClient.newHttpClient()
-) : ContentService<Spell> {
+) : ContentService  {
 
     private val API_URL = "https://www.dnd5eapi.co/api/spells/"
 
-    override fun getContent(name : String) : State<Spell> {
+    override fun getContent(name : String) : State {
         val request = HttpRequest.newBuilder()
             .uri(URI(API_URL + formatName(name)))
             .GET()
@@ -32,7 +32,7 @@ class SpellContentService(
         return State.Content(json.decodeFromString(response.body()))
     }
 
-    override fun getContent(reference: APIReference): State<Spell> {
+    override fun getContent(reference: APIReference): State {
         val url = if (!reference.url.isNullOrEmpty())
                         reference.url
                    else

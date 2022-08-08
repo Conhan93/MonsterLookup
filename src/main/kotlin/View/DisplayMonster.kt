@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DisplayMonster(
     monster : Monster,
-    state: MutableState<State<Monster>?>,
+    state: MutableState<State?>,
     monsterService: MonsterContentService
 ) {
 
@@ -57,7 +57,7 @@ fun DisplayMonster(
 @Composable
 private fun TopBar(
     monster : Monster,
-    state: MutableState<State<Monster>?>,
+    state: MutableState<State?>,
     monsterService: MonsterContentService
 ) {
     val topPadding = Modifier.padding(vertical = 5.dp)

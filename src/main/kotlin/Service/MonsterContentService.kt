@@ -12,10 +12,10 @@ import java.net.http.HttpResponse
 
 class MonsterContentService(
     private val client : HttpClient = HttpClient.newHttpClient()
-) : ContentService<Monster> {
+) : ContentService {
     private val API_URL : String = "https://www.dnd5eapi.co/api/monsters/"
 
-    override fun getContent(name : String) : State<Monster> {
+    override fun getContent(name : String) : State {
         val request = HttpRequest.newBuilder()
             .uri(URI(API_URL + formatMonsterName(name)))
             .GET()
@@ -32,7 +32,7 @@ class MonsterContentService(
 
         return monster
     }
-    override fun getContent(reference: APIReference): State<Monster> {
+    override fun getContent(reference: APIReference): State {
 
         val url = if (!reference.url.isNullOrEmpty())
             reference.url
@@ -54,7 +54,7 @@ class MonsterContentService(
         }
 
         val json = Json { ignoreUnknownKeys = true }
-        return State.Content(json.decodeFromString(response.body()))
+        return State.Content(json.decodeFromString<Monster>(response.body()))
     }
     // Changes the format of the search string to match the format of the api
     private fun formatMonsterName(name : String) : String {
