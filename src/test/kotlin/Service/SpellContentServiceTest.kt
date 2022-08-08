@@ -12,14 +12,14 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-internal class SpellServiceTest {
+internal class SpellContentServiceTest {
 
     val testSpellFileName = "/acidarrow.txt"
 
     @Test
     fun `Get spell content returns spell`() {
 
-        val service = SpellService()
+        val service = SpellContentService()
 
         val actual = service.getContent("acid-arrow") as State.Content
 
@@ -43,7 +43,7 @@ internal class SpellServiceTest {
         )
             .thenThrow(InterruptedException("foo"))
 
-        val service = SpellService(client = mockClient)
+        val service = SpellContentService(client = mockClient)
 
         val state = service.getContent("foo")
 

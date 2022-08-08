@@ -1,7 +1,7 @@
 package View
 
 import Model.Monster.Monster
-import Service.MonsterService
+import Service.MonsterContentService
 import State.State
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Start(
     state : MutableState<State<Monster>?>,
-    monsterService : MonsterService
+    monsterService : MonsterContentService
 ) {
     startBackground {
         startBox {

@@ -1,7 +1,7 @@
 package View
 
 import Model.Monster.Monster
-import Service.MonsterService
+import Service.MonsterContentService
 import State.State
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
@@ -17,7 +17,7 @@ import java.io.IOException
 fun Error(
     error : State.Error,
     state : MutableState<State<Monster>?>,
-    monsterService: MonsterService
+    monsterService: MonsterContentService
 ) {
     startBackground {
         startBox {

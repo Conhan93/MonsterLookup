@@ -1,6 +1,6 @@
 package Service
 
-import Model.Monster.Monster
+import Model.Base.APIReference
 import Model.Spell.Spell
 import State.State
 import kotlinx.serialization.decodeFromString
@@ -10,15 +10,39 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-class SpellService(
+class SpellContentService(
     private val client : HttpClient = HttpClient.newHttpClient()
-) {
+) : ContentService<Spell> {
 
     private val API_URL = "https://www.dnd5eapi.co/api/spells/"
 
-    fun getContent(name : String) : State<Spell> {
+    override fun getContent(name : String) : State<Spell> {
         val request = HttpRequest.newBuilder()
             .uri(URI(API_URL + formatName(name)))
+            .GET()
+            .build()
+
+        val response =  try {
+            client.send(request, HttpResponse.BodyHandlers.ofString())
+        } catch (e : Exception) {
+            return State.Error(ConnectionException("Error connecting to server", e))
+        }
+
+        val json = Json { ignoreUnknownKeys = true }
+        return State.Content(json.decodeFromString(response.body()))
+    }
+
+    override fun getContent(reference: APIReference): State<Spell> {
+        val url = if (!reference.url.isNullOrEmpty())
+                        reference.url
+                   else
+                       throw IllegalArgumentException("Url is null")
+
+        if (!url.startsWith("/api/spells/"))
+            throw IllegalArgumentException("Malformed URL")
+
+        val request = HttpRequest.newBuilder()
+            .uri(URI("https://www.dnd5eapi.co$url"))
             .GET()
             .build()
 

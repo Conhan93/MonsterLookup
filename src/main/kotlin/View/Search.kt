@@ -1,7 +1,7 @@
 package View
 
 import Model.Monster.Monster
-import Service.MonsterService
+import Service.MonsterContentService
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
@@ -23,7 +23,7 @@ import androidx.compose.runtime.*
 @Composable
 fun Search(
     state: MutableState<State<Monster>?>,
-    monsterService : MonsterService,
+    monsterService : MonsterContentService,
     modifier : Modifier = Modifier
 ) {
     var name = mutableStateOf("")

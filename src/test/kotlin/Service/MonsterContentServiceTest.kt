@@ -16,16 +16,16 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-internal class MonsterServiceTest {
+internal class MonsterContentServiceTest {
 
     val adultBlackDragonFileName = "/adultblackdragon.txt"
 
     @Test
     fun `get monster returns monster`() {
 
-        val monsterService = MonsterService()
+        val monsterService = MonsterContentService()
 
-        val monsterActual = monsterService.getMonster("adult-black-dragon") as State.Content
+        val monsterActual = monsterService.getContent("adult-black-dragon") as State.Content
 
         val dragonJsonText = this::class.java.getResource(adultBlackDragonFileName).readText()
 
@@ -43,9 +43,9 @@ internal class MonsterServiceTest {
         `when`(mockClient.send(Mockito.any(HttpRequest::class.java),Mockito.eq(HttpResponse.BodyHandlers.ofString())))
             .thenThrow(InterruptedException("foo"))
 
-        val service = MonsterService(client = mockClient)
+        val service = MonsterContentService(client = mockClient)
 
-        val state = service.getMonster("adult-black-dragon")
+        val state = service.getContent("adult-black-dragon")
 
         assertTrue(state is State.Error && state.error.message.equals("Error connecting to server"))
 

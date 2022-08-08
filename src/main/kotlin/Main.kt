@@ -1,12 +1,9 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 import Model.Monster.Monster
-import Service.MonsterService
+import Service.MonsterContentService
 import State.State
 import Theme.AppTheme
-import Theme.darkColours
-import Theme.lightColours
 import View.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +16,7 @@ import androidx.compose.ui.window.application
 
 @Composable
 @Preview
-fun App(monsterService: MonsterService) {
+fun App(monsterService: MonsterContentService) {
 
     var appState = mutableStateOf<State<Monster>?>(null)
 
@@ -48,7 +45,7 @@ fun App(monsterService: MonsterService) {
 
 fun main() = application {
 
-    val monsterService = MonsterService()
+    val monsterService = MonsterContentService()
 
     Window(
         title = "Monster Lookup",

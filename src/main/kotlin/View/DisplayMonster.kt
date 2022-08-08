@@ -1,7 +1,7 @@
 package View
 
 import Model.Monster.Monster
-import Service.MonsterService
+import Service.MonsterContentService
 import State.State
 import View.InfoAndStats.Conditions
 import View.InfoAndStats.Sidebar
@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 fun DisplayMonster(
     monster : Monster,
     state: MutableState<State<Monster>?>,
-    monsterService: MonsterService
+    monsterService: MonsterContentService
 ) {
 
     Surface {
@@ -58,7 +58,7 @@ fun DisplayMonster(
 private fun TopBar(
     monster : Monster,
     state: MutableState<State<Monster>?>,
-    monsterService: MonsterService
+    monsterService: MonsterContentService
 ) {
     val topPadding = Modifier.padding(vertical = 5.dp)
     val topBarHeight = Modifier.height(195.dp)
