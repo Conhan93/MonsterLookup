@@ -36,7 +36,7 @@ fun Search(
     fun performRequest(name : String) {
         requestScope.launch {
             try {
-                val monster = monsterService.getMonster(name)
+                val monster = monsterService.getContent(name)
 
                 state.value = monster
             } catch (e : Exception) {
