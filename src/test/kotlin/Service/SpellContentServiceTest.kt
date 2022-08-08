@@ -1,5 +1,6 @@
 package Service
 
+import Model.Base.APIReference
 import Model.Spell.Spell
 import State.State
 import kotlinx.serialization.decodeFromString
@@ -19,7 +20,7 @@ internal class SpellContentServiceTest {
     @Test
     fun `Get spell content returns spell`() {
 
-        val service = SpellContentService()
+        val service : ContentService = SpellContentService()
 
         val actual = service.getContent("acid-arrow") as State.Content
 
@@ -28,7 +29,29 @@ internal class SpellContentServiceTest {
 
         val expected = json.decodeFromString<Spell>(spellJsonString)
 
-        assertEquals(expected, actual.data)
+        assertEquals(expected, actual.spell)
+    }
+
+    @Test
+    fun `Get content API Reference returns spell`() {
+        val apiReference = APIReference(
+            index = "acid-arrow",
+            name = "Acid Arrow",
+            url = "/api/spells/acid-arrow"
+        )
+
+        val service : ContentService = SpellContentService()
+
+        val spellJsonText = this::class.java.getResource(testSpellFileName).readText()
+
+        val json = Json { ignoreUnknownKeys = true }
+
+        val expected = json.decodeFromString<Spell>(spellJsonText)
+
+        val actual = service.getContent(apiReference) as State.Content
+
+        assertEquals(expected, actual.spell)
+
     }
 
     @Test
