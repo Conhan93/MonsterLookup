@@ -3,6 +3,7 @@ package Service
 import Model.Base.APIReference
 import Model.Spell.Spell
 import State.State
+import Util.formatSearchName
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.net.URI
@@ -18,7 +19,7 @@ class SpellContentService(
 
     override fun getContent(name : String) : State {
         val request = HttpRequest.newBuilder()
-            .uri(URI(API_URL + formatName(name)))
+            .uri(URI(API_URL + name.formatSearchName()))
             .GET()
             .build()
 
@@ -54,12 +55,5 @@ class SpellContentService(
 
         val json = Json { ignoreUnknownKeys = true }
         return State.Content(json.decodeFromString(response.body()))
-    }
-
-    private fun formatName(name : String) : String {
-        return name
-            .replace(' ', '-')
-            .trim()
-            .lowercase()
     }
 }

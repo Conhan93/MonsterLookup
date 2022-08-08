@@ -3,6 +3,7 @@ package Service
 import Model.Base.APIReference
 import Model.Monster.Monster
 import State.State
+import Util.formatSearchName
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.net.URI
@@ -17,7 +18,7 @@ class MonsterContentService(
 
     override fun getContent(name : String) : State {
         val request = HttpRequest.newBuilder()
-            .uri(URI(API_URL + formatMonsterName(name)))
+            .uri(URI(API_URL + name.formatSearchName()))
             .GET()
             .build()
 
@@ -55,12 +56,5 @@ class MonsterContentService(
 
         val json = Json { ignoreUnknownKeys = true }
         return State.Content(json.decodeFromString<Monster>(response.body()))
-    }
-    // Changes the format of the search string to match the format of the api
-    private fun formatMonsterName(name : String) : String {
-        return name
-            .replace(' ', '-')
-            .trim()
-            .lowercase()
     }
 }
