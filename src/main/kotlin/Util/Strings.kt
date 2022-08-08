@@ -5,8 +5,8 @@ package Util
  *
  *  Ex. Adult black dragon = adult-black-dragon
  */
-fun String.formatSearchName() {
-    this.replace(' ', '-')
+fun String.formatSearchName() : String {
+    return this.replace(' ', '-')
         .trim()
         .lowercase()
 }
