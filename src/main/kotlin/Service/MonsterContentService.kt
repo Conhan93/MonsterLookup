@@ -4,6 +4,7 @@ import Model.Base.APIReference
 import Model.Monster.Monster
 import State.State
 import Util.formatSearchName
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.net.URI
@@ -25,13 +26,16 @@ class MonsterContentService(
         val response =  try {
             client.send(request, HttpResponse.BodyHandlers.ofString())
         } catch (e : Exception) {
-            return State.Error(ConnectionException("Error connecting to server", e))
+            throw ContentServiceException.ConnectionException("Unable to send message", e)
         }
 
         val json = Json { ignoreUnknownKeys = true }
-        val monster  = State.Content(json.decodeFromString<Monster>(response.body()))
 
-        return monster
+        return try {
+            State.Content(json.decodeFromString<Monster>(response.body()))
+        } catch (e : Exception) {
+            throw ContentServiceException.SerializationException("Error decoding monster", e)
+        }
     }
     override fun getContent(reference: APIReference): State {
 
@@ -51,10 +55,15 @@ class MonsterContentService(
         val response =  try {
             client.send(request, HttpResponse.BodyHandlers.ofString())
         } catch (e : Exception) {
-            return State.Error(ConnectionException("Error connecting to server", e))
+            throw ContentServiceException.ConnectionException("Unable to send message", e)
         }
 
         val json = Json { ignoreUnknownKeys = true }
-        return State.Content(json.decodeFromString<Monster>(response.body()))
+
+        return try {
+            State.Content(json.decodeFromString<Monster>(response.body()))
+        } catch (e : Exception) {
+            throw ContentServiceException.SerializationException("Error decoding monster", e)
+        }
     }
 }

@@ -1,7 +1,6 @@
 package Service
 
 import Model.Base.APIReference
-import Model.Spell.Spell
 import State.State
 import Util.formatSearchName
 import kotlinx.serialization.decodeFromString
@@ -26,11 +25,15 @@ class SpellContentService(
         val response =  try {
             client.send(request, HttpResponse.BodyHandlers.ofString())
         } catch (e : Exception) {
-            return State.Error(ConnectionException("Error connecting to server", e))
+            throw ContentServiceException.ConnectionException("Unable to send message", e)
         }
 
         val json = Json { ignoreUnknownKeys = true }
-        return State.Content(spell = json.decodeFromString(response.body()))
+        return try {
+            State.Content(spell = json.decodeFromString(response.body()))
+        } catch (e : Exception) {
+            throw ContentServiceException.SerializationException("Error decoding spell", e)
+        }
     }
 
     override fun getContent(reference: APIReference): State {
@@ -50,10 +53,14 @@ class SpellContentService(
         val response =  try {
             client.send(request, HttpResponse.BodyHandlers.ofString())
         } catch (e : Exception) {
-            return State.Error(ConnectionException("Error connecting to server", e))
+            throw ContentServiceException.ConnectionException("Unable to send message", e)
         }
 
         val json = Json { ignoreUnknownKeys = true }
-        return State.Content(spell = json.decodeFromString(response.body()))
+        return try {
+            State.Content(spell = json.decodeFromString(response.body()))
+        } catch (e : Exception) {
+            throw ContentServiceException.SerializationException("Error decoding spell", e)
+        }
     }
 }
