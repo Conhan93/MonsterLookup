@@ -8,6 +8,7 @@ import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -55,7 +56,7 @@ internal class SpellContentServiceTest {
     }
 
     @Test
-    fun `Should return state with connection error on client send throw`() {
+    fun `Should throw connection error on client send throw`() {
         val mockClient = Mockito.mock(HttpClient::class.java)
 
         Mockito.`when`(
@@ -68,8 +69,8 @@ internal class SpellContentServiceTest {
 
         val service = SpellContentService(client = mockClient)
 
-        val state = service.getContent("foo")
-
-        assertTrue(state is State.Error && state.error is ConnectionException)
+        assertThrows<ContentServiceException.ConnectionException> {
+            service.getContent("foo")
+        }
     }
 }

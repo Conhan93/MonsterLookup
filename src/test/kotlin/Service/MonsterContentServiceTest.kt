@@ -9,9 +9,11 @@ import kotlinx.serialization.decodeFromString
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
 
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -60,7 +62,7 @@ internal class MonsterContentServiceTest {
     }
 
     @Test
-    fun `Should return state with connection error on client send throw`() {
+    fun `Should throw connection error on client send throw`() {
         val mockClient = mock(HttpClient::class.java)
 
         `when`(mockClient.send(Mockito.any(HttpRequest::class.java),Mockito.eq(HttpResponse.BodyHandlers.ofString())))
@@ -68,9 +70,8 @@ internal class MonsterContentServiceTest {
 
         val service = MonsterContentService(client = mockClient)
 
-        val state = service.getContent("adult-black-dragon")
-
-        assertTrue(state is State.Error && state.error.message.equals("Error connecting to server"))
-
+        assertThrows<ContentServiceException.ConnectionException> {
+            service.getContent("adult-black-dragon")
+        }
     }
 }
