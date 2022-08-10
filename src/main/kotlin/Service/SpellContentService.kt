@@ -43,10 +43,12 @@ class SpellContentService(
         val url = if (!reference.url.isNullOrEmpty())
                         reference.url
                    else
-                       throw IllegalArgumentException("Url is null")
+            throw ContentServiceException.BadURLException("No URL")
+        // throw IllegalArgumentException("Url is null")
 
         if (!url.startsWith("/api/spells/"))
-            throw IllegalArgumentException("Malformed URL")
+            throw ContentServiceException.BadURLException("Bad URL $url")
+        //throw IllegalArgumentException("Malformed URL")
 
         val request = HttpRequest.newBuilder()
             .uri(URI("https://www.dnd5eapi.co$url"))

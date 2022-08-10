@@ -133,4 +133,33 @@ internal class MonsterContentServiceTest {
             service.getContent(reference)
         }
     }
+
+    @Test
+    fun `Get by reference throws on null url`() {
+        val mockClient = mock(HttpClient::class.java)
+        val service = MonsterContentService(mockClient)
+
+        assertThrows<ContentServiceException.BadURLException> {
+            val reference = APIReference(
+                index = "foo",
+                name = "foo.txt",
+            )
+            service.getContent(reference)
+        }
+    }
+
+    @Test
+    fun `Get by reference throws on bad url`() {
+        val mockClient = mock(HttpClient::class.java)
+        val service = MonsterContentService(mockClient)
+
+        assertThrows<ContentServiceException.BadURLException> {
+            val reference = APIReference(
+                index = "foo",
+                name = "foo.txt",
+                url = "/bar/barbar/foo"
+            )
+            service.getContent(reference)
+        }
+    }
 }

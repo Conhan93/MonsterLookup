@@ -147,4 +147,33 @@ internal class SpellContentServiceTest {
             service.getContent(reference)
         }
     }
+
+    @Test
+    fun `Get by reference throws on null url`() {
+        val mockClient = Mockito.mock(HttpClient::class.java)
+        val service = SpellContentService(mockClient)
+
+        assertThrows<ContentServiceException.BadURLException> {
+            val reference = APIReference(
+                index = "foo",
+                name = "foo.txt",
+            )
+            service.getContent(reference)
+        }
+    }
+
+    @Test
+    fun `Get by reference throws on bad url`() {
+        val mockClient = Mockito.mock(HttpClient::class.java)
+        val service = SpellContentService(mockClient)
+
+        assertThrows<ContentServiceException.BadURLException> {
+            val reference = APIReference(
+                index = "foo",
+                name = "foo.txt",
+                url = "/bar/barbar/foo"
+            )
+            service.getContent(reference)
+        }
+    }
 }

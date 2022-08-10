@@ -7,4 +7,5 @@ sealed class ContentServiceException(
     class ConnectionException(message: String, cause: Throwable? = null) : ContentServiceException(message, cause)
     class SerializationException(message: String, cause: Throwable? = null) : ContentServiceException(message, cause)
     class ContentNotFoundException(message: String, cause: Throwable? = null) : ContentServiceException(message, cause)
+    class BadURLException(message: String, cause: Throwable? = null) : ContentServiceException(message, cause)
 }
