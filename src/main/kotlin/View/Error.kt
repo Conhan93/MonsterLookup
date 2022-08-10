@@ -10,18 +10,16 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import java.io.IOException
 
 @Composable
 fun Error(
-    error : State.Error,
     state: MutableState<State?>,
     monsterService: MonsterContentService
 ) {
     startBackground {
         startBox {
             ErrorMessage(
-                error = error.error,
+                error = state.value as State.Error,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(vertical = 10.dp)
@@ -38,15 +36,10 @@ fun Error(
 }
 
 @Composable
-private fun ErrorMessage(error : Throwable, modifier: Modifier = Modifier) {
+private fun ErrorMessage(error : State.Error, modifier: Modifier = Modifier) {
 
-    val message = when(error) {
-        is InterruptedException -> "Request was interrupted"
-        is IOException -> "Error sending request"
-        is kotlinx.serialization.SerializationException ->
-            "No monster with that name found"
-        else -> error.localizedMessage
-    }
+    val message = error.message
+
     OutlinedTextField(
         value = message,
         onValueChange = {},

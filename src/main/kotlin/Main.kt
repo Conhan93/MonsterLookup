@@ -1,9 +1,9 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-import Model.Monster.Monster
 import Service.MonsterContentService
 import State.State
 import Theme.AppTheme
 import View.*
+
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +29,6 @@ fun App(monsterService: MonsterContentService) {
                 monsterService = monsterService
             )
             is State.Error -> Error(
-                error = state,
                 state = appState,
                 monsterService = monsterService
                 )
