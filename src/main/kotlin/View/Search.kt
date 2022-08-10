@@ -1,5 +1,6 @@
 package View
 
+import Service.ContentServiceException
 import Service.MonsterContentService
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
@@ -27,7 +28,7 @@ fun Search(
 ) {
     var name = mutableStateOf("")
 
-    val padding = Modifier.padding(5.dp) //PaddingValues(5.dp)
+    val padding = Modifier.padding(5.dp)
 
     // Coroutine scope for the http request
     val requestScope = CoroutineScope(Dispatchers.IO)
@@ -35,11 +36,11 @@ fun Search(
     fun performRequest(name : String) {
         requestScope.launch {
             try {
-                //val monster = monsterService.getContent(name)
-
                 state.value = monsterService.getContent(name)
+            } catch (e : ContentServiceException) {
+                state.value = State.Error(e.message!! ,e)
             } catch (e : Exception) {
-                state.value = State.Error(e)
+                state.value = State.Error(e.message ?: "Oops" ,e)
             }
         }
     }
