@@ -73,4 +73,78 @@ internal class SpellContentServiceTest {
             service.getContent("foo")
         }
     }
+    @Test
+    fun `Get content by name should return serialization exception`() {
+        val mockClient = Mockito.mock(HttpClient::class.java)
+
+        val mockResponse = Mockito.mock(HttpResponse::class.java)
+
+        Mockito.`when`(mockResponse.statusCode()).thenReturn(200)
+        Mockito.`when`(mockResponse.body()).thenReturn("{\"error\":\"Not found")
+
+        Mockito.`when`(
+            mockClient.send(
+                Mockito.any(HttpRequest::class.java),
+                Mockito.eq(HttpResponse.BodyHandlers.ofString())
+            )
+        )
+            .thenReturn(mockResponse as HttpResponse<String>?)
+
+        val service = SpellContentService(mockClient)
+
+        assertThrows<ContentServiceException.SerializationException> {
+            service.getContent("foo")
+        }
+    }
+
+    @Test
+    fun `Get by name should return content not found exception`() {
+        val mockClient = Mockito.mock(HttpClient::class.java)
+
+        val mockResponse = Mockito.mock(HttpResponse::class.java)
+
+        Mockito.`when`(mockResponse.statusCode()).thenReturn(404)
+
+        Mockito.`when`(
+            mockClient.send(
+                Mockito.any(HttpRequest::class.java),
+                Mockito.eq(HttpResponse.BodyHandlers.ofString())
+            )
+        )
+            .thenReturn(mockResponse as HttpResponse<String>?)
+
+        val service = SpellContentService(mockClient)
+
+        assertThrows<ContentServiceException.ContentNotFoundException> {
+            service.getContent("foo")
+        }
+    }
+
+    @Test
+    fun `Get by reference should return content not found exception`() {
+        val mockClient = Mockito.mock(HttpClient::class.java)
+
+        val mockResponse = Mockito.mock(HttpResponse::class.java)
+
+        Mockito.`when`(mockResponse.statusCode()).thenReturn(404)
+
+        Mockito.`when`(
+            mockClient.send(
+                Mockito.any(HttpRequest::class.java),
+                Mockito.eq(HttpResponse.BodyHandlers.ofString())
+            )
+        )
+            .thenReturn(mockResponse as HttpResponse<String>?)
+
+        val service = SpellContentService(mockClient)
+
+        assertThrows<ContentServiceException.ContentNotFoundException> {
+            val reference = APIReference(
+                index = "foo",
+                name = "foo.txt",
+                url = "/api/spells/foo"
+            )
+            service.getContent(reference)
+        }
+    }
 }

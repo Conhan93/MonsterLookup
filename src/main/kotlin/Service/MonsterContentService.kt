@@ -29,6 +29,9 @@ class MonsterContentService(
             throw ContentServiceException.ConnectionException("Unable to send message", e)
         }
 
+        if(response.statusCode().equals(404))
+            throw ContentServiceException.ContentNotFoundException("$name not found")
+
         val json = Json { ignoreUnknownKeys = true }
 
         return try {
@@ -57,6 +60,9 @@ class MonsterContentService(
         } catch (e : Exception) {
             throw ContentServiceException.ConnectionException("Unable to send message", e)
         }
+
+        if(response.statusCode().equals(404))
+            throw ContentServiceException.ContentNotFoundException("${reference.name} not found")
 
         val json = Json { ignoreUnknownKeys = true }
 

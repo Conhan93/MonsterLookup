@@ -28,6 +28,9 @@ class SpellContentService(
             throw ContentServiceException.ConnectionException("Unable to send message", e)
         }
 
+        if(response.statusCode().equals(404))
+            throw ContentServiceException.ContentNotFoundException("$name not found")
+
         val json = Json { ignoreUnknownKeys = true }
         return try {
             State.Content(spell = json.decodeFromString(response.body()))
@@ -55,6 +58,9 @@ class SpellContentService(
         } catch (e : Exception) {
             throw ContentServiceException.ConnectionException("Unable to send message", e)
         }
+
+        if(response.statusCode().equals(404))
+            throw ContentServiceException.ContentNotFoundException("${reference.name} not found")
 
         val json = Json { ignoreUnknownKeys = true }
         return try {

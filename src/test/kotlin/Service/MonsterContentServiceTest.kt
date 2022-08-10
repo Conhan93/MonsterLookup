@@ -74,4 +74,63 @@ internal class MonsterContentServiceTest {
             service.getContent("adult-black-dragon")
         }
     }
+
+    @Test
+    fun `Get content by name should return serialization exception`() {
+        val mockClient = mock(HttpClient::class.java)
+
+        val mockResponse = mock(HttpResponse::class.java)
+
+        `when`(mockResponse.statusCode()).thenReturn(200)
+        `when`(mockResponse.body()).thenReturn("{\"error\":\"Not found")
+
+        `when`(mockClient.send(Mockito.any(HttpRequest::class.java), Mockito.eq(HttpResponse.BodyHandlers.ofString())))
+            .thenReturn(mockResponse as HttpResponse<String>?)
+
+        val service = MonsterContentService(mockClient)
+
+        assertThrows<ContentServiceException.SerializationException> {
+            service.getContent("foo")
+        }
+    }
+
+    @Test
+    fun `Get by name should return content not found exception`() {
+        val mockClient = mock(HttpClient::class.java)
+
+        val mockResponse = mock(HttpResponse::class.java)
+
+        `when`(mockResponse.statusCode()).thenReturn(404)
+
+        `when`(mockClient.send(Mockito.any(HttpRequest::class.java), Mockito.eq(HttpResponse.BodyHandlers.ofString())))
+            .thenReturn(mockResponse as HttpResponse<String>?)
+
+        val service = MonsterContentService(mockClient)
+
+        assertThrows<ContentServiceException.ContentNotFoundException> {
+            service.getContent("foo")
+        }
+    }
+    @Test
+    fun `Get by reference should return content not found exception`() {
+        val mockClient = mock(HttpClient::class.java)
+
+        val mockResponse = mock(HttpResponse::class.java)
+
+        `when`(mockResponse.statusCode()).thenReturn(404)
+
+        `when`(mockClient.send(Mockito.any(HttpRequest::class.java), Mockito.eq(HttpResponse.BodyHandlers.ofString())))
+            .thenReturn(mockResponse as HttpResponse<String>?)
+
+        val service = MonsterContentService(mockClient)
+
+        assertThrows<ContentServiceException.ContentNotFoundException> {
+            val reference = APIReference(
+                index = "foo",
+                name = "foo.txt",
+                url = "/api/monsters/foo"
+            )
+            service.getContent(reference)
+        }
+    }
 }
