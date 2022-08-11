@@ -22,9 +22,8 @@ fun App(monsterService: MonsterContentService) {
 
 
     AppTheme(isDarkMode = false) {
-        when (val state = appState.value) {
+        when (appState.value) {
             is State.Content -> DisplayMonster(
-                monster = state.monster!!,
                 state = appState,
                 monsterService = monsterService
             )

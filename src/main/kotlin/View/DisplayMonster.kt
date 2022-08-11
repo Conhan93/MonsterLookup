@@ -20,10 +20,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun DisplayMonster(
-    monster : Monster,
     state: MutableState<State?>,
     monsterService: MonsterContentService
 ) {
+
+    val content = state.value as State.Content
+    val monster = content.monster!!
 
     Surface {
         Column(
