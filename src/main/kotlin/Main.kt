@@ -3,6 +3,7 @@ import Service.MonsterContentService
 import State.State
 import Theme.AppTheme
 import View.*
+import View.Common.FullscreenPopUpEnabledApp
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.Text
@@ -55,6 +56,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication
 
     ) {
-        App(monsterService)
+        FullscreenPopUpEnabledApp { App(monsterService) }
     }
 }
