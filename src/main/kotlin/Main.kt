@@ -9,6 +9,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -16,29 +17,24 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 
 @Composable
-@Preview
 fun App(monsterService: MonsterContentService) {
 
-    var appState = mutableStateOf<State?>(null)
+    var appState = remember { mutableStateOf<State?>(null) }
 
-
-    AppTheme(isDarkMode = false) {
-        when (appState.value) {
-            is State.Content -> DisplayMonster(
-                state = appState,
-                monsterService = monsterService
-            )
-            is State.Error -> Error(
-                state = appState,
-                monsterService = monsterService
-                )
-            is State.Loading -> Text("Loading animation")
-            null -> Start(
-                state = appState,
-                monsterService = monsterService
-            )
-        }
-
+    when (appState.value) {
+        is State.Content -> DisplayMonster(
+            state = appState,
+            monsterService = monsterService
+        )
+        is State.Error -> Error(
+            state = appState,
+            monsterService = monsterService
+        )
+        is State.Loading -> Text("Loading animation")
+        null -> Start(
+            state = appState,
+            monsterService = monsterService
+        )
     }
 }
 
@@ -56,6 +52,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication
 
     ) {
-        FullscreenPopUpEnabledApp { App(monsterService) }
+        AppTheme(isDarkMode = false) {
+            FullscreenPopUpEnabledApp { App(monsterService) }
+        }
     }
 }
