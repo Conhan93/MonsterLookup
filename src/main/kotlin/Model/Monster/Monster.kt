@@ -1,13 +1,11 @@
 package Model.Monster
 
 import Model.Base.APIReference
+import Model.Base.Base
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Monster(
-    val index : String? = null,
-    val name : String? = null,
-    val url : String? = null,
     val desc : List<String> = listOf(),
     val charisma : Int? = null,
     val constitution : Int? = null,
@@ -44,4 +42,4 @@ data class Monster(
 
     val speed : Speed = Speed(),
     val xp : Int? = null
-)
+) : Base()

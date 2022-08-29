@@ -1,14 +1,15 @@
 package Model.Spell
 
 import Model.Base.APIReference
+import Model.Base.Base
+import Storage.StorageMetaData
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Spell(
     val _id : String? = null,
-    val index : String? = null,
-    val name : String? = null,
     val desc : List<String> = listOf(),
+
     val higher_level : List<String> = listOf(),
     val range : String? = null,
     val components : List<String> = listOf(),
@@ -19,9 +20,9 @@ data class Spell(
     val casting_time : String? = null,
     val level : Int? = null,
     val attack_type : String? = null,
+
     val damage: SpellDamage = SpellDamage(),
     val school : APIReference = APIReference(),
     val classes : List<APIReference> = listOf(),
     val subclasses : List<APIReference> = listOf(),
-    val url : String? = null
-)
+) : Base()
