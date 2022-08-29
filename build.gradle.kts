@@ -11,6 +11,9 @@ plugins {
 group = "me.conha"
 version = "1.0"
 
+val exposedVersion : String by project
+val h2Version : String by project
+
 repositories {
     google()
     mavenCentral()
@@ -24,6 +27,17 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
+
+
+
+    // local storage - database
+    implementation("com.h2database:h2:$h2Version")
+
+    // local storage - orm
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
 }
 
 tasks.test {
