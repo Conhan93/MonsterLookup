@@ -1,6 +1,7 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 import Service.MonsterContentService
 import State.State
+import Storage.ILocalStorage
 import Theme.AppTheme
 import View.*
 import View.Common.FullscreenPopUpEnabledApp
@@ -49,7 +50,12 @@ fun main() = application {
             height = 600.dp
         ),
         icon = painterResource("icons8-dungeons-and-dragons-48.png"),
-        onCloseRequest = ::exitApplication
+        onCloseRequest = {
+            // clear cache
+            ILocalStorage.clear()
+
+            exitApplication()
+        }
 
     ) {
         AppTheme(isDarkMode = false) {
