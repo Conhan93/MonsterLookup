@@ -4,11 +4,13 @@ A side project to familiarise myself with Compose.
 
 ## About
 
-Desktop app that lets you search for monsters from Dungeons and Dragons and easily view them and their actions, abilities and stats. 
+Desktop app that lets you search for monsters from Dungeons and Dragons and easily view them and their actions, abilities and stats.
+For your DM:ing needs. Currently only supports monsters and spells that pops up when you select an ability containing spells.
 
 The app UI is built with [Compose Multiplatform](https://www.jetbrains.com/lp/compose-mpp/) and supports both dark and light themes.
+Uses an embedded H2 database for local storage to cache recently fetched monsters and spells.
 
-The monster information is fetched from an open Dungeons and Dragons [API](https://www.dnd5eapi.co/) 
+The information is fetched from an open Dungeons and Dragons [API](https://www.dnd5eapi.co/) 
 that lets you fetch information from monsters, items, spells, etc in JSON format. 
 
 ## Images
@@ -16,7 +18,12 @@ that lets you fetch information from monsters, items, spells, etc in JSON format
 <img src="Images/DnDLookupDisplay.PNG" alt="Image showing the display screen for Adult White Dragon">
 <figcaption>Display Screen</figcaption>
 </figure>
-
+<br>
+<figure>
+<img src="Images/spellpopup.gif">
+<figcaption>Pop up</figcaption>
+</figure>
+<br>
 <figure>
 <img src="Images/DnDLookupStart.PNG" alt="Image showing the start screen">  
 <figcaption>Starting Screen</figcaption>
