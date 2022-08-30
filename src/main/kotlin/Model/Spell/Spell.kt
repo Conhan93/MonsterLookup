@@ -2,7 +2,6 @@ package Model.Spell
 
 import Model.Base.APIReference
 import Model.Base.Base
-import Storage.StorageMetaData
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -4,6 +4,9 @@ import Model.Base.APIReference
 import Model.Spell.Spell
 import Service.ContentService
 import Service.SpellContentService
+import Storage.ILocalStorage
+import Storage.LocalStorage
+import Storage.StorageProperties
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -129,8 +132,6 @@ private fun fetchSpells(
     // Coroutine scope for the http request
     val requestScope = CoroutineScope(Dispatchers.IO)
     val service: ContentService = SpellContentService() // TODO should use DI
-
-    println("Getting spell")
 
     requestScope.launch {
         references.forEach {
