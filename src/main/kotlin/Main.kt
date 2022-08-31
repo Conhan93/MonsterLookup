@@ -7,12 +7,14 @@ import View.*
 import View.Common.FullscreenPopUpEnabledApp
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.material.DropdownMenu
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
@@ -50,14 +52,15 @@ fun main() = application {
             height = 600.dp
         ),
         icon = painterResource("icons8-dungeons-and-dragons-48.png"),
-        onCloseRequest = {
-            // clear cache
-            ILocalStorage.clear()
-
-            exitApplication()
-        }
+        onCloseRequest = ::exitApplication
 
     ) {
+        MenuBar {
+            Menu("File") {
+                Item("Quit", onClick = { exitApplication() })
+                Item("Clear Cache", onClick = { ILocalStorage.clear() })
+            }
+        }
         AppTheme(isDarkMode = false) {
             FullscreenPopUpEnabledApp { App(monsterService) }
         }
