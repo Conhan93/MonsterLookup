@@ -23,16 +23,25 @@ val darkColours = darkColors(
     background = jet,
 )
 
-val lightOchre = Color(0xFFD27C19)
-val bronze = Color(0xFFD58F3F)
-val ceruleanBlue = Color(0xF03B60E8)
-val glacous = Color(0xFF6280DB)
-val alabaster = Color(0xFFEEECE4)
+
+object LightRedColourTheme {
+    val primary = Color(0xFF581E13)
+    val primaryVariant = Color(0xFF614A49)
+    val secondary = Color(0xFFA08680)
+    val secondaryVariant = Color(0xFF9A82A3)
+    val background = Color(0xFFFBFBFB)
+    val surface = Color(0xFFECECEC)
+    val onSurface = Color(0xFF3D3D3D)
+}
 
 val lightColours = lightColors(
-    primary = lightOchre,
-    primaryVariant = bronze,
-    secondary = glacous,
-    secondaryVariant = ceruleanBlue,
-    background = alabaster,
+    primary = LightRedColourTheme.primary,
+    primaryVariant = LightRedColourTheme.primaryVariant,
+    secondary = LightRedColourTheme.primary,
+    secondaryVariant = LightRedColourTheme.secondary,
+    background = LightRedColourTheme.background,
+    onBackground = LightRedColourTheme.onSurface,
+    onSurface = LightRedColourTheme.primary,
+    onPrimary = LightRedColourTheme.surface,
+    onSecondary = LightRedColourTheme.onSurface
 )
