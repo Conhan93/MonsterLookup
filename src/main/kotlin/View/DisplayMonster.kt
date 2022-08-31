@@ -122,9 +122,9 @@ private fun BottomBar(monster: Monster) {
         content : @Composable () -> Unit
     ) = Surface(
             modifier = modifier,
-            color = MaterialTheme.colors.primaryVariant,
+            color = MaterialTheme.colors.surface,
             shape = RoundedCornerShape(3.dp),
-            elevation = 1.dp
+            elevation = 10.dp
         ) {
             content()
         }
