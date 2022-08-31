@@ -44,6 +44,7 @@ fun App(monsterService: MonsterContentService) {
 fun main() = application {
 
     val monsterService = MonsterContentService()
+    val isDarkMode = remember { mutableStateOf(false) }
 
     Window(
         title = "Monster Lookup",
@@ -55,13 +56,19 @@ fun main() = application {
         onCloseRequest = ::exitApplication
 
     ) {
+
         MenuBar {
             Menu("File") {
                 Item("Quit", onClick = { exitApplication() })
                 Item("Clear Cache", onClick = { ILocalStorage.clear() })
             }
+            Menu("Appearance") {
+                val darkModeItemString = if(isDarkMode.value) "Light Mode" else "Dark Mode"
+                Item(darkModeItemString, onClick = {isDarkMode.value = isDarkMode.value.not()})
+            }
         }
-        AppTheme(isDarkMode = false) {
+
+        AppTheme(isDarkMode = isDarkMode.value) {
             FullscreenPopUpEnabledApp { App(monsterService) }
         }
     }
