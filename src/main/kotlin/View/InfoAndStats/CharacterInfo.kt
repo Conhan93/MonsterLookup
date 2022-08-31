@@ -78,7 +78,10 @@ fun characterName(name : String?, modifier: Modifier = Modifier) {
         color = MaterialTheme.colors.primary,
         elevation = 2.dp
     ) {
-        Text("Name : ${name ?: "Unavailable"}")
+        Text(
+            text = "Name : ${name ?: "Unavailable"}",
+            modifier = Modifier.padding(2.dp)
+        )
     }
 }
 
