@@ -1,13 +1,17 @@
 package View.InfoAndStats
 
 import Model.Monster.Monster
-import View.SimpleTextList
+import View.Common.SolidTextList
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 
 @Composable
@@ -17,27 +21,31 @@ fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
     Row(
         modifier = Modifier
             .then(modifier),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        SimpleTextList(
-            label = "Vulnerabilities",
-            items = monster.damage_vulnerabilities,
+
+        val rowElementWeight = Modifier.weight(1f, fill = false)
+
+        SolidTextList(
+            label = { Text("Vulnerabilities")},
+            textItems = monster.damage_vulnerabilities,
+            textColour = MaterialTheme.colors.surface,
             backgroundColour = MaterialTheme.colors.secondary,
-            modifier = Modifier.weight(1f, fill = false)
+            modifier = rowElementWeight
         )
-        SimpleTextList(
-            label = "Resistances",
-            items = monster.damage_resistances,
+        SolidTextList(
+            label = { Text("Resistances")},
+            textItems = monster.damage_resistances,
+            textColour = MaterialTheme.colors.surface,
             backgroundColour = MaterialTheme.colors.secondary,
-            modifier = Modifier.weight(1f, fill = false)
+            modifier = rowElementWeight
         )
-        SimpleTextList(
-            label = "Immunities",
-            items = monster.damage_immunities + monster
-                .condition_immunities
-                .mapNotNull { it.name },
+        SolidTextList(
+            label = { Text("Immunities")},
+            textItems = monster.damage_immunities,
+            textColour = MaterialTheme.colors.surface,
             backgroundColour = MaterialTheme.colors.secondary,
-            modifier = Modifier.weight(1f, fill = false)
+            modifier = rowElementWeight
         )
     }
 }

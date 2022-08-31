@@ -1,14 +1,14 @@
 package View.InfoAndStats
 
 import Model.Monster.Monster
-import View.SimpleTextList
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import View.Common.SolidTextList
+
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -25,18 +25,22 @@ fun Sidebar(monster : Monster, modifier: Modifier = Modifier) {
         modifier = Modifier
             .fillMaxHeight()
             .padding(5.dp)
-            .then(modifier)
+            .then(modifier),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         if(languages.isNotEmpty())
-            SimpleTextList(
-                label = "Languages",
-                items = languages,
+            SolidTextList(
+                label = { Text("Languages") },
+                textItems = languages,
+                textColour = MaterialTheme.colors.surface,
                 backgroundColour = MaterialTheme.colors.secondary
             )
         if(monster.proficiencies.isNotEmpty())
-            SimpleTextList(
-                label = "Proficiencies",
-                items = monster.proficiencies
+            SolidTextList(
+                label = { Text("Proficiencies") },
+                textColour = MaterialTheme.colors.surface,
+                textItems = monster.proficiencies
                     .map { "${it.proficiency.name}: ${it.value}" },
                 backgroundColour = MaterialTheme.colors.secondary
             )
