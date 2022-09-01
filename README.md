@@ -1,5 +1,8 @@
 # MonsterLookup
 ___
+[![Kotlin version][kotlin_img]][kotlin_url]
+[![Compose version][compose_img]][compose_url]
+
 A side project to familiarise myself with Compose.
 
 ## About
@@ -38,3 +41,9 @@ that lets you fetch information from monsters, items, spells, etc in JSON format
 - Add proper fonts
 - Make better use of themes by moving shapes and typography into it
 - UI Tests
+
+
+[compose_url]: https://github.com/JetBrains/compose-jb/releases/tag/v1.2.0-alpha01-dev774
+[compose_img]: https://img.shields.io/static/v1?style=for-the-badge&message=Compose&color=4285F4&logo=Jetpack+Compose&logoColor=FFFFFF&label=
+[kotlin_url]: https://github.com/JetBrains/kotlin/releases/tag/v1.7.10
+[kotlin_img]: https://img.shields.io/github/v/release/Jetbrains/kotlin?color=7f53ff&label=Kotlin&logo=kotlin&logoColor=7f53ff&style=for-the-badge
