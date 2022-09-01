@@ -3,11 +3,13 @@ package Service
 import Model.Base.APIReference
 import Model.Spell.Spell
 import State.State
+import Storage.ILocalStorage
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import java.net.http.HttpClient
@@ -18,10 +20,18 @@ internal class SpellContentServiceTest {
 
     val testSpellFileName = "/acidarrow.txt"
 
+    val storage = Mockito.mock(ILocalStorage::class.java)
+
+    @BeforeEach
+    fun setupMockStorage() {
+        Mockito.`when`(storage.getMonsterByName(Mockito.anyString()))
+            .thenReturn(null)
+    }
+
     @Test
     fun `Get spell content returns spell`() {
 
-        val service : ContentService = SpellContentService()
+        val service : ContentService = SpellContentService(storage = storage)
 
         val actual = service.getContent("acid-arrow") as State.Content
 
@@ -41,7 +51,7 @@ internal class SpellContentServiceTest {
             url = "/api/spells/acid-arrow"
         )
 
-        val service : ContentService = SpellContentService()
+        val service : ContentService = SpellContentService(storage = storage)
 
         val spellJsonText = this::class.java.getResource(testSpellFileName).readText()
 
@@ -67,7 +77,7 @@ internal class SpellContentServiceTest {
         )
             .thenThrow(InterruptedException("foo"))
 
-        val service = SpellContentService(client = mockClient)
+        val service = SpellContentService(client = mockClient, storage = storage)
 
         assertThrows<ContentServiceException.ConnectionException> {
             service.getContent("foo")
@@ -90,7 +100,7 @@ internal class SpellContentServiceTest {
         )
             .thenReturn(mockResponse as HttpResponse<String>?)
 
-        val service = SpellContentService(mockClient)
+        val service = SpellContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.SerializationException> {
             service.getContent("foo")
@@ -113,7 +123,7 @@ internal class SpellContentServiceTest {
         )
             .thenReturn(mockResponse as HttpResponse<String>?)
 
-        val service = SpellContentService(mockClient)
+        val service = SpellContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.ContentNotFoundException> {
             service.getContent("foo")
@@ -136,7 +146,7 @@ internal class SpellContentServiceTest {
         )
             .thenReturn(mockResponse as HttpResponse<String>?)
 
-        val service = SpellContentService(mockClient)
+        val service = SpellContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.ContentNotFoundException> {
             val reference = APIReference(
@@ -151,7 +161,7 @@ internal class SpellContentServiceTest {
     @Test
     fun `Get by reference throws on null url`() {
         val mockClient = Mockito.mock(HttpClient::class.java)
-        val service = SpellContentService(mockClient)
+        val service = SpellContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.BadURLException> {
             val reference = APIReference(
@@ -165,7 +175,7 @@ internal class SpellContentServiceTest {
     @Test
     fun `Get by reference throws on bad url`() {
         val mockClient = Mockito.mock(HttpClient::class.java)
-        val service = SpellContentService(mockClient)
+        val service = SpellContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.BadURLException> {
             val reference = APIReference(

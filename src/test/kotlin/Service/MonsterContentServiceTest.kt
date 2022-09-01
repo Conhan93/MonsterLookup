@@ -3,11 +3,14 @@ package Service
 import Model.Base.APIReference
 import Model.Monster.Monster
 import State.State
+import Storage.ILocalStorage
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
 
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
@@ -23,10 +26,18 @@ internal class MonsterContentServiceTest {
 
     val adultBlackDragonFileName = "/adultblackdragon.txt"
 
+    val storage = mock(ILocalStorage::class.java)
+
+    @BeforeEach
+    fun setupMockStorage() {
+        `when`(storage.getMonsterByName(Mockito.anyString()))
+            .thenReturn(null)
+    }
+
     @Test
     fun `get monster returns monster`() {
 
-        val service : ContentService = MonsterContentService()
+        val service : ContentService = MonsterContentService(storage = storage)
 
         val actual = service.getContent("adult-black-dragon") as State.Content
 
@@ -48,7 +59,7 @@ internal class MonsterContentServiceTest {
             url = "/api/monsters/adult-black-dragon"
         )
 
-        val service : ContentService = MonsterContentService()
+        val service : ContentService = MonsterContentService(storage = storage)
 
         val dragonJsonText = this::class.java.getResource(adultBlackDragonFileName).readText()
 
@@ -68,7 +79,7 @@ internal class MonsterContentServiceTest {
         `when`(mockClient.send(Mockito.any(HttpRequest::class.java),Mockito.eq(HttpResponse.BodyHandlers.ofString())))
             .thenThrow(InterruptedException("foo"))
 
-        val service = MonsterContentService(client = mockClient)
+        val service = MonsterContentService(client = mockClient, storage = storage)
 
         assertThrows<ContentServiceException.ConnectionException> {
             service.getContent("adult-black-dragon")
@@ -87,7 +98,7 @@ internal class MonsterContentServiceTest {
         `when`(mockClient.send(Mockito.any(HttpRequest::class.java), Mockito.eq(HttpResponse.BodyHandlers.ofString())))
             .thenReturn(mockResponse as HttpResponse<String>?)
 
-        val service = MonsterContentService(mockClient)
+        val service = MonsterContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.SerializationException> {
             service.getContent("foo")
@@ -105,7 +116,7 @@ internal class MonsterContentServiceTest {
         `when`(mockClient.send(Mockito.any(HttpRequest::class.java), Mockito.eq(HttpResponse.BodyHandlers.ofString())))
             .thenReturn(mockResponse as HttpResponse<String>?)
 
-        val service = MonsterContentService(mockClient)
+        val service = MonsterContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.ContentNotFoundException> {
             service.getContent("foo")
@@ -122,7 +133,7 @@ internal class MonsterContentServiceTest {
         `when`(mockClient.send(Mockito.any(HttpRequest::class.java), Mockito.eq(HttpResponse.BodyHandlers.ofString())))
             .thenReturn(mockResponse as HttpResponse<String>?)
 
-        val service = MonsterContentService(mockClient)
+        val service = MonsterContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.ContentNotFoundException> {
             val reference = APIReference(
@@ -137,7 +148,7 @@ internal class MonsterContentServiceTest {
     @Test
     fun `Get by reference throws on null url`() {
         val mockClient = mock(HttpClient::class.java)
-        val service = MonsterContentService(mockClient)
+        val service = MonsterContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.BadURLException> {
             val reference = APIReference(
@@ -151,7 +162,7 @@ internal class MonsterContentServiceTest {
     @Test
     fun `Get by reference throws on bad url`() {
         val mockClient = mock(HttpClient::class.java)
-        val service = MonsterContentService(mockClient)
+        val service = MonsterContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.BadURLException> {
             val reference = APIReference(
