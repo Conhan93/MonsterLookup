@@ -36,7 +36,7 @@ interface ILocalStorage {
 
     companion object : ILocalStorage {
 
-        val storageProperties = StorageProperties("jdbc:h2:file:./data/db", "org.h2.Driver")
+        val storageProperties = getStorageProperties("data/db", StorageTypes.H2)
 
         private var storage = LocalStorage(storageProperties)
 
