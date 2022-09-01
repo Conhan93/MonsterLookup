@@ -29,21 +29,21 @@ fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
         SolidTextList(
             label = { Text("Vulnerabilities")},
             textItems = monster.damage_vulnerabilities,
-            textColour = MaterialTheme.colors.surface,
+            textColour = MaterialTheme.colors.onSecondary,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = rowElementWeight
         )
         SolidTextList(
             label = { Text("Resistances")},
             textItems = monster.damage_resistances,
-            textColour = MaterialTheme.colors.surface,
+            textColour = MaterialTheme.colors.onSecondary,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = rowElementWeight
         )
         SolidTextList(
             label = { Text("Immunities")},
             textItems = monster.damage_immunities,
-            textColour = MaterialTheme.colors.surface,
+            textColour = MaterialTheme.colors.onSecondary,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = rowElementWeight
         )

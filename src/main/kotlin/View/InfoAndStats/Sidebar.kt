@@ -33,13 +33,13 @@ fun Sidebar(monster : Monster, modifier: Modifier = Modifier) {
             SolidTextList(
                 label = { Text("Languages") },
                 textItems = languages,
-                textColour = MaterialTheme.colors.surface,
+                textColour = MaterialTheme.colors.onSecondary,
                 backgroundColour = MaterialTheme.colors.secondary
             )
         if(monster.proficiencies.isNotEmpty())
             SolidTextList(
                 label = { Text("Proficiencies") },
-                textColour = MaterialTheme.colors.surface,
+                textColour = MaterialTheme.colors.onSecondary,
                 textItems = monster.proficiencies
                     .map { "${it.proficiency.name}: ${it.value}" },
                 backgroundColour = MaterialTheme.colors.secondary
