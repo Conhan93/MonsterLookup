@@ -15,17 +15,17 @@ that lets you fetch information from monsters, items, spells, etc in JSON format
 
 ## Images
 <figure>
-<img src="Images/DnDLookupDisplay.PNG" alt="Image showing the display screen for Adult White Dragon">
+<img src="Images/LookupDisplay.PNG" alt="Image showing the display screen for Adult White Dragon">
 <figcaption>Display Screen</figcaption>
 </figure>
 <br>
 <figure>
-<img src="Images/spellpopup.gif">
+<img src="Images/LookupSpellPop.gif">
 <figcaption>Pop up</figcaption>
 </figure>
 <br>
 <figure>
-<img src="Images/DnDLookupStart.PNG" alt="Image showing the start screen">  
+<img src="Images/LookupStart.PNG" alt="Image showing the start screen">  
 <figcaption>Starting Screen</figcaption>
 </figure>
 
