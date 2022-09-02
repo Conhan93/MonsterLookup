@@ -16,7 +16,7 @@ import java.net.http.HttpResponse
 class MonsterContentService(
     private val client : HttpClient = HttpClient.newHttpClient(),
     private val storage : ILocalStorage = ILocalStorage.Companion
-) : ContentService, JsonService {
+) : ContentService, JsonService, HTTPService {
     private val API_URL : String = "https://www.dnd5eapi.co/api/monsters/"
 
     override fun getContent(name : String) : State {
@@ -28,23 +28,11 @@ class MonsterContentService(
             .GET()
             .build()
 
-        val response =  try {
-            client.send(request, HttpResponse.BodyHandlers.ofString())
-        } catch (e : Exception) {
-            throw ContentServiceException.ConnectionException("Unable to send message", e)
+        return try {
+            getMonster(request)
+        } catch (e : ContentServiceException.ContentNotFoundException) {
+            throw ContentServiceException.ContentNotFoundException("$name not found", e)
         }
-
-        if(response.statusCode().equals(404))
-            throw ContentServiceException.ContentNotFoundException("$name not found")
-
-        val monster = decodeFromString<Monster>(response.body())
-        monster?.let {
-            println("fetched monster: $it")
-            storage.store(it)
-            return State.Content(monster = it)
-        }
-
-        throw ContentServiceException.SerializationException("Error decoding monster")
     }
     override fun getContent(reference: APIReference): State {
         if(reference.name != null)
@@ -63,17 +51,32 @@ class MonsterContentService(
             .GET()
             .build()
 
-        val response =  try {
-            client.send(request, HttpResponse.BodyHandlers.ofString())
-        } catch (e : Exception) {
-            throw ContentServiceException.ConnectionException("Unable to send message", e)
+        return try {
+            getMonster(request)
+        } catch (e : ContentServiceException.ContentNotFoundException) {
+            throw ContentServiceException.ContentNotFoundException("$reference.name not found", e)
+        }
+    }
+
+    private fun getMonster(request: HttpRequest) : State {
+        var response : HttpResponse<String>? = null
+
+        handleRequest(
+            request = request,
+            client = client,
+            onFail = { throw ContentServiceException.ConnectionException("Unable to send message", it) }
+        ) {
+            if (it.statusCode().equals(404))
+                throw ContentServiceException.ContentNotFoundException("Content Not Found")
+
+            response = it
+
         }
 
-        if(response.statusCode().equals(404))
-            throw ContentServiceException.ContentNotFoundException("${reference.name} not found")
+        val monster = decodeFromString<Monster>(response!!.body())
 
-        val monster = decodeFromString<Monster>(response.body())
         monster?.let {
+            println("fetched monster: $it")
             storage.store(it)
             return State.Content(monster = it)
         }
