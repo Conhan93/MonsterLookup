@@ -90,7 +90,10 @@ fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier = Modifier
 
     // Display popup with details of spell in special ability
     if (isClicked && ability.spellcasting.spells.isNotEmpty()) {
-        FullScreenPopup(innerBoxSize = 0.7f) {
+        FullScreenPopup(
+            innerBoxSize = 0.7f,
+            onDismiss = { isClicked = false }
+        ) {
             SpellDetail(
                 references = ability
                     .spellcasting
