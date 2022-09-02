@@ -32,6 +32,7 @@ fun FullscreenPopUpEnabledApp(
 fun FullScreenPopup(
     backgroundColour : Color = Color.LightGray.copy(alpha = 0.5f),
     innerBoxSize : Float = 1f,
+    onDismiss : (() -> Unit)? = null,
     content : @Composable BoxScope.() -> Unit
 ) {
     popupComposable = {
@@ -40,7 +41,10 @@ fun FullScreenPopup(
             modifier = Modifier
                 .background(backgroundColour)
                 .fillMaxSize()
-                .clickable { isPopUpEnabled.value = false }
+                .clickable {
+                    isPopUpEnabled.value = false
+                    onDismiss?.let { it() }
+                }
         ) {
             // inner box
             Box(
