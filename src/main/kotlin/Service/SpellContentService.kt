@@ -17,7 +17,7 @@ import java.net.http.HttpResponse
 class SpellContentService(
     private val client : HttpClient = HttpClient.newHttpClient(),
     private val storage : ILocalStorage = ILocalStorage.Companion
-) : ContentService  {
+) : ContentService, JsonService  {
 
     private val API_URL = "https://www.dnd5eapi.co/api/spells/"
 
@@ -39,14 +39,13 @@ class SpellContentService(
         if(response.statusCode().equals(404))
             throw ContentServiceException.ContentNotFoundException("$name not found")
 
-        val json = Json { ignoreUnknownKeys = true }
-        try {
-            val spell = json.decodeFromString<Spell>(response.body())
-            storage.store(spell)
-            return State.Content(spell = spell)
-        } catch (e : Exception) {
-            throw ContentServiceException.SerializationException("Error decoding spell", e)
+        val spell = decodeFromString<Spell>(response.body())
+        spell?.let {
+            storage.store(it)
+            return State.Content(spell = it)
         }
+
+        throw ContentServiceException.SerializationException("Error decoding spell")
     }
 
     override fun getContent(reference: APIReference): State {
@@ -76,14 +75,13 @@ class SpellContentService(
         if(response.statusCode().equals(404))
             throw ContentServiceException.ContentNotFoundException("${reference.name} not found")
 
-        val json = Json { ignoreUnknownKeys = true }
-        try {
-            val spell = json.decodeFromString<Spell>(response.body())
-            storage.store(spell)
-            return State.Content(spell = spell)
-        } catch (e : Exception) {
-            throw ContentServiceException.SerializationException("Error decoding spell", e)
+        val spell = decodeFromString<Spell>(response.body())
+        spell?.let {
+            storage.store(it)
+            return State.Content(spell = it)
         }
+
+        throw ContentServiceException.SerializationException("Error decoding spell")
     }
 
     private fun getSpellFromStorage(name: String) : Spell? =

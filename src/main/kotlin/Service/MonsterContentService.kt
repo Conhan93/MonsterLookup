@@ -16,7 +16,7 @@ import java.net.http.HttpResponse
 class MonsterContentService(
     private val client : HttpClient = HttpClient.newHttpClient(),
     private val storage : ILocalStorage = ILocalStorage.Companion
-) : ContentService {
+) : ContentService, JsonService {
     private val API_URL : String = "https://www.dnd5eapi.co/api/monsters/"
 
     override fun getContent(name : String) : State {
@@ -37,15 +37,14 @@ class MonsterContentService(
         if(response.statusCode().equals(404))
             throw ContentServiceException.ContentNotFoundException("$name not found")
 
-        val json = Json { ignoreUnknownKeys = true }
-
-        try {
-            val monster = json.decodeFromString<Monster>(response.body())
-            storage.store(monster)
-            return State.Content(json.decodeFromString<Monster>(response.body()))
-        } catch (e : Exception) {
-            throw ContentServiceException.SerializationException("Error decoding monster", e)
+        val monster = decodeFromString<Monster>(response.body())
+        monster?.let {
+            println("fetched monster: $it")
+            storage.store(it)
+            return State.Content(monster = it)
         }
+
+        throw ContentServiceException.SerializationException("Error decoding monster")
     }
     override fun getContent(reference: APIReference): State {
         if(reference.name != null)
@@ -73,15 +72,13 @@ class MonsterContentService(
         if(response.statusCode().equals(404))
             throw ContentServiceException.ContentNotFoundException("${reference.name} not found")
 
-        val json = Json { ignoreUnknownKeys = true }
-
-        try {
-            val monster = json.decodeFromString<Monster>(response.body())
-            storage.store(monster)
-            return State.Content(json.decodeFromString<Monster>(response.body()))
-        } catch (e : Exception) {
-            throw ContentServiceException.SerializationException("Error decoding monster", e)
+        val monster = decodeFromString<Monster>(response.body())
+        monster?.let {
+            storage.store(it)
+            return State.Content(monster = it)
         }
+
+        throw ContentServiceException.SerializationException("Error decoding monster")
     }
 
     private fun getMonsterFromStorage(name: String) : Monster? =
