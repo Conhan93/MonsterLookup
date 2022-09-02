@@ -4,24 +4,25 @@ import Model.Base.APIReference
 import Model.Monster.Monster
 import State.State
 import Storage.ILocalStorage
+import kotlinx.coroutines.*
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
 
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-import org.mockito.kotlin.any
 
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class MonsterContentServiceTest {
 
     val adultBlackDragonFileName = "/adultblackdragon.txt"
@@ -35,11 +36,11 @@ internal class MonsterContentServiceTest {
     }
 
     @Test
-    fun `get monster returns monster`() {
+    fun `get monster returns monster`() = runTest {
 
         val service : ContentService = MonsterContentService(storage = storage)
 
-        val actual = service.getContent("adult-black-dragon") as State.Content
+
 
         val dragonJsonText = this::class.java.getResource(adultBlackDragonFileName).readText()
 
@@ -47,11 +48,13 @@ internal class MonsterContentServiceTest {
 
         val expected = json.decodeFromString<Monster>(dragonJsonText)
 
-        kotlin.test.assertEquals(expected, actual.monster)
+        val actual = service.getContentAsync("adult-black-dragon") as State.Content
+        assertEquals(expected, actual.monster)
+
     }
 
     @Test
-    fun `Get content API Reference returns monster`() {
+    fun `Get content API Reference returns monster`() = runTest {
 
         val apiReference = APIReference(
             index = "adult-black-dragon",
@@ -66,14 +69,13 @@ internal class MonsterContentServiceTest {
         val json = Json { ignoreUnknownKeys = true }
 
         val expected = json.decodeFromString<Monster>(dragonJsonText)
-
-        val actual = service.getContent(apiReference) as State.Content
+        val actual = service.getContentAsync(apiReference) as State.Content
 
         assertEquals(expected, actual.monster)
     }
 
     @Test
-    fun `Should throw connection error on client send throw`() {
+    fun `Should throw connection error on client send throw`() = runTest {
         val mockClient = mock(HttpClient::class.java)
 
         `when`(mockClient.send(Mockito.any(HttpRequest::class.java),Mockito.eq(HttpResponse.BodyHandlers.ofString())))
@@ -82,12 +84,12 @@ internal class MonsterContentServiceTest {
         val service = MonsterContentService(client = mockClient, storage = storage)
 
         assertThrows<ContentServiceException.ConnectionException> {
-            service.getContent("adult-black-dragon")
+            service.getContentAsync("adult-black-dragon")
         }
     }
 
     @Test
-    fun `Get content by name should return serialization exception`() {
+    fun `Get content by name should return serialization exception`() = runTest {
         val mockClient = mock(HttpClient::class.java)
 
         val mockResponse = mock(HttpResponse::class.java)
@@ -101,12 +103,12 @@ internal class MonsterContentServiceTest {
         val service = MonsterContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.SerializationException> {
-            service.getContent("foo")
+            service.getContentAsync("foo")
         }
     }
 
     @Test
-    fun `Get by name should return content not found exception`() {
+    fun `Get by name should return content not found exception`() = runTest {
         val mockClient = mock(HttpClient::class.java)
 
         val mockResponse = mock(HttpResponse::class.java)
@@ -119,11 +121,11 @@ internal class MonsterContentServiceTest {
         val service = MonsterContentService(mockClient, storage = storage)
 
         assertThrows<ContentServiceException.ContentNotFoundException> {
-            service.getContent("foo")
+            service.getContentAsync("foo")
         }
     }
     @Test
-    fun `Get by reference should return content not found exception`() {
+    fun `Get by reference should return content not found exception`() = runTest {
         val mockClient = mock(HttpClient::class.java)
 
         val mockResponse = mock(HttpResponse::class.java)
@@ -134,43 +136,40 @@ internal class MonsterContentServiceTest {
             .thenReturn(mockResponse as HttpResponse<String>?)
 
         val service = MonsterContentService(mockClient, storage = storage)
-
         assertThrows<ContentServiceException.ContentNotFoundException> {
             val reference = APIReference(
                 index = "foo",
                 name = "foo.txt",
                 url = "/api/monsters/foo"
             )
-            service.getContent(reference)
+            service.getContentAsync(reference)
         }
     }
 
     @Test
-    fun `Get by reference throws on null url`() {
+    fun `Get by reference throws on null url`() = runTest {
         val mockClient = mock(HttpClient::class.java)
         val service = MonsterContentService(mockClient, storage = storage)
-
         assertThrows<ContentServiceException.BadURLException> {
             val reference = APIReference(
                 index = "foo",
                 name = "foo.txt",
             )
-            service.getContent(reference)
+            service.getContentAsync(reference)
         }
     }
 
     @Test
-    fun `Get by reference throws on bad url`() {
+    fun `Get by reference throws on bad url`() = runTest {
         val mockClient = mock(HttpClient::class.java)
         val service = MonsterContentService(mockClient, storage = storage)
-
         assertThrows<ContentServiceException.BadURLException> {
             val reference = APIReference(
                 index = "foo",
                 name = "foo.txt",
                 url = "/bar/barbar/foo"
             )
-            service.getContent(reference)
+            service.getContentAsync(reference)
         }
     }
 }

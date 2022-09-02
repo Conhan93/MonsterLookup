@@ -18,7 +18,7 @@ class SpellContentService(
 
     private val API_URL = "https://www.dnd5eapi.co/api/spells/"
 
-    override fun getContent(name : String) : State {
+    override suspend fun getContentAsync(name : String) : State {
 
         getSpellFromStorage(name)?.let { return State.Content(spell = it) }
 
@@ -27,13 +27,13 @@ class SpellContentService(
             .GET()
             .build()
         return try {
-            getSpell(request)
+            getSpellAsync(request)
         } catch (e : ContentServiceException.ContentNotFoundException) {
             throw ContentServiceException.ContentNotFoundException("$name not found", e)
         }
     }
 
-    override fun getContent(reference: APIReference): State {
+    override suspend fun getContentAsync(reference: APIReference): State {
 
         if (reference.name != null)
             getSpellFromStorage(reference.name)?.let { return State.Content(spell = it) }
@@ -52,16 +52,16 @@ class SpellContentService(
             .build()
 
         return try {
-            getSpell(request)
+            getSpellAsync(request)
         } catch (e : ContentServiceException.ContentNotFoundException) {
             throw ContentServiceException.ContentNotFoundException("${reference.name} not found", e)
         }
     }
 
-    private fun getSpell(request: HttpRequest) : State {
+    private suspend fun getSpellAsync(request: HttpRequest) : State {
         var response : HttpResponse<String>? = null
 
-        handleRequest(
+        handleRequestAsync(
             request = request,
             client = client,
             onFail = { throw ContentServiceException.ConnectionException("Unable to send message", it) }
@@ -76,7 +76,6 @@ class SpellContentService(
         val spell = decodeFromString<Spell>(response!!.body())
 
         spell?.let {
-            println("fetched monster: $it")
             storage.store(it)
             return State.Content(spell = it)
         }

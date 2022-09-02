@@ -4,9 +4,6 @@ import Model.Base.APIReference
 import Model.Spell.Spell
 import Service.ContentService
 import Service.SpellContentService
-import Storage.ILocalStorage
-import Storage.LocalStorage
-import Storage.StorageProperties
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -135,7 +132,7 @@ private fun fetchSpells(
 
     requestScope.launch {
         references.forEach {
-            (service.getContent(it) as State.State.Content).spell?.let { it1 -> onFetch(it1) }
+            (service.getContentAsync(it) as State.State.Content).spell?.let { it1 -> onFetch(it1) }
         }
     }
 }

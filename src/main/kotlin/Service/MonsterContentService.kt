@@ -6,8 +6,6 @@ import State.State
 import Storage.ILocalStorage
 import Util.formatSearchName
 
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -19,7 +17,7 @@ class MonsterContentService(
 ) : ContentService, JsonService, HTTPService {
     private val API_URL : String = "https://www.dnd5eapi.co/api/monsters/"
 
-    override fun getContent(name : String) : State {
+    override suspend fun getContentAsync(name : String) : State {
 
         getMonsterFromStorage(name)?.let { return State.Content(monster = it) }
 
@@ -29,12 +27,12 @@ class MonsterContentService(
             .build()
 
         return try {
-            getMonster(request)
+            getMonsterAsync(request)
         } catch (e : ContentServiceException.ContentNotFoundException) {
             throw ContentServiceException.ContentNotFoundException("$name not found", e)
         }
     }
-    override fun getContent(reference: APIReference): State {
+    override suspend fun getContentAsync(reference: APIReference): State {
         if(reference.name != null)
             getMonsterFromStorage(reference.name)?.let { return State.Content(monster = it) }
 
@@ -52,16 +50,16 @@ class MonsterContentService(
             .build()
 
         return try {
-            getMonster(request)
+            getMonsterAsync(request)
         } catch (e : ContentServiceException.ContentNotFoundException) {
             throw ContentServiceException.ContentNotFoundException("$reference.name not found", e)
         }
     }
 
-    private fun getMonster(request: HttpRequest) : State {
+    private suspend fun getMonsterAsync(request: HttpRequest) : State {
         var response : HttpResponse<String>? = null
 
-        handleRequest(
+        handleRequestAsync(
             request = request,
             client = client,
             onFail = { throw ContentServiceException.ConnectionException("Unable to send message", it) }
@@ -76,7 +74,6 @@ class MonsterContentService(
         val monster = decodeFromString<Monster>(response!!.body())
 
         monster?.let {
-            println("fetched monster: $it")
             storage.store(it)
             return State.Content(monster = it)
         }

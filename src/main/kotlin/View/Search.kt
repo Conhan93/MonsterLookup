@@ -36,7 +36,7 @@ fun Search(
     fun performRequest(name : String) {
         requestScope.launch {
             try {
-                state.value = monsterService.getContent(name)
+                state.value = monsterService.getContentAsync(name)
             } catch (e : ContentServiceException) {
                 state.value = State.Error(e.message!! ,e)
             } catch (e : Exception) {
