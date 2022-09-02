@@ -128,11 +128,12 @@ private fun fetchSpells(
 ) {
     // Coroutine scope for the http request
     val requestScope = CoroutineScope(Dispatchers.IO)
-    val service: ContentService = SpellContentService() // TODO should use DI
+    val service = ContentService.getSpellService()
 
     requestScope.launch {
-        references.forEach {
-            (service.getContentAsync(it) as State.State.Content).spell?.let { it1 -> onFetch(it1) }
+        service.getContentFromRefsAsync(references) {
+            val content = it as State.State.Content
+            onFetch(content.spell!!)
         }
     }
 }
