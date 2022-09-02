@@ -52,10 +52,25 @@ compose.desktop {
     application {
         mainClass = "MainKt"
         nativeDistributions {
-            modules("java.instrument", "java.net.http", "java.sql", "jdk.unsupported")
+            // runtime modules
+            modules(
+                "java.instrument",
+                "java.net.http",
+                "java.sql",
+                "jdk.unsupported"
+            )
+
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "MonsterLookupDnD"
+
+            // Distributable info
+            packageName = "Monster Lookup"
             packageVersion = "1.0.0"
+            description = "App for all your DnD monster look up needs!"
+
+
+            windows {
+                menuGroup = "Monster Lookup"
+            }
         }
     }
 }
