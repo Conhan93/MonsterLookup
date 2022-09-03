@@ -3,7 +3,7 @@ package View
 import Model.Monster.Monster
 import Service.ContentService
 import Service.ContentServiceException
-import Service.MonsterContentService
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
@@ -13,13 +13,27 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.unit.dp
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 import State.State
+import Storage.ILocalStorage
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+
+
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.DpOffset
+
 
 
 @Composable
@@ -62,32 +76,64 @@ fun Search(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun searchField(
-    name : MutableState<String>,
+    name: MutableState<String>,
     modifier: Modifier = Modifier,
-    onEnterPressed : () -> Unit
+    onEnterPressed: () -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
+    var textFieldWidth by remember { mutableStateOf(0) }
 
-    OutlinedTextField(
-        name.value,
-        onValueChange = {
-            if(!it.contains("\n"))
-                name.value = it
-        },
-        modifier = modifier
-            .onKeyEvent {
-                if(it.key.equals(Key.Enter)) {
-                    onEnterPressed()
-                    return@onKeyEvent true
-                } else
-                    true
+    val icon = Icons.Filled.ArrowDropDown
+
+    val names = ILocalStorage.getMonsterNames()
+
+    Column {
+        OutlinedTextField(
+            name.value,
+            onValueChange = {
+                if (!it.contains("\n"))
+                    name.value = it
             },
-        shape = CutCornerShape(5.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = MaterialTheme.colors.secondaryVariant,
-            focusedBorderColor = MaterialTheme.colors.secondaryVariant
-        ),
-        placeholder = { Text("Enter name of monster", color = MaterialTheme.colors.background) },
-    )
+            modifier = modifier
+                .onKeyEvent {
+                    if (it.key.equals(Key.Enter)) {
+                        onEnterPressed()
+                        return@onKeyEvent true
+                    } else
+                        true
+                }
+                .onSizeChanged { textFieldWidth = it.width },
+            shape = CutCornerShape(5.dp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                backgroundColor = MaterialTheme.colors.secondaryVariant,
+                focusedBorderColor = MaterialTheme.colors.secondaryVariant
+            ),
+            placeholder = { Text("Enter name of monster", color = MaterialTheme.colors.background) },
+            trailingIcon = {
+                Icon(icon, "drop down", Modifier.clickable { expanded = expanded.not() })
+            }
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .width(with(LocalDensity.current) { textFieldWidth.dp })
+                .heightIn(max = 150.dp)
+                .background(MaterialTheme.colors.secondaryVariant),
+            offset = DpOffset(x = 5.dp, y = -10.dp),
+            content = {
+                names.forEach {
+                    DropdownMenuItem(onClick = {
+                        name.value = it
+                        expanded = false
+                        onEnterPressed()
+                    }) {
+                        Text(it)
+                    }
+                }
+            }
+        )
+    }
 }
 
 @Composable
