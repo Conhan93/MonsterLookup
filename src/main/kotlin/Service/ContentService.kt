@@ -1,17 +1,17 @@
 package Service
 
 import Model.Base.APIReference
-import State.State
+import Model.Base.Base
 
 interface ContentService {
 
-    suspend fun getContentAsync(reference : APIReference) : State
-    suspend fun getContentAsync(name : String) : State
+    suspend fun getContentAsync(reference: APIReference): Base?
+    suspend fun getContentAsync(name: String): Base?
 
     suspend fun getContentFromRefsAsync(
-        references : List<APIReference>,
-        onFetchFail : ((Throwable) -> Unit)? = null,
-        onReferenceFetched : (State) -> Unit
+        references: List<APIReference>,
+        onFetchFail: ((Throwable) -> Unit)? = null,
+        onReferenceFetched: (Base?) -> Unit
     ) {
         references.forEach {
             try {
@@ -24,9 +24,9 @@ interface ContentService {
     }
 
     suspend fun getContentFromNamesAsync(
-        names : List<String>,
-        onFetchFail : ((Throwable) -> Unit)? = null,
-        onReferenceFetched : (State) -> Unit
+        names: List<String>,
+        onFetchFail: ((Throwable) -> Unit)? = null,
+        onReferenceFetched: (Base?) -> Unit
     ) {
         try {
             names.forEach {

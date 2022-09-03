@@ -48,8 +48,8 @@ internal class MonsterContentServiceTest {
 
         val expected = json.decodeFromString<Monster>(dragonJsonText)
 
-        val actual = service.getContentAsync("adult-black-dragon") as State.Content
-        assertEquals(expected, actual.monster)
+        val actual = service.getContentAsync("adult-black-dragon")
+        assertEquals(expected, actual)
 
     }
 
@@ -69,9 +69,9 @@ internal class MonsterContentServiceTest {
         val json = Json { ignoreUnknownKeys = true }
 
         val expected = json.decodeFromString<Monster>(dragonJsonText)
-        val actual = service.getContentAsync(apiReference) as State.Content
+        val actual = service.getContentAsync(apiReference)
 
-        assertEquals(expected, actual.monster)
+        assertEquals(expected, actual)
     }
 
     @Test

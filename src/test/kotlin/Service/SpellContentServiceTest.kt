@@ -45,8 +45,8 @@ internal class SpellContentServiceTest {
 
         val expected = json.decodeFromString<Spell>(spellJsonString)
 
-        val actual = service.getContentAsync("acid-arrow") as State.Content
-        assertEquals(expected, actual.spell)
+        val actual = service.getContentAsync("acid-arrow")
+        assertEquals(expected, actual)
     }
 
 
@@ -68,8 +68,8 @@ internal class SpellContentServiceTest {
 
         val result = service.getContentAsync(apiReference)
 
-        val content = result as State.Content
-        assertEquals(expected, content.spell)
+        val content = result
+        assertEquals(expected, content)
     }
 
     @Test

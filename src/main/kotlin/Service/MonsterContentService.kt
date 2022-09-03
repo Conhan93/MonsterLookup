@@ -1,6 +1,7 @@
 package Service
 
 import Model.Base.APIReference
+import Model.Base.Base
 import Model.Monster.Monster
 import State.State
 import Storage.ILocalStorage
@@ -19,9 +20,9 @@ class MonsterContentService(
 ) : ContentService, JsonService, HTTPService {
 
 
-    override suspend fun getContentAsync(name : String) : State {
+    override suspend fun getContentAsync(name: String): Base? {
 
-        getMonsterFromStorage(name)?.let { return State.Content(monster = it) }
+        getMonsterFromStorage(name)?.let { return it }
 
         val request = HttpRequest.newBuilder()
             .uri(URI(API_URL + name.formatSearchName()))
@@ -34,9 +35,9 @@ class MonsterContentService(
             throw ContentServiceException.ContentNotFoundException("$name not found", e)
         }
     }
-    override suspend fun getContentAsync(reference: APIReference): State {
+    override suspend fun getContentAsync(reference: APIReference): Base? {
         if(reference.name != null)
-            getMonsterFromStorage(reference.name)?.let { return State.Content(monster = it) }
+            getMonsterFromStorage(reference.name)?.let { return it }
 
         val url = if (!reference.url.isNullOrEmpty())
             reference.url
@@ -58,7 +59,7 @@ class MonsterContentService(
         }
     }
 
-    private suspend fun getMonsterAsync(request: HttpRequest) : State {
+    private suspend fun getMonsterAsync(request: HttpRequest): Base {
         var response : HttpResponse<String>? = null
 
         handleRequestAsync(
@@ -74,13 +75,11 @@ class MonsterContentService(
         }
 
         val monster = decodeFromString<Monster>(response!!.body())
+            ?: throw ContentServiceException.SerializationException("Error decoding monster")
 
-        monster?.let {
-            storage.store(it)
-            return State.Content(monster = it)
-        }
+        storage.store(monster)
 
-        throw ContentServiceException.SerializationException("Error decoding monster")
+        return monster
     }
 
     private fun getMonsterFromStorage(name: String) : Monster? =

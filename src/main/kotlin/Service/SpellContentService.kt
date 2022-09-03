@@ -1,6 +1,7 @@
 package Service
 
 import Model.Base.APIReference
+import Model.Base.Base
 import Model.Spell.Spell
 import State.State
 import Storage.ILocalStorage
@@ -18,9 +19,9 @@ class SpellContentService(
     private val API_URL : String = API.APISpellsPath
 ) : ContentService, JsonService, HTTPService  {
 
-    override suspend fun getContentAsync(name : String) : State {
+    override suspend fun getContentAsync(name: String): Base? {
 
-        getSpellFromStorage(name)?.let { return State.Content(spell = it) }
+        getSpellFromStorage(name)?.let { return it }
 
         val request = HttpRequest.newBuilder()
             .uri(URI(API_URL + name.formatSearchName()))
@@ -33,10 +34,10 @@ class SpellContentService(
         }
     }
 
-    override suspend fun getContentAsync(reference: APIReference): State {
+    override suspend fun getContentAsync(reference: APIReference): Base? {
 
         if (reference.name != null)
-            getSpellFromStorage(reference.name)?.let { return State.Content(spell = it) }
+            getSpellFromStorage(reference.name)?.let { return it }
 
         val url = if (!reference.url.isNullOrEmpty())
                         reference.url
@@ -58,7 +59,7 @@ class SpellContentService(
         }
     }
 
-    private suspend fun getSpellAsync(request: HttpRequest) : State {
+    private suspend fun getSpellAsync(request: HttpRequest) : Base {
         var response : HttpResponse<String>? = null
 
         handleRequestAsync(
@@ -74,13 +75,12 @@ class SpellContentService(
         }
 
         val spell = decodeFromString<Spell>(response!!.body())
+            ?: throw ContentServiceException.SerializationException("Error decoding spell")
 
-        spell?.let {
-            storage.store(it)
-            return State.Content(spell = it)
-        }
 
-        throw ContentServiceException.SerializationException("Error decoding spell")
+        storage.store(spell)
+
+        return spell
     }
 
     private fun getSpellFromStorage(name: String) : Spell? =

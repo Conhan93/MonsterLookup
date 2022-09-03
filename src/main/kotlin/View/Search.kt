@@ -1,5 +1,7 @@
 package View
 
+import Model.Monster.Monster
+import Service.ContentService
 import Service.ContentServiceException
 import Service.MonsterContentService
 import androidx.compose.foundation.layout.*
@@ -36,7 +38,8 @@ fun Search(
     fun performRequest(name : String) {
         requestScope.launch {
             try {
-                state.value = monsterService.getContentAsync(name)
+                val monster = ContentService.getMonsterService().getContentAsync(name)
+                monster?.let { state.value = State.Content(monster = it as Monster) }
             } catch (e : ContentServiceException) {
                 state.value = State.Error(e.message!! ,e)
             } catch (e : Exception) {

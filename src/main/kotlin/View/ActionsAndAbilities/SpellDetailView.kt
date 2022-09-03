@@ -3,7 +3,6 @@ package View.ActionsAndAbilities
 import Model.Base.APIReference
 import Model.Spell.Spell
 import Service.ContentService
-import Service.SpellContentService
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -132,8 +131,7 @@ private fun fetchSpells(
 
     requestScope.launch {
         service.getContentFromRefsAsync(references) {
-            val content = it as State.State.Content
-            onFetch(content.spell!!)
+            it?.let { onFetch(it as Spell) }
         }
     }
 }
