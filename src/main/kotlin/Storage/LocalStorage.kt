@@ -7,7 +7,6 @@ import Service.JsonService
 import Service.decodeFromString
 import Util.formatSearchName
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.*
@@ -26,7 +25,8 @@ class LocalStorage(
 
         // create tables
         transaction {
-            SchemaUtils.create(StoredModels)
+            SchemaUtils.create(Spells)
+            SchemaUtils.create(Monsters)
         }
     }
 
@@ -34,7 +34,7 @@ class LocalStorage(
 
         val body = try {
             transaction(db) {
-                StoredModels.select { StoredModels.name eq name.formatSearchName() }.first()[StoredModels.json]
+                Spells.select { Spells.name eq name.formatSearchName() }.first()[Spells.json]
             }
         } catch (e: java.util.NoSuchElementException) {
             return null
@@ -49,7 +49,7 @@ class LocalStorage(
 
         val body = try {
             transaction(db) {
-                StoredModels.select { StoredModels.name eq name.formatSearchName() }.first()[StoredModels.json]
+                Monsters.select { Monsters.name eq name.formatSearchName() }.first()[Monsters.json]
             }
         } catch (e: java.util.NoSuchElementException) {
             return null
@@ -62,21 +62,39 @@ class LocalStorage(
 
         val string = modelToJsonString(model)
 
-
-        transaction(db) {
-            StoredModels.insertAndGetId {
-                it[json] = string
-                it[name] = model.name!!.formatSearchName()
-                it[lastAccessed] = CurrentDate
+        when(model) {
+            is Spell -> {
+                transaction(db) {
+                    Spells.insertAndGetId {
+                        it[json] = string
+                        it[name] = model.name!!.formatSearchName()
+                        it[lastAccessed] = CurrentDate
+                    }
+                }
             }
+            is Monster -> {
+                transaction(db) {
+                    Monsters.insertAndGetId {
+                        it[json] = string
+                        it[name] = model.name!!.formatSearchName()
+                        it[lastAccessed] = CurrentDate
+                    }
+                }
+            }
+            else -> throw Exception("Woopsie") // TODO: implement storage exceptions
         }
-
     }
 
     override fun clear() {
         transaction(db) {
-            SchemaUtils.drop(StoredModels)
-            SchemaUtils.create(StoredModels)
+
+            // Drop tables
+            SchemaUtils.drop(Spells)
+            SchemaUtils.drop(Monsters)
+
+            // Recreate tables
+            SchemaUtils.create(Spells)
+            SchemaUtils.create(Monsters)
         }
     }
 
