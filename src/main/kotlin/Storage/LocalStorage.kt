@@ -15,13 +15,12 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.javatime.CurrentDate
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class LocalStorage
-    : ILocalStorage, JsonService {
+class LocalStorage(
+    properties: StorageProperties
+) : ILocalStorage, JsonService {
     private val db : Database
 
-    constructor(
-        properties: StorageProperties
-    ) {
+    init {
         // connect to database
         db = Database.connect(url = properties.url, driver = properties.driver)
 
