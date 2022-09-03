@@ -85,6 +85,24 @@ class LocalStorage(
         }
     }
 
+    override fun getMonsterNames(limit: Int?): List<String> {
+
+        val result = transaction(db) {
+
+            val query = Monsters
+                .slice(Monsters.name)
+                .selectAll()
+
+            limit?.let { query.limit(it) }
+
+            query.map {
+                it[Monsters.name]
+            }
+        }
+
+        return result
+    }
+
     override fun clear() {
         transaction(db) {
 

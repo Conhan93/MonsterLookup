@@ -34,6 +34,15 @@ interface ILocalStorage {
      */
     fun clear()
 
+    /**
+     *  Get a list of monster names saved in the database
+     *  limited by the limit parameter
+     *
+     * @param limit the amount of names to be fetched
+     * @return list of strings of names of monsters
+     */
+    fun getMonsterNames(limit : Int? = null) : List<String>
+
     companion object : ILocalStorage {
 
         val storageProperties = getStorageProperties("data/db", StorageTypes.H2)
@@ -58,6 +67,10 @@ interface ILocalStorage {
 
         override fun clear() {
             storage.clear()
+        }
+
+        override fun getMonsterNames(limit: Int?): List<String> {
+            return storage.getMonsterNames(limit)
         }
     }
 }
