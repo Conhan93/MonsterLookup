@@ -4,6 +4,7 @@ import Model.Base.APIReference
 import Model.Monster.Monster
 import State.State
 import Storage.ILocalStorage
+import Util.API
 import Util.formatSearchName
 
 import java.net.URI
@@ -13,9 +14,10 @@ import java.net.http.HttpResponse
 
 class MonsterContentService(
     private val client : HttpClient = HttpClient.newHttpClient(),
-    private val storage : ILocalStorage = ILocalStorage.Companion
+    private val storage : ILocalStorage = ILocalStorage.Companion,
+    private val API_URL : String = API.APIMonsterPath
 ) : ContentService, JsonService, HTTPService {
-    private val API_URL : String = "https://www.dnd5eapi.co/api/monsters/"
+
 
     override suspend fun getContentAsync(name : String) : State {
 
@@ -45,7 +47,7 @@ class MonsterContentService(
             throw ContentServiceException.BadURLException("Bad URL $url")
 
         val request = HttpRequest.newBuilder()
-            .uri(URI("https://www.dnd5eapi.co$url"))
+            .uri(URI("${API.baseURL}$url"))
             .GET()
             .build()
 

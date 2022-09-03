@@ -4,6 +4,7 @@ import Model.Base.APIReference
 import Model.Spell.Spell
 import State.State
 import Storage.ILocalStorage
+import Util.API
 import Util.formatSearchName
 
 import java.net.URI
@@ -13,10 +14,9 @@ import java.net.http.HttpResponse
 
 class SpellContentService(
     private val client : HttpClient = HttpClient.newHttpClient(),
-    private val storage : ILocalStorage = ILocalStorage.Companion
+    private val storage : ILocalStorage = ILocalStorage.Companion,
+    private val API_URL : String = API.APISpellsPath
 ) : ContentService, JsonService, HTTPService  {
-
-    private val API_URL = "https://www.dnd5eapi.co/api/spells/"
 
     override suspend fun getContentAsync(name : String) : State {
 
@@ -47,7 +47,7 @@ class SpellContentService(
             throw ContentServiceException.BadURLException("Bad URL $url")
 
         val request = HttpRequest.newBuilder()
-            .uri(URI("https://www.dnd5eapi.co$url"))
+            .uri(URI("${API.baseURL}$url"))
             .GET()
             .build()
 
