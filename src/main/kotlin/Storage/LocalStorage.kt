@@ -3,6 +3,8 @@ package Storage
 import Model.Base.Base
 import Model.Monster.Monster
 import Model.Spell.Spell
+import Service.JsonService
+import Service.decodeFromString
 import Util.formatSearchName
 
 import kotlinx.serialization.decodeFromString
@@ -13,7 +15,8 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.javatime.CurrentDate
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class LocalStorage : ILocalStorage {
+class LocalStorage
+    : ILocalStorage, JsonService {
     private val db : Database
 
     constructor(
@@ -38,7 +41,7 @@ class LocalStorage : ILocalStorage {
             return null
         }
 
-        return decode(body)
+        return decodeFromString(body)
     }
 
 
@@ -53,7 +56,7 @@ class LocalStorage : ILocalStorage {
             return null
         }
 
-        return decode(body)
+        return decodeFromString(body)
     }
 
     override fun store(model: Base) {
@@ -83,12 +86,5 @@ class LocalStorage : ILocalStorage {
         is Monster -> Json.encodeToString(model)
         else -> throw Exception("woopsie")
     }
-
-    private inline fun <reified T> decode(string : String) : T {
-        val json = Json { ignoreUnknownKeys = true }
-
-        return json.decodeFromString(string)
-    }
-
 }
 
