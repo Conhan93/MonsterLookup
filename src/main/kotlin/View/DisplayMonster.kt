@@ -20,8 +20,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun DisplayMonster(
-    state: MutableState<State?>,
-    monsterService: MonsterContentService
+    state: MutableState<State?>
 ) {
 
     val content = state.value as State.Content
@@ -37,8 +36,7 @@ fun DisplayMonster(
         ) {
             TopBar(
                 monster = monster,
-                state = state,
-                monsterService = monsterService
+                state = state
             )
             Divider(
                 color = Color.Gray,
@@ -59,8 +57,7 @@ fun DisplayMonster(
 @Composable
 private fun TopBar(
     monster : Monster,
-    state: MutableState<State?>,
-    monsterService: MonsterContentService
+    state: MutableState<State?>
 ) {
     val topPadding = Modifier.padding(vertical = 5.dp)
     val topBarHeight = Modifier.height(195.dp)
@@ -76,10 +73,7 @@ private fun TopBar(
     ) {
         Row {
                 Column {
-                    Search(
-                        state = state,
-                        monsterService = monsterService
-                    )
+                    Search(state = state)
                     CharacterInfo(monster)
                 }
 

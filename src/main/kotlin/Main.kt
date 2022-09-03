@@ -20,30 +20,20 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 
 @Composable
-fun App(monsterService: MonsterContentService) {
+fun App() {
 
     var appState = remember { mutableStateOf<State?>(null) }
 
     when (appState.value) {
-        is State.Content -> DisplayMonster(
-            state = appState,
-            monsterService = monsterService
-        )
-        is State.Error -> Error(
-            state = appState,
-            monsterService = monsterService
-        )
+        is State.Content -> DisplayMonster(state = appState)
+        is State.Error -> Error(state = appState)
         is State.Loading -> Text("Loading animation")
-        null -> Start(
-            state = appState,
-            monsterService = monsterService
-        )
+        null -> Start(state = appState)
     }
 }
 
 fun main() = application {
 
-    val monsterService = MonsterContentService()
     val isDarkMode = remember { mutableStateOf(false) }
 
     Window(
@@ -69,7 +59,7 @@ fun main() = application {
         }
 
         AppTheme(isDarkMode = isDarkMode.value) {
-            FullscreenPopUpEnabledApp { App(monsterService) }
+            FullscreenPopUpEnabledApp { App() }
         }
     }
 }

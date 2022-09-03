@@ -25,7 +25,6 @@ import androidx.compose.runtime.*
 @Composable
 fun Search(
     state: MutableState<State?>,
-    monsterService : MonsterContentService,
     modifier : Modifier = Modifier
 ) {
     var name = mutableStateOf("")

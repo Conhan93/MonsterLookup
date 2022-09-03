@@ -13,8 +13,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Error(
-    state: MutableState<State?>,
-    monsterService: MonsterContentService
+    state: MutableState<State?>
 ) {
     startBackground {
         startBox {
@@ -27,7 +26,6 @@ fun Error(
 
             Search(
                 state = state,
-                monsterService = monsterService,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
             )

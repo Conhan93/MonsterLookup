@@ -14,15 +14,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Start(
-    state: MutableState<State?>,
-    monsterService : MonsterContentService
+    state: MutableState<State?>
 ) {
     startBackground {
         startBox {
-            Search(
-                state = state,
-                monsterService = monsterService
-            )
+            Search(state = state,)
         }
     }
 }
