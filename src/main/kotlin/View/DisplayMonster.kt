@@ -78,27 +78,6 @@ private fun TopBar(
                 }
 
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(140.dp)
-                        .padding(
-                            start = 5.dp,
-                            end = 5.dp,
-                            bottom = 10.dp
-                        ),
-                    verticalArrangement = Arrangement.SpaceAround
-                ) {
-                    val elementWeight = Modifier.weight(1f, fill = true)
-
-                    SpeedView(
-                        monster.speed,
-                        elementWeight
-                            .then(topPadding)
-                    )
-                    SensesView(monster.senses, elementWeight)
-                }
-
             Conditions(
                 monster = monster,
                 modifier = topPadding
