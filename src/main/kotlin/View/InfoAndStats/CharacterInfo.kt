@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import java.util.Arrays
 
-@Preview
+
 @Composable()
 fun CharacterInfo(character : Monster, modifier : Modifier = Modifier) {
 
@@ -59,11 +59,6 @@ fun CharacterInfo(character : Monster, modifier : Modifier = Modifier) {
             )
 
         }
-
-        About(
-            character = character,
-            modifier = Modifier.fillMaxHeight()
-        )
     }
 }
 
@@ -114,42 +109,6 @@ fun Stats(character: Monster, modifier: Modifier = Modifier) {
                 Text("INT : ${character.intelligence ?: "N/A"}")
                 Text("CHA : ${character.intelligence ?: "N/A"}")
             }
-        }
-    }
-}
-
-@Composable
-fun About(character: Monster, modifier: Modifier = Modifier) {
-
-    Surface(
-        modifier = Modifier
-            .padding(2.dp)
-            .then(modifier),
-        shape = RoundedCornerShape(3.dp),
-        color = MaterialTheme.colors.primary,
-        elevation = 2.dp
-    ) {
-        Column(
-            modifier = Modifier.padding(start = 2.dp),
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-
-            val textSize = 0.7.em
-
-            @Composable
-            fun TextCell(text : String, modifier: Modifier = Modifier) =
-                Text(
-                    text = text,
-                    fontSize = textSize,
-                    modifier = modifier
-                )
-
-            TextCell("Type : ${character.type ?: "N/A"}")
-            character.subtype?.let { TextCell("Subtype : ${character.subtype}") }
-            TextCell("Size : ${character.size ?: "N/A"}")
-            TextCell("Alignment : ${character.alignment ?: "N/A"}")
-            TextCell("AC : ${character.armor_class ?: "N/A"}")
-            TextCell("HP : ${character.hit_points ?: "N/A"}")
         }
     }
 }

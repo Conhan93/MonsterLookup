@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
 
+    val info = getAboutInfo(monster)
 
     Row(
         modifier = Modifier
@@ -27,6 +28,13 @@ fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
 
         val rowElementWeight = Modifier.weight(1f, fill = false)
 
+        SolidTextListLazy(
+            label = { Text("About") },
+            textItems = info,
+            textColour = MaterialTheme.colors.onSecondary,
+            backgroundColour = MaterialTheme.colors.secondary,
+            modifier = rowElementWeight
+        )
         SolidTextListLazy(
             label = { Text("Vulnerabilities")},
             textItems = monster.damage_vulnerabilities,
@@ -49,4 +57,20 @@ fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
             modifier = rowElementWeight
         )
     }
+}
+
+
+private fun getAboutInfo(monster: Monster) : List<String> {
+    val info = mutableListOf<String>()
+
+    with(monster) {
+        type?.let { info.add("Type: $it") }
+        subtype?.let { info.add("Subtype: $it") }
+        size?.let { info.add("Size: $it") }
+        alignment?.let { info.add("Alignment: $it") }
+        armor_class?.let { info.add("AC: $it") }
+        hit_points?.let { info.add("HP: $it") }
+    }
+
+    return info
 }

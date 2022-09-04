@@ -80,7 +80,7 @@ private fun TopBar(
 
             Conditions(
                 monster = monster,
-                modifier = topPadding
+                modifier = topPadding.padding(start = 10.dp)
             )
         }
     }
