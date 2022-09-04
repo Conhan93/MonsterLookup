@@ -14,4 +14,14 @@ class StringTests {
 
         assertEquals<String>(expected, formatted)
     }
+
+    @Test
+    fun `Should return readable from formatted`() {
+        val expected = "Adult black dragon"
+        val testString = "adult-black-dragon"
+
+        val actual = testString.formattedToReadable()
+
+        assertEquals(expected,actual)
+    }
 }

@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 
 import State.State
 import Storage.ILocalStorage
+import Util.formattedToReadable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,8 +33,9 @@ import androidx.compose.runtime.*
 
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.DpOffset
-
+import java.util.*
 
 
 @Composable
@@ -130,7 +132,7 @@ fun searchField(
                         expanded = false
                         onEnterPressed()
                     }) {
-                        Text(it, color = textColour)
+                        Text(it.formattedToReadable(), color = textColour)
                     }
                 }
             }
