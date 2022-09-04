@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
  * @param modifier modifier applied to a column wrapping the composable
  */
 @Composable
-fun SolidTextList(
+fun SolidTextListLazy(
     label : @Composable () -> Unit,
     textItems : List<String>,
     textColour : Color = MaterialTheme.colors.onSurface,
@@ -67,6 +67,50 @@ fun SolidTextList(
                             Spacer(Modifier.padding(horizontal = 3.dp))
                             label()
                         }
+                    }
+            }
+        }
+    }
+}
+
+@Composable
+fun SolidTextList(
+    label : @Composable () -> Unit,
+    textItems : List<String>,
+    textColour : Color = MaterialTheme.colors.onSurface,
+    backgroundColour : Color = MaterialTheme.colors.surface,
+    modifier : Modifier = Modifier
+) {
+
+    Column(modifier) {
+        label()
+
+        Spacer(Modifier.padding(vertical = 5.dp))
+
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp),
+            color = backgroundColour,
+            shape = CutCornerShape(5.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp),
+                verticalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                if (textItems.isEmpty()) {
+                    Text("No")
+                    Spacer(Modifier.padding(horizontal = 3.dp))
+                    label()
+                }
+                else
+                    textItems.forEach {
+                        Text(
+                            text = it.capitalize(),
+                            color = textColour,
+                        )
                     }
             }
         }
