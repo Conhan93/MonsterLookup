@@ -86,6 +86,7 @@ fun searchField(
     val icon = Icons.Filled.ArrowDropDown
 
     val names = ILocalStorage.getMonsterNames()
+    val textColour = MaterialTheme.colors.primaryVariant
 
     Column {
         OutlinedTextField(
@@ -106,9 +107,10 @@ fun searchField(
             shape = CutCornerShape(5.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 backgroundColor = MaterialTheme.colors.secondaryVariant,
-                focusedBorderColor = MaterialTheme.colors.secondaryVariant
+                focusedBorderColor = MaterialTheme.colors.secondaryVariant,
+                textColor = textColour
             ),
-            placeholder = { Text("Enter name of monster", color = MaterialTheme.colors.background) },
+            placeholder = { Text("Enter name of monster", color = textColour) },
             trailingIcon = {
                 Icon(icon, "drop down", Modifier.clickable { expanded = expanded.not() })
             }
@@ -128,7 +130,7 @@ fun searchField(
                         expanded = false
                         onEnterPressed()
                     }) {
-                        Text(it)
+                        Text(it, color = textColour)
                     }
                 }
             }
