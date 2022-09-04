@@ -30,9 +30,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.DpOffset
 import java.util.*
@@ -140,7 +142,7 @@ fun searchField(
             content = {
                 names.forEach {
                     DropdownMenuItem(onClick = {
-                        name.value = it
+                        name.value = it.formattedToReadable()
                         expanded = false
                         onEnterPressed()
                     }) {
