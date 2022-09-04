@@ -2,6 +2,7 @@ package View.InfoAndStats
 
 import Model.Monster.Monster
 import View.Common.SolidTextList
+import View.Common.SolidTextListLazy
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -26,21 +27,21 @@ fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
 
         val rowElementWeight = Modifier.weight(1f, fill = false)
 
-        SolidTextList(
+        SolidTextListLazy(
             label = { Text("Vulnerabilities")},
             textItems = monster.damage_vulnerabilities,
             textColour = MaterialTheme.colors.onSecondary,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = rowElementWeight
         )
-        SolidTextList(
+        SolidTextListLazy(
             label = { Text("Resistances")},
             textItems = monster.damage_resistances,
             textColour = MaterialTheme.colors.onSecondary,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = rowElementWeight
         )
-        SolidTextList(
+        SolidTextListLazy(
             label = { Text("Immunities")},
             textItems = monster.damage_immunities,
             textColour = MaterialTheme.colors.onSecondary,
