@@ -65,6 +65,7 @@ fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier = Modifier
         color = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(4.dp),
         elevation = 2.dp,
+        enabled = ability.spellcasting.spells.isNotEmpty(), // only clickable if ability has spells
         onClick = { isClicked = isClicked.not() }
     ) {
         Column(
