@@ -84,6 +84,7 @@ fun searchField(
 ) {
     var expanded by remember { mutableStateOf(false) }
     var textFieldWidth by remember { mutableStateOf(0) }
+    var isDismissed by remember { mutableStateOf(false) }
 
     val icon = Icons.Filled.ArrowDropDown
 
@@ -114,12 +115,23 @@ fun searchField(
             ),
             placeholder = { Text("Enter name of monster", color = textColour) },
             trailingIcon = {
-                Icon(icon, "drop down", Modifier.clickable { expanded = expanded.not() })
+                Icon(icon, "drop down", Modifier.clickable {
+                    if(isDismissed.and(!expanded)) {
+                        isDismissed = false
+                        expanded = true
+                    }
+
+                    if(!isDismissed)
+                        expanded = expanded.not()
+
+                })
             }
         )
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false },
+            onDismissRequest = {
+                isDismissed = true
+                expanded = false },
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldWidth.dp })
                 .heightIn(max = 150.dp)
