@@ -8,8 +8,10 @@ plugins {
     kotlin("plugin.serialization") version "1.6.10"
 }
 
+val appVersion : String by project
+
 group = "me.conha"
-version = "1.0"
+version = version
 
 val exposedVersion : String by project
 val h2Version : String by project
@@ -65,7 +67,7 @@ compose.desktop {
 
             // Distributable info
             packageName = "Monster Lookup"
-            packageVersion = "1.0.0"
+            packageVersion = appVersion
             description = "App for all your DnD monster look up needs!"
 
 
