@@ -1,13 +1,10 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-import Service.MonsterContentService
 import State.State
 import Storage.ILocalStorage
 import Theme.AppTheme
 import View.*
 import View.Common.FullscreenPopUpEnabledApp
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.material.DropdownMenu
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +22,7 @@ fun App() {
     var appState = remember { mutableStateOf<State?>(null) }
 
     when (appState.value) {
-        is State.Content -> DisplayMonster(state = appState)
+        is State.Content -> ContentView(state = appState)
         is State.Error -> Error(state = appState)
         is State.Loading -> Text("Loading animation")
         null -> Start(state = appState)

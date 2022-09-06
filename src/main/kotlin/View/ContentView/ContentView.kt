@@ -1,7 +1,6 @@
 package View
 
 import Model.Monster.Monster
-import Service.MonsterContentService
 import State.State
 import View.InfoAndStats.Conditions
 import View.InfoAndStats.Sidebar
@@ -19,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DisplayMonster(
+fun ContentView(
     state: MutableState<State?>
 ) {
 
