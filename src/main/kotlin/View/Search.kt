@@ -100,8 +100,15 @@ fun searchField(
         OutlinedTextField(
             name.value,
             onValueChange = {
+                // Update search name
                 if (!it.contains("\n"))
                     name.value = it
+
+                // Expand drop menu when typing
+                if(expanded && name.value.isEmpty())
+                    expanded = false
+                if(name.value.isNotEmpty())
+                    expanded = true
             },
             modifier = modifier
                 .onKeyEvent {
@@ -134,6 +141,7 @@ fun searchField(
         )
         DropdownMenu(
             expanded = expanded,
+            focusable = false,
             onDismissRequest = {
                 isDismissed = true
                 expanded = false },
@@ -178,12 +186,4 @@ fun searchButton(
             tint = MaterialTheme.colors.background
         )
     }
-}
-
-private fun getNames(name : String) : List<String> {
-    val fetchedNames = ILocalStorage.getMonsterNames()
-    if (name.isEmpty())
-        return fetchedNames.filter { if(name.isEmpty()) name.contains(it) else true }
-    else
-        return fetchedNames
 }
