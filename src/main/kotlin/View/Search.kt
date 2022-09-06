@@ -90,7 +90,10 @@ fun searchField(
 
     val icon = Icons.Filled.ArrowDropDown
 
-    val names = ILocalStorage.getMonsterNames()
+    val names = ILocalStorage
+        .getMonsterNames()
+        .filter { if(name.value.isNotEmpty()) it.contains(name.value, ignoreCase = true) else true }
+
     val textColour = MaterialTheme.colors.primaryVariant
 
     Column {
@@ -175,4 +178,12 @@ fun searchButton(
             tint = MaterialTheme.colors.background
         )
     }
+}
+
+private fun getNames(name : String) : List<String> {
+    val fetchedNames = ILocalStorage.getMonsterNames()
+    if (name.isEmpty())
+        return fetchedNames.filter { if(name.isEmpty()) name.contains(it) else true }
+    else
+        return fetchedNames
 }
