@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -47,13 +49,14 @@ fun Sidebar(monster: Monster, modifier: Modifier = Modifier) {
 @Composable
 private fun SidebarList(
     label : String,
+    labelTextStyle : TextStyle = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
     items : List<String>,
     textColour : Color = MaterialTheme.colors.onSecondary,
     backgroundColour : Color = MaterialTheme.colors.secondary
 ) {
     if(items.isNotEmpty())
         SolidTextList(
-            label = { Text(label) },
+            label = { Text(label, style = labelTextStyle) },
             textItems = items,
             textColour = textColour,
             backgroundColour = backgroundColour
