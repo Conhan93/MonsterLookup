@@ -125,7 +125,8 @@ fun searchField(
                 focusedBorderColor = MaterialTheme.colors.secondaryVariant,
                 textColor = textColour
             ),
-            placeholder = { Text("Enter name of monster", color = textColour) },
+            textStyle = MaterialTheme.typography.h6,
+            placeholder = { searchText("Enter name of monster") },
             trailingIcon = {
                 Icon(icon, "drop down", Modifier.clickable {
                     if(isDismissed.and(!expanded)) {
@@ -156,13 +157,26 @@ fun searchField(
                         name.value = it.formattedToReadable()
                         expanded = false
                         onEnterPressed()
-                    }) {
-                        Text(it.formattedToReadable(), color = textColour)
-                    }
+                    }) { searchText(it.formattedToReadable()) }
                 }
             }
         )
     }
+}
+
+@Composable
+private fun searchText(
+    text : String,
+    textColour : Color = MaterialTheme.colors.primaryVariant,
+    style : TextStyle = MaterialTheme.typography.h6,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        color = textColour,
+        style = style,
+        modifier = modifier
+    )
 }
 
 @Composable
