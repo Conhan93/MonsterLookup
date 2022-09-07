@@ -1,7 +1,6 @@
 package View.InfoAndStats
 
 import Model.Monster.Monster
-import View.Common.SolidTextList
 import View.Common.SolidTextListLazy
 
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 
@@ -27,30 +27,31 @@ fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
     ) {
 
         val rowElementWeight = Modifier.weight(1f, fill = false)
+        val labelStyle = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
 
         SolidTextListLazy(
-            label = { Text("About") },
+            label = { Text(text = "About", style =  labelStyle) },
             textItems = info,
             textColour = MaterialTheme.colors.onSecondary,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = rowElementWeight
         )
         SolidTextListLazy(
-            label = { Text("Vulnerabilities")},
+            label = { Text(text = "Vulnerabilities", style = labelStyle)},
             textItems = monster.damage_vulnerabilities,
             textColour = MaterialTheme.colors.onSecondary,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = rowElementWeight
         )
         SolidTextListLazy(
-            label = { Text("Resistances")},
+            label = { Text(text = "Resistances", style = labelStyle)},
             textItems = monster.damage_resistances,
             textColour = MaterialTheme.colors.onSecondary,
             backgroundColour = MaterialTheme.colors.secondary,
             modifier = rowElementWeight
         )
         SolidTextListLazy(
-            label = { Text("Immunities")},
+            label = { Text(text = "Immunities", style = labelStyle)},
             textItems = monster.damage_immunities,
             textColour = MaterialTheme.colors.onSecondary,
             backgroundColour = MaterialTheme.colors.secondary,
