@@ -39,7 +39,7 @@ fun SpecialAbilitiesView(monster: Monster, modifier: Modifier = Modifier) {
         item {
             Text(
                 text = "Special Abilities",
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.h5
             )
         }
 
@@ -72,7 +72,7 @@ fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier = Modifier
             modifier = Modifier.padding(5.dp)
         ) {
             ability.name?.let {
-                Text(it)
+                Text(it, style = MaterialTheme.typography.h6)
             }
             ability.desc?.let {
                 Text(it)

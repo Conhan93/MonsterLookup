@@ -40,7 +40,7 @@ fun ActionsView(monster: Monster, modifier: Modifier = Modifier) {
         item {
             Text(
                 text = "Actions",
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.h5
             )
 
             Spacer(Modifier.height(5.dp))
@@ -71,7 +71,7 @@ fun actionItem(action: Action, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(5.dp)
         ) {
             action.name?.let {
-                Text(it)
+                Text(it, style = MaterialTheme.typography.h6)
             }
             action.desc?.let {
                 Text(it)
