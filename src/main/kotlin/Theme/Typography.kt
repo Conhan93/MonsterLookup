@@ -14,6 +14,11 @@ val appTypography = Typography(
         fontWeight = FontWeight.Light,
         fontSize = 16.sp
     ),
+    body2 = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp
+    ),
     h6 = TextStyle(
         fontFamily = FontFamily.Serif,
         fontWeight = FontWeight.Medium,
@@ -24,5 +29,15 @@ val appTypography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp
 
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = FontFamily.Serif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp
+    ),
+    subtitle2 = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp
     )
 )
