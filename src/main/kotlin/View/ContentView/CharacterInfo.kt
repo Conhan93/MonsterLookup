@@ -13,13 +13,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import java.util.Arrays
 
 
 @Composable()
-fun CharacterInfo(character : Monster, modifier : Modifier = Modifier) {
+fun CharacterInfo(
+    character : Monster,
+    textStyle : TextStyle = MaterialTheme.typography.body2,
+    modifier : Modifier = Modifier
+) {
 
     Row(
         modifier = Modifier
@@ -48,8 +53,8 @@ fun CharacterInfo(character : Monster, modifier : Modifier = Modifier) {
                     modifier = Modifier.padding(horizontal = 3.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    character.challenge_rating?.let { Text("Rating : $it") }
-                    character.xp?.let { Text("XP : $it") }
+                    character.challenge_rating?.let { Text(text = "Rating : $it", style = textStyle) }
+                    character.xp?.let { Text(text = "XP : $it", style = textStyle) }
                 }
             }
 
@@ -63,7 +68,11 @@ fun CharacterInfo(character : Monster, modifier : Modifier = Modifier) {
 }
 
 @Composable
-fun characterName(name : String?, modifier: Modifier = Modifier) {
+fun characterName(
+    name : String?,
+    textStyle : TextStyle = MaterialTheme.typography.body2,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -75,14 +84,18 @@ fun characterName(name : String?, modifier: Modifier = Modifier) {
     ) {
         Text(
             text = "Name : ${name ?: "Unavailable"}",
+            style = textStyle,
             modifier = Modifier.padding(2.dp)
         )
     }
 }
 
 @Composable
-fun Stats(character: Monster, modifier: Modifier = Modifier) {
-
+fun Stats(
+    character: Monster,
+    textStyle : TextStyle = MaterialTheme.typography.body2,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = Modifier
             .padding(2.dp)
@@ -96,18 +109,18 @@ fun Stats(character: Monster, modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(2.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text("STR : ${character.strength ?: "N/A"}")
-                Text("CON : ${character.constitution ?: "N/A"}")
-                Text("WIS : ${character.wisdom ?: "N/A"}")
+                Text(text = "STR : ${character.strength ?: "N/A"}",style = textStyle)
+                Text(text = "CON : ${character.constitution ?: "N/A"}", style = textStyle)
+                Text(text = "WIS : ${character.wisdom ?: "N/A"}", style = textStyle)
 
             }
             Row(
                 modifier = Modifier.padding(2.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text("DEX : ${character.dexterity ?: "N/A"}")
-                Text("INT : ${character.intelligence ?: "N/A"}")
-                Text("CHA : ${character.intelligence ?: "N/A"}")
+                Text(text = "DEX : ${character.dexterity ?: "N/A"}", style = textStyle)
+                Text(text = "INT : ${character.intelligence ?: "N/A"}", style = textStyle)
+                Text(text = "CHA : ${character.intelligence ?: "N/A"}", style = textStyle)
             }
         }
     }
