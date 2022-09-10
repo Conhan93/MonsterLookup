@@ -47,7 +47,7 @@ fun SpellDetail(
             ) {
                 item { Text(
                     text = "Spells",
-                    style = TextStyle(fontWeight = FontWeight.Bold)
+                    style = MaterialTheme.typography.h5
                 )
                 }
                 items(listOfSpells) {
@@ -80,7 +80,7 @@ private fun SpellView(
                 .padding(5.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            spell.name?.let { Text(it) }
+            spell.name?.let { Text(text = it, style = MaterialTheme.typography.subtitle1) }
 
             if (spell.desc.isNotEmpty()) {
                 Text(spell.desc.joinToString(separator = System.lineSeparator()))
