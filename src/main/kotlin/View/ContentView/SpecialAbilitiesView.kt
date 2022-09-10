@@ -72,7 +72,7 @@ fun SpecialAbilityItem(ability : SpecialAbilities, modifier: Modifier = Modifier
             modifier = Modifier.padding(5.dp)
         ) {
             ability.name?.let {
-                Text(it, style = MaterialTheme.typography.h6)
+                Text(it, style = MaterialTheme.typography.subtitle1)
             }
             ability.desc?.let {
                 Text(it)

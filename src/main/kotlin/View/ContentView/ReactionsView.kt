@@ -53,7 +53,7 @@ private fun ReactionItem(reaction: Reaction, modifier: Modifier = Modifier) {
         elevation = 2.dp
     ) {
         Column(modifier = Modifier.padding(5.dp)) {
-            reaction.name?.let { Text(it, style = MaterialTheme.typography.h6) }
+            reaction.name?.let { Text(it, style = MaterialTheme.typography.subtitle1) }
             reaction.desc?.let { Text(it) }
 
 

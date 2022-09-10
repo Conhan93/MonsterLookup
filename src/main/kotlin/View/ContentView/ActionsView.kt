@@ -71,7 +71,7 @@ fun actionItem(action: Action, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(5.dp)
         ) {
             action.name?.let {
-                Text(it, style = MaterialTheme.typography.h6)
+                Text(it, style = MaterialTheme.typography.subtitle1)
             }
             action.desc?.let {
                 Text(it)
