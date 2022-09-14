@@ -90,9 +90,11 @@ fun searchField(
 
     val icon = Icons.Filled.ArrowDropDown
 
-    val names = ILocalStorage
-        .getMonsterNames()
-        .filter { if(name.value.isNotEmpty()) it.contains(name.value, ignoreCase = true) else true }
+    val names = if (expanded) { // get names for drop down
+        ILocalStorage
+            .getMonsterNames()
+            .filter { if (name.value.isNotEmpty()) it.contains(name.value, ignoreCase = true) else true }
+    } else listOf()
 
     val textColour = MaterialTheme.colors.primaryVariant
 
