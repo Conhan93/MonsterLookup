@@ -35,9 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.DpOffset
-import java.util.*
 
 
 @Composable
@@ -46,6 +44,7 @@ fun Search(
     modifier : Modifier = Modifier
 ) {
     var name = mutableStateOf("")
+    var isSearching by remember { mutableStateOf(false) }
 
     val padding = Modifier.padding(5.dp)
 
@@ -54,6 +53,7 @@ fun Search(
 
     fun performRequest(name : String) {
         requestScope.launch {
+            isSearching = true
             try {
                 val monster = ContentService.getMonsterService().getContentAsync(name)
                 monster?.let { state.value = State.Content(monster = it as Monster) }
@@ -62,18 +62,18 @@ fun Search(
             } catch (e : Exception) {
                 state.value = State.Error(e.message ?: "Oops" ,e)
             }
+
+            isSearching = false
         }
     }
 
     Row(modifier) {
-        searchField(
-            name = name,
-            modifier = padding,
-        ) { performRequest(name.value) }
+        searchField(name = name, modifier = padding) { performRequest(name.value) }
 
         Spacer(Modifier.width(10.dp))
 
-        searchButton(padding) { performRequest(name.value) }
+        if (!isSearching) searchButton(padding) { performRequest(name.value) }
+        else CircularProgressIndicator(padding.padding(top = 3.dp), MaterialTheme.colors.secondaryVariant)
     }
 }
 
