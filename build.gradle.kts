@@ -9,12 +9,13 @@ plugins {
 }
 
 val appVersion : String by project
+val exposedVersion : String by project
+val h2Version : String by project
+val koinVersion : String by project
 
 group = "me.conha"
 version = version
 
-val exposedVersion : String by project
-val h2Version : String by project
 
 repositories {
     google()
@@ -41,6 +42,13 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+
+    // Koin Core features
+    implementation("io.insert-koin:koin-core:$koinVersion")
+    // Koin Test features
+    testImplementation("io.insert-koin:koin-test:$koinVersion")
+    // Jetpack Compose
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
 }
 
 tasks.test {
