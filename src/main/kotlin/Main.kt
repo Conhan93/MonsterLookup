@@ -7,9 +7,7 @@ import View.*
 import View.Common.FullscreenPopUpEnabledApp
 
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
@@ -21,13 +19,13 @@ import org.koin.core.context.startKoin
 @Composable
 fun App() {
 
-    var appState = remember { mutableStateOf<State?>(null) }
+    var appState by remember { mutableStateOf<State?>(null) }
 
-    when (appState.value) {
-        is State.Content -> ContentView(state = appState)
-        is State.Error -> Error(state = appState)
+    when (val state = appState) {
+        is State.Content -> ContentView(state.monster!!) { appState = it}
+        is State.Error -> Error(state) { appState = it }
         is State.Loading -> Text("Loading animation")
-        null -> Start(state = appState)
+        null -> Start() { appState = it }
     }
 }
 

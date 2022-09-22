@@ -11,7 +11,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,11 +18,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ContentView(
-    state: MutableState<State?>
+    monster: Monster,
+    onStateChange : (State) -> Unit,
 ) {
 
-    val content = state.value as State.Content
-    val monster = content.monster!!
 
     Surface {
         Column(
@@ -35,7 +33,7 @@ fun ContentView(
         ) {
             TopBar(
                 monster = monster,
-                state = state
+                onStateChange = onStateChange
             )
             Divider(
                 color = Color.Gray,
@@ -56,7 +54,7 @@ fun ContentView(
 @Composable
 private fun TopBar(
     monster : Monster,
-    state: MutableState<State?>
+    onStateChange : (State) -> Unit,
 ) {
     val topPadding = Modifier.padding(vertical = 5.dp)
     val topBarHeight = Modifier.height(195.dp)
@@ -72,7 +70,7 @@ private fun TopBar(
     ) {
         Row {
                 Column {
-                    Search(state = state)
+                    Search(onStateChange)
                     CharacterInfo(monster)
                 }
 

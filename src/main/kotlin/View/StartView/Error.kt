@@ -5,26 +5,26 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun Error(
-    state: MutableState<State?>
+    error: State.Error,
+    onStateChange : (State) -> Unit
 ) {
     startBackground {
         startBox {
             ErrorMessage(
-                error = state.value as State.Error,
+                error = error,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(vertical = 10.dp)
             )
 
             Search(
-                state = state,
+                onStateChange = onStateChange,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
             )

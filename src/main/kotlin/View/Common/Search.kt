@@ -43,7 +43,7 @@ import org.koin.java.KoinJavaComponent.get
 
 @Composable
 fun Search(
-    state: MutableState<State?>,
+    onStateChange : (State) -> Unit,
     contentService : ContentService = get(ContentService::class.java),
     modifier : Modifier = Modifier
 ) {
@@ -61,11 +61,11 @@ fun Search(
             try {
                 contentService
                     .getContentAsync(ContentRequest.RequestByName(name = name, klass = Monster::class))
-                    ?.let { state.value = State.Content(monster = it as Monster) }
+                    ?.let { onStateChange(State.Content(monster = it as Monster)) }
             } catch (e : ContentServiceException) {
-                state.value = State.Error(e.message!! ,e)
+                onStateChange(State.Error(e.message!! ,e))
             } catch (e : Exception) {
-                state.value = State.Error(e.message ?: "Oops" ,e)
+                onStateChange(State.Error(e.message ?: "Oops" ,e))
             }
 
             isSearching = false
