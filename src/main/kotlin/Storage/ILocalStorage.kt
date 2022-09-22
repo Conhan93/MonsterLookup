@@ -3,6 +3,7 @@ package Storage
 import Model.Base.Base
 import Model.Monster.Monster
 import Model.Spell.Spell
+import kotlin.reflect.KClass
 
 
 interface ILocalStorage {
@@ -42,6 +43,21 @@ interface ILocalStorage {
      * @return list of strings of names of monsters
      */
     fun getMonsterNames(limit : Int? = null) : List<String>
+
+    /**
+     *  Fetch a stored base model from local storage by name
+     *
+     *  @param name the name of the monster or spell
+     *  @param klass of the model, returns null if not available
+     *  @return returns the result or null if not found
+     */
+    fun getByName(name: String, klass : KClass<*>) : Base? {
+        return when(klass) {
+            Spell::class -> getSpellByName(name)
+            Monster::class -> getMonsterByName(name)
+            else -> null
+        }
+    }
 
     companion object : ILocalStorage {
 
