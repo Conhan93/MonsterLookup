@@ -12,7 +12,10 @@ sealed class LoadTestResource {
 }
 
 
-fun getTestResource(resource : LoadTestResource) : Base {
+fun getTestResource(
+    resource : LoadTestResource,
+    getText : ((String) -> Unit)? = null
+) : Base {
 
     val fileName = when(resource) {
         LoadTestResource.acidArrow -> "/acidarrow.txt"
@@ -20,6 +23,9 @@ fun getTestResource(resource : LoadTestResource) : Base {
     }
 
     val fileText = object {}::class.java.getResource(fileName).readText()
+
+    // return text
+    getText?.let { it(fileText) }
 
     val json = Json { ignoreUnknownKeys = true }
 
