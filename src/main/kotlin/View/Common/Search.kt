@@ -1,6 +1,7 @@
 package View
 
 import Model.Monster.Monster
+import Service.ContentRequest
 import Service.ContentService
 import Service.ContentServiceException
 
@@ -37,10 +38,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpOffset
 
+import org.koin.java.KoinJavaComponent.get
+
 
 @Composable
 fun Search(
     state: MutableState<State?>,
+    contentService : ContentService = get(ContentService::class.java),
     modifier : Modifier = Modifier
 ) {
     var name = mutableStateOf("")
@@ -55,8 +59,9 @@ fun Search(
         requestScope.launch {
             isSearching = true
             try {
-                val monster = ContentService.getMonsterService().getContentAsync(name)
-                monster?.let { state.value = State.Content(monster = it as Monster) }
+                contentService
+                    .getContentAsync(ContentRequest.RequestByName(name = name, klass = Monster::class))
+                    ?.let { state.value = State.Content(monster = it as Monster) }
             } catch (e : ContentServiceException) {
                 state.value = State.Error(e.message!! ,e)
             } catch (e : Exception) {

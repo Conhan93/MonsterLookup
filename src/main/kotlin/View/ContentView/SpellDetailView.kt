@@ -2,6 +2,7 @@ package View.ActionsAndAbilities
 
 import Model.Base.APIReference
 import Model.Spell.Spell
+import Service.ContentRequest
 import Service.ContentService
 
 import androidx.compose.foundation.layout.*
@@ -18,14 +19,14 @@ import androidx.compose.runtime.mutableStateListOf
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
+import org.koin.java.KoinJavaComponent.get
 
 
 @Composable
@@ -123,15 +124,17 @@ private fun contentBackground(
 
 private fun fetchSpells(
     references : List<APIReference>,
+    contentService : ContentService = get(ContentService::class.java),
     onFetch : (spell : Spell) -> Unit
 ) {
     // Coroutine scope for the http request
     val requestScope = CoroutineScope(Dispatchers.IO)
-    val service = ContentService.getSpellService()
+
+    val requests = references.map {
+        ContentRequest.RequestByReference(it, Spell::class)
+    }
 
     requestScope.launch {
-        service.getContentFromRefsAsync(references) {
-            it?.let { onFetch(it as Spell) }
-        }
+        contentService.getContentAsync(requests) { onFetch(it as Spell) }
     }
 }

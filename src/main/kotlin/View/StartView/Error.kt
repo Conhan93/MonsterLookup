@@ -1,6 +1,5 @@
 package View
 
-import Service.MonsterContentService
 import State.State
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape

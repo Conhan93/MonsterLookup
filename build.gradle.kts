@@ -46,9 +46,9 @@ dependencies {
     // Koin Core features
     implementation("io.insert-koin:koin-core:$koinVersion")
     // Koin Test features
-    testImplementation("io.insert-koin:koin-test:$koinVersion")
+    //testImplementation("io.insert-koin:koin-test:$koinVersion")
     // Jetpack Compose
-    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+    //implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
 }
 
 tasks.test {
