@@ -1,5 +1,7 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 import DI.contentModule
+import DI.storageModule
+import DI.viewModelModule
 import State.State
 import Storage.ILocalStorage
 import Theme.AppTheme
@@ -30,7 +32,7 @@ fun App() {
 }
 
 fun main() {
-    startKoin { modules(contentModule) }
+    startKoin { modules(contentModule, viewModelModule, storageModule) }
 
     application {
 
