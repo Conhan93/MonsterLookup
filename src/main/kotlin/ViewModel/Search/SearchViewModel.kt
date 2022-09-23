@@ -35,11 +35,7 @@ class SearchViewModel(
             is SearchEvent.onDropDownMenuExpand -> {
                 isDropDownMenuExpanded = event.isExpanded
 
-                dropDownMenuNames = if (isDropDownMenuExpanded)
-                    storage
-                        .getMonsterNames()
-                        .filter { if (name.isNotEmpty()) it.contains(name, ignoreCase = true) else true }
-                else listOf()
+                updateDropDownNames()
             }
             is SearchEvent.onSearch -> {
                 isSearching = true
@@ -81,6 +77,16 @@ class SearchViewModel(
         this@SearchViewModel.name = name
 
         isDropDownMenuExpanded = name.isNotEmpty()
+
+        updateDropDownNames()
+    }
+
+    private fun updateDropDownNames() {
+        dropDownMenuNames = if (isDropDownMenuExpanded)
+            storage
+                .getMonsterNames()
+                .filter { if (name.isNotEmpty()) it.contains(name, ignoreCase = true) else true }
+        else listOf()
     }
 
 }
