@@ -72,6 +72,8 @@ class SearchViewModel(
                 isSearching = false
             }
 
+            // reset name after search
+            onSetName("")
         }
     }
 
