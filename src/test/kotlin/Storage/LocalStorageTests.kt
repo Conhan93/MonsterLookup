@@ -16,17 +16,19 @@ internal class LocalStorageTests {
     // set local storage to use in memory storage for testing
     private val storageProperties = StorageProperties("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1", "org.h2.Driver")
 
+    private val storage : ILocalStorage = LocalStorage(storageProperties)
+
 
     @BeforeEach
     fun before() {
-        ILocalStorage.changeStorageProperties(storageProperties)
+        storage.clear()
     }
     @Test
     fun `Should store spell`() {
 
         val testSpell = getTestResource(LoadTestResource.acidArrow) as Spell
 
-        ILocalStorage.store(testSpell)
+        storage.store(testSpell)
 
         val storedSpell = ILocalStorage.getSpellByName(testSpell.name!!)
 
@@ -39,7 +41,7 @@ internal class LocalStorageTests {
 
         val testDragon = getTestResource(LoadTestResource.blackDragon) as Monster
 
-        ILocalStorage.store(testDragon)
+        storage.store(testDragon)
 
         val storedDragon = ILocalStorage.getMonsterByName(testDragon.name!!)
 
@@ -51,15 +53,15 @@ internal class LocalStorageTests {
 
         val testDragon = getTestResource(LoadTestResource.blackDragon) as Monster
 
-        ILocalStorage.store(testDragon)
+        storage.store(testDragon)
 
-        ILocalStorage.clear()
+        storage.clear()
 
-        val storedDragon = ILocalStorage.getMonsterByName(testDragon.name!!)
+        val storedDragon = storage.getMonsterByName(testDragon.name!!)
 
         assertEquals(null, storedDragon)
 
-        val namesInDatabase = ILocalStorage.getMonsterNames()
+        val namesInDatabase = storage.getMonsterNames()
 
         assert(namesInDatabase.isEmpty())
     }
@@ -67,9 +69,9 @@ internal class LocalStorageTests {
     @Test
     fun `Should return null on item not in database`() {
 
-        ILocalStorage.clear()
+        storage.clear()
 
-        val result = ILocalStorage.getMonsterByName("adult-black-dragon")
+        val result = storage.getMonsterByName("adult-black-dragon")
 
         assertEquals(null, result)
     }
@@ -79,9 +81,9 @@ internal class LocalStorageTests {
 
         val testMonster = getTestResource(LoadTestResource.blackDragon) as Monster
 
-        ILocalStorage.store(testMonster)
+        storage.store(testMonster)
 
-        val result = ILocalStorage.getByName(testMonster.name!!, Monster::class)
+        val result = storage.getByName(testMonster.name!!, Monster::class)
 
         assertNotNull(result, "getByName unable to find inserted monster")
         assertEquals(testMonster, result)
@@ -93,9 +95,9 @@ internal class LocalStorageTests {
 
         val testSpell = getTestResource(LoadTestResource.acidArrow) as Spell
 
-        ILocalStorage.store(testSpell)
+        storage.store(testSpell)
 
-        val result = ILocalStorage.getByName(testSpell.name!!, Spell::class)
+        val result = storage.getByName(testSpell.name!!, Spell::class)
 
         assertNotNull(result, "getByName unable to find inserted spell")
         assertEquals(testSpell, result)
@@ -105,21 +107,21 @@ internal class LocalStorageTests {
     fun `getByName should return null on invalid class parameter`() {
         val testSpell = getTestResource(LoadTestResource.acidArrow) as Spell
 
-        ILocalStorage.store(testSpell)
+        storage.store(testSpell)
 
-        val result = ILocalStorage.getByName(testSpell.name!!, object {}::class)
+        val result = storage.getByName(testSpell.name!!, object {}::class)
 
         assertNull(result)
     }
 
     @Test
     fun `getByName should return null on no result`() {
-        ILocalStorage.clear()
+        storage.clear()
 
         val testSpell = getTestResource(LoadTestResource.acidArrow) as Spell
-        ILocalStorage.store(testSpell)
+        storage.store(testSpell)
 
-        val result = ILocalStorage.getByName(testSpell.name!! + "foo", Spell::class)
+        val result = storage.getByName(testSpell.name!! + "foo", Spell::class)
 
         assertNull(result)
     }
