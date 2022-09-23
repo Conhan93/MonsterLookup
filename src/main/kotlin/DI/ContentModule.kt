@@ -8,5 +8,5 @@ import org.koin.dsl.module
 
 val contentModule = module {
 
-    single<ContentService> { ContentServiceImpl() }
+    single<ContentService> { ContentServiceImpl(storage = get()) }
 }

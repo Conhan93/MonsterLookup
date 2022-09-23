@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 
 class ContentServiceImpl(
     private val client : HttpClient = HttpClient.newHttpClient(),
-    private val storage : ILocalStorage = ILocalStorage.Companion,
+    private val storage : ILocalStorage
 ) : ContentService, HTTPService {
 
     override suspend fun getContentAsync(contentRequest: ContentRequest): Base? {
