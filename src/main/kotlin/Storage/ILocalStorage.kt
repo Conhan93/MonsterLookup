@@ -58,35 +58,4 @@ interface ILocalStorage {
             else -> null
         }
     }
-
-    companion object : ILocalStorage {
-
-        val storageProperties = getStorageProperties("data/db", StorageTypes.H2)
-
-        private var storage = LocalStorage(storageProperties)
-
-        fun changeStorageProperties(properties: StorageProperties) {
-            storage = LocalStorage(properties)
-        }
-
-        override fun getSpellByName(name: String): Spell? {
-           return storage.getSpellByName(name)
-        }
-
-        override fun getMonsterByName(name: String): Monster? {
-            return storage.getMonsterByName(name)
-        }
-
-        override fun store(model: Base) {
-            storage.store(model)
-        }
-
-        override fun clear() {
-            storage.clear()
-        }
-
-        override fun getMonsterNames(limit: Int?): List<String> {
-            return storage.getMonsterNames(limit)
-        }
-    }
 }
