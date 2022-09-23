@@ -1,10 +1,5 @@
 package View
 
-import Model.Monster.Monster
-import Service.ContentRequest
-import Service.ContentService
-import Service.ContentServiceException
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
@@ -15,13 +10,10 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.unit.dp
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
 import State.State
-import Storage.ILocalStorage
 import Util.formattedToReadable
+import ViewModel.Search.SearchEvent
+import ViewModel.Search.SearchViewModel
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,40 +36,36 @@ import org.koin.java.KoinJavaComponent.get
 @Composable
 fun Search(
     onStateChange : (State) -> Unit,
-    contentService : ContentService = get(ContentService::class.java),
+    viewModel : SearchViewModel = get(SearchViewModel::class.java),
     modifier : Modifier = Modifier
 ) {
-    var name = mutableStateOf("")
-    var isSearching by remember { mutableStateOf(false) }
 
     val padding = Modifier.padding(5.dp)
 
-    // Coroutine scope for the http request
-    val requestScope = CoroutineScope(Dispatchers.IO)
-
-    fun performRequest(name : String) {
-        requestScope.launch {
-            isSearching = true
-            try {
-                contentService
-                    .getContentAsync(ContentRequest.RequestByName(name = name, klass = Monster::class))
-                    ?.let { onStateChange(State.Content(monster = it as Monster)) }
-            } catch (e : ContentServiceException) {
-                onStateChange(State.Error(e.message!! ,e))
-            } catch (e : Exception) {
-                onStateChange(State.Error(e.message ?: "Oops" ,e))
+    fun onSearchResult() {
+        viewModel.onEvent(SearchEvent.onSearch { result ->
+            if (result.isSuccess) {
+                onStateChange(State.Content(monster = result.getOrNull()))
+            } else {
+                val message = result.exceptionOrNull()?.message
+                onStateChange(State.Error(message!!, result.exceptionOrNull()))
             }
-
-            isSearching = false
-        }
+        })
     }
 
     Row(modifier) {
-        searchField(name = name, modifier = padding) { performRequest(name.value) }
+        searchField(
+            name = viewModel.name,
+            dropDownNames = viewModel.dropDownMenuNames,
+            expanded = viewModel.isDropDownMenuExpanded,
+            modifier = padding,
+            onEvent = viewModel::onEvent,
+            onSearch = ::onSearchResult
+        )
 
         Spacer(Modifier.width(10.dp))
 
-        if (!isSearching) searchButton(padding) { performRequest(name.value) }
+        if (!viewModel.isSearching) searchButton(padding, ::onSearchResult)
         else CircularProgressIndicator(padding.padding(top = 3.dp), MaterialTheme.colors.secondaryVariant)
     }
 }
@@ -85,42 +73,31 @@ fun Search(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun searchField(
-    name: MutableState<String>,
+    name: String,
+    dropDownNames : List<String>,
+    expanded : Boolean,
     modifier: Modifier = Modifier,
-    onEnterPressed: () -> Unit
+    onEvent: (SearchEvent) -> Unit,
+    onSearch: () -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
     var textFieldWidth by remember { mutableStateOf(0) }
-    var isDismissed by remember { mutableStateOf(false) }
 
     val icon = Icons.Filled.ArrowDropDown
-
-    val names = if (expanded) { // get names for drop down
-        ILocalStorage
-            .getMonsterNames()
-            .filter { if (name.value.isNotEmpty()) it.contains(name.value, ignoreCase = true) else true }
-    } else listOf()
 
     val textColour = MaterialTheme.colors.primaryVariant
 
     Column {
         OutlinedTextField(
-            name.value,
+            name,
             onValueChange = {
                 // Update search name
                 if (!it.contains("\n"))
-                    name.value = it
-
-                // Expand drop menu when typing
-                if(expanded && name.value.isEmpty())
-                    expanded = false
-                if(name.value.isNotEmpty())
-                    expanded = true
+                    onEvent(SearchEvent.onSetName(it))
             },
             modifier = modifier
                 .onKeyEvent {
                     if (it.key.equals(Key.Enter)) {
-                        onEnterPressed()
+                        onSearch()
                         return@onKeyEvent true
                     } else
                         true
@@ -135,35 +112,27 @@ fun searchField(
             textStyle = MaterialTheme.typography.h6,
             placeholder = { searchText("Enter name of monster") },
             trailingIcon = {
-                Icon(icon, "drop down", Modifier.clickable {
-                    if(isDismissed.and(!expanded)) {
-                        isDismissed = false
-                        expanded = true
-                    }
-
-                    if(!isDismissed)
-                        expanded = expanded.not()
-
-                })
+                Icon(
+                    icon,
+                    "drop down",
+                    Modifier.clickable { onEvent(SearchEvent.onDropDownMenuExpand(!expanded)) }
+                )
             }
         )
         DropdownMenu(
             expanded = expanded,
             focusable = false,
-            onDismissRequest = {
-                isDismissed = true
-                expanded = false },
+            onDismissRequest = { onEvent(SearchEvent.onDropDownMenuExpand(false)) },
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldWidth.dp })
                 .heightIn(max = 150.dp)
                 .background(MaterialTheme.colors.secondaryVariant),
             offset = DpOffset(x = 5.dp, y = -10.dp),
             content = {
-                names.forEach {
+                dropDownNames.forEach {
                     DropdownMenuItem(onClick = {
-                        name.value = it.formattedToReadable()
-                        expanded = false
-                        onEnterPressed()
+                        onEvent(SearchEvent.onClickDropDownMenuItem(it.formattedToReadable()))
+                        onSearch()
                     }) { searchText(it.formattedToReadable()) }
                 }
             }
@@ -189,10 +158,10 @@ private fun searchText(
 @Composable
 fun searchButton(
     modifier: Modifier = Modifier,
-    searchAction : () -> Unit,
+    onSearch : () -> Unit,
 ) {
     Button(
-        onClick =  { searchAction() },
+        onClick =  { onSearch() },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.secondaryVariant
         ),
