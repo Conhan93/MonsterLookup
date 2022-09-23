@@ -17,6 +17,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import org.koin.core.context.startKoin
+import org.koin.java.KoinJavaComponent.get
 
 @Composable
 fun App() {
@@ -52,7 +53,10 @@ fun main() {
             MenuBar {
                 Menu("File") {
                     Item("Quit", onClick = { exitApplication() })
-                    Item("Clear Cache", onClick = { ILocalStorage.clear() })
+                    Item("Clear Cache", onClick = {
+                        val storage : ILocalStorage = get(ILocalStorage::class.java)
+                        storage.clear()
+                    })
                 }
                 Menu("Appearance") {
                     val darkModeItemString = if (isDarkMode.value) "Light Mode" else "Dark Mode"
