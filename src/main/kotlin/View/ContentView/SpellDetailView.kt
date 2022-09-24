@@ -1,9 +1,6 @@
-package View.ActionsAndAbilities
+package View.ContentView
 
-import Model.Base.APIReference
 import Model.Spell.Spell
-import Service.ContentRequest
-import Service.ContentService
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,28 +12,19 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
-import org.koin.java.KoinJavaComponent.get
-
 
 @Composable
 fun SpellDetail(
-    references: List<APIReference>,
+    listOfSpells : SnapshotStateList<Spell>,
     modifier : Modifier = Modifier
 ) {
-    val listOfSpells = mutableStateListOf<Spell>()
-
-    fetchSpells(references) { listOfSpells.add(it) }
 
     backgroundSurface(modifier) {
         contentBackground {
@@ -120,21 +108,3 @@ private fun contentBackground(
     shape = RoundedCornerShape(15.dp),
     elevation = elevation
 ) { content() }
-
-
-private fun fetchSpells(
-    references : List<APIReference>,
-    contentService : ContentService = get(ContentService::class.java),
-    onFetch : (spell : Spell) -> Unit
-) {
-    // Coroutine scope for the http request
-    val requestScope = CoroutineScope(Dispatchers.IO)
-
-    val requests = references.map {
-        ContentRequest.RequestByReference(it, Spell::class)
-    }
-
-    requestScope.launch {
-        contentService.getContentAsync(requests) { onFetch(it as Spell) }
-    }
-}

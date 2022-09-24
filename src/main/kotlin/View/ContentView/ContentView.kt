@@ -1,9 +1,13 @@
-package View
+package View.ContentView
 
 import Model.Monster.Monster
+import Model.Spell.Spell
 import State.State
+import View.*
 import View.InfoAndStats.Conditions
 import View.InfoAndStats.Sidebar
+import ViewModel.Content.ContentEvent
+import ViewModel.Content.ContentViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,17 +15,18 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.koin.java.KoinJavaComponent.get
 
 @Composable
 fun ContentView(
-    monster: Monster,
+    viewModel: ContentViewModel = get(ContentViewModel::class.java),
     onStateChange : (State) -> Unit,
 ) {
-
 
     Surface {
         Column(
@@ -32,7 +37,7 @@ fun ContentView(
             verticalArrangement = Arrangement.Top
         ) {
             TopBar(
-                monster = monster,
+                monster = viewModel.monster,
                 onStateChange = onStateChange
             )
             Divider(
@@ -46,7 +51,12 @@ fun ContentView(
                     .fillMaxWidth(1f)
             )
 
-            BottomBar(monster)
+            BottomBar(
+                monster = viewModel.monster,
+                isSpecialAbilityClicked = viewModel.isAbilityClicked,
+                listOfSpells = viewModel.spellDetailSpells,
+                onEvent = viewModel::onEvent
+            )
         }
     }
 }
@@ -84,7 +94,12 @@ private fun TopBar(
 }
 
 @Composable
-private fun BottomBar(monster: Monster) {
+private fun BottomBar(
+    monster: Monster,
+    isSpecialAbilityClicked : Boolean,
+    listOfSpells : SnapshotStateList<Spell>,
+    onEvent : (ContentEvent) -> Unit
+) {
 
     @Composable
     fun bottomSurface(
@@ -114,7 +129,12 @@ private fun BottomBar(monster: Monster) {
         }
 
         bottomSurface(elementModifier) {
-            SpecialAbilitiesView(monster)
+            SpecialAbilitiesView(
+                monster = monster,
+                isAbilityClicked = isSpecialAbilityClicked,
+                listOfSpells = listOfSpells,
+                onEvent = onEvent
+            )
         }
 
         if (monster.reactions.isNotEmpty())
