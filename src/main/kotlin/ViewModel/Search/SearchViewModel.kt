@@ -18,6 +18,7 @@ class SearchViewModel(
 
     private val scope = CoroutineScope(Dispatchers.Default)
 
+    val monsterState = mutableStateOf(Monster())
     var name by mutableStateOf("")
         private set
 
@@ -60,6 +61,7 @@ class SearchViewModel(
                 contentService
                     .getContentAsync(request)
                     ?.let {
+                        monsterState.value = it as Monster
                         onResult(Result.success(it as Monster))
                         isSearching = false
                     }
