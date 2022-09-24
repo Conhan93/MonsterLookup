@@ -49,6 +49,10 @@ dependencies {
     //testImplementation("io.insert-koin:koin-test:$koinVersion")
     // Jetpack Compose
     //implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+
+    // logger
+    implementation("org.slf4j:slf4j-simple:2.0.0")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.0")
 }
 
 tasks.test {
