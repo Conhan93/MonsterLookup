@@ -7,6 +7,7 @@ import Storage.ILocalStorage
 import Theme.AppTheme
 import View.*
 import View.Common.FullscreenPopUpEnabledApp
+import View.ContentView.ContentView
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -25,7 +26,7 @@ fun App() {
     var appState by remember { mutableStateOf<State?>(null) }
 
     when (val state = appState) {
-        is State.Content -> ContentView(state.monster!!) { appState = it}
+        is State.Content -> ContentView { appState = it }
         is State.Error -> Error(state) { appState = it }
         is State.Loading -> Text("Loading animation")
         null -> Start() { appState = it }
