@@ -45,7 +45,7 @@ fun Search(
     fun onSearchResult() {
         viewModel.onEvent(SearchEvent.onSearch { result ->
             if (result.isSuccess) {
-                onStateChange(State.Content(monster = result.getOrNull()))
+                onStateChange(State.Content)
             } else {
                 val message = result.exceptionOrNull()?.message
                 onStateChange(State.Error(message!!, result.exceptionOrNull()))

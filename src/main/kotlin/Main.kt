@@ -26,7 +26,7 @@ fun App() {
     var appState by remember { mutableStateOf<State?>(null) }
 
     when (val state = appState) {
-        is State.Content -> ContentView { appState = it }
+        State.Content -> ContentView { appState = it }
         is State.Error -> Error(state) { appState = it }
         is State.Loading -> Text("Loading animation")
         null -> Start() { appState = it }
