@@ -30,7 +30,7 @@ internal class LocalStorageTests {
 
         storage.store(testSpell)
 
-        val storedSpell = ILocalStorage.getSpellByName(testSpell.name!!)
+        val storedSpell = storage.getSpellByName(testSpell.name!!)
 
         assertEquals(testSpell, storedSpell)
 
@@ -43,7 +43,7 @@ internal class LocalStorageTests {
 
         storage.store(testDragon)
 
-        val storedDragon = ILocalStorage.getMonsterByName(testDragon.name!!)
+        val storedDragon = storage.getMonsterByName(testDragon.name!!)
 
         assertEquals(testDragon, storedDragon)
     }
