@@ -56,7 +56,6 @@ fun ContentView(
             BottomBar(
                 monster = viewModel.monster,
                 isSpecialAbilityClicked = viewModel.isAbilityClicked,
-                listOfSpells = viewModel.spellDetailSpells,
                 onEvent = viewModel::onEvent
             )
         }
@@ -68,9 +67,19 @@ fun ContentView(
             innerBoxSize = 0.5f,
             onDismiss = { viewModel.onEvent(ContentEvent.onClickAction(false)) }
         ) {
-            println("POP! POP!")
             DamageDicePopUp(
                 damageRoll = viewModel.diceRoll!!,
+                Modifier
+                    .align(Alignment.Center)
+            )
+        }
+    } else if (viewModel.isAbilityClicked) {
+        FullScreenPopup(
+            innerBoxSize = 0.7f,
+            onDismiss = { viewModel.onEvent(ContentEvent.onClickSpecialAbility(expand = false)) }
+        ) {
+            SpellDetail(
+                listOfSpells = viewModel.spellDetailSpells,
                 Modifier
                     .align(Alignment.Center)
             )
@@ -114,7 +123,6 @@ private fun TopBar(
 private fun BottomBar(
     monster: Monster,
     isSpecialAbilityClicked : Boolean,
-    listOfSpells : SnapshotStateList<Spell>,
     onEvent : (ContentEvent) -> Unit
 ) {
 
@@ -152,7 +160,6 @@ private fun BottomBar(
             SpecialAbilitiesView(
                 monster = monster,
                 isAbilityClicked = isSpecialAbilityClicked,
-                listOfSpells = listOfSpells,
                 onEvent = onEvent
             )
         }

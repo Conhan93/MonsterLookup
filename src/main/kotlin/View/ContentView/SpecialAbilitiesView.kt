@@ -25,7 +25,6 @@ fun SpecialAbilitiesView(
     monster: Monster,
     modifier: Modifier = Modifier,
     isAbilityClicked : Boolean,
-    listOfSpells : SnapshotStateList<Spell>,
     onEvent : (ContentEvent) -> Unit,
 ) {
 
@@ -49,7 +48,6 @@ fun SpecialAbilitiesView(
         items(specialAbilities) {
             SpecialAbilityItem(
                 ability = it,
-                listOfSpells = listOfSpells,
                 isAbilityClicked = isAbilityClicked,
                 onEvent = onEvent,
                 modifier = Modifier
@@ -66,7 +64,6 @@ fun SpecialAbilityItem(
     ability : SpecialAbilities,
     modifier: Modifier = Modifier,
     isAbilityClicked : Boolean,
-    listOfSpells : SnapshotStateList<Spell>,
     onEvent: (ContentEvent) -> Unit,
 ) {
 
@@ -96,20 +93,6 @@ fun SpecialAbilityItem(
             ability.spellcasting.let {
                 it.school?.let { it1 -> Text(it1) }
             }
-        }
-    }
-
-    // Display popup with details of spell in special ability
-    if (isAbilityClicked) {
-        FullScreenPopup(
-            innerBoxSize = 0.7f,
-            onDismiss = { onEvent(ContentEvent.onClickSpecialAbility(expand = false)) }
-        ) {
-            SpellDetail(
-                listOfSpells = listOfSpells,
-                modifier
-                    .align(Alignment.Center)
-            )
         }
     }
 }
