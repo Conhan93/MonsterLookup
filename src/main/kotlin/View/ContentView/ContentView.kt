@@ -4,6 +4,7 @@ import Model.Monster.Monster
 import Model.Spell.Spell
 import State.State
 import View.*
+import View.Common.FullScreenPopup
 import View.InfoAndStats.Conditions
 import View.InfoAndStats.Sidebar
 import ViewModel.Content.ContentEvent
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import mu.KotlinLogging
 import org.koin.java.KoinJavaComponent.get
 
 @Composable
@@ -56,6 +58,21 @@ fun ContentView(
                 isSpecialAbilityClicked = viewModel.isAbilityClicked,
                 listOfSpells = viewModel.spellDetailSpells,
                 onEvent = viewModel::onEvent
+            )
+        }
+    }
+
+    // Display popup with details of spell in special ability
+    if (viewModel.isActionClicked) {
+        FullScreenPopup(
+            innerBoxSize = 0.5f,
+            onDismiss = { viewModel.onEvent(ContentEvent.onClickAction(false)) }
+        ) {
+            println("POP! POP!")
+            DamageDicePopUp(
+                damageRoll = viewModel.diceRoll!!,
+                Modifier
+                    .align(Alignment.Center)
             )
         }
     }
@@ -125,7 +142,10 @@ private fun BottomBar(
             .padding(10.dp)
 
         bottomSurface(elementModifier) {
-            ActionsView(monster)
+            ActionsView(
+                monster = monster,
+                onEvent = onEvent
+            )
         }
 
         bottomSurface(elementModifier) {
