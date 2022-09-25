@@ -1,8 +1,8 @@
 package View
 
-import Model.Monster.Action
-import Model.Monster.ActionUsage
-import Model.Monster.Monster
+import Model.Data.Monster.Action
+import Model.Data.Monster.ActionUsage
+import Model.Data.Monster.Monster
 import ViewModel.Content.ContentEvent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

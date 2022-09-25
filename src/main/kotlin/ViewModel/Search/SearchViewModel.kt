@@ -1,9 +1,9 @@
 package ViewModel.Search
 
-import Model.Monster.Monster
-import Service.ContentRequest
-import Service.ContentService
-import Storage.ILocalStorage
+import Model.Data.Monster.Monster
+import Model.Service.ContentService.ContentRequest
+import Model.Service.ContentService.ContentService
+import Model.Storage.ILocalStorage
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue

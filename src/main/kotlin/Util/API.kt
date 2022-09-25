@@ -1,7 +1,7 @@
 package Util
 
-import Model.Monster.Monster
-import Model.Spell.Spell
+import Model.Data.Monster.Monster
+import Model.Data.Spell.Spell
 import kotlin.reflect.KClass
 
 object API {

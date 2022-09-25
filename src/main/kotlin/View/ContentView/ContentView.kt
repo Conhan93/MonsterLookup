@@ -1,8 +1,7 @@
 package View.ContentView
 
-import Model.Monster.Monster
-import Model.Spell.Spell
-import State.State
+import Model.Data.Monster.Monster
+import View.State.State
 import View.*
 import View.Common.FullScreenPopup
 import View.InfoAndStats.Conditions
@@ -16,12 +15,10 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import mu.KotlinLogging
 import org.koin.java.KoinJavaComponent.get
 
 @Composable
@@ -61,7 +58,7 @@ fun ContentView(
         }
     }
 
-    // Display popup with details of spell in special ability
+    // Display popups
     if (viewModel.isActionClicked) {
         FullScreenPopup(
             innerBoxSize = 0.5f,

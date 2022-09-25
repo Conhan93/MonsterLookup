@@ -1,7 +1,7 @@
 package View
 
-import Model.Monster.Monster
-import Model.Monster.Reaction
+import Model.Data.Monster.Monster
+import Model.Data.Monster.Reaction
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

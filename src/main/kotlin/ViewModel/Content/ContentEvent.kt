@@ -1,7 +1,7 @@
 package ViewModel.Content
 
-import Model.Monster.Action
-import Model.Monster.SpecialAbilities
+import Model.Data.Monster.Action
+import Model.Data.Monster.SpecialAbilities
 
 sealed class ContentEvent {
     data class onClickSpecialAbility(

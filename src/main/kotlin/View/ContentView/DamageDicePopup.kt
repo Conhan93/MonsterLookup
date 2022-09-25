@@ -1,12 +1,13 @@
 package View.ContentView
 
-import Model.Util.DamageRoll
-import Model.Util.HitRoll
-import Model.Util.ItemRoll
-import androidx.compose.foundation.background
+import Model.Data.Util.DamageRoll
+import Model.Data.Util.HitRoll
+import Model.Data.Util.ItemRoll
+
+
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme

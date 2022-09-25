@@ -1,6 +1,6 @@
 package View
 
-import Model.Monster.Monster
+import Model.Data.Monster.Monster
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

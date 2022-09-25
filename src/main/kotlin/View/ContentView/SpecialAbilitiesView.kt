@@ -1,8 +1,8 @@
 package View.ContentView
 
-import Model.Monster.Monster
-import Model.Monster.SpecialAbilities
-import Model.Spell.Spell
+import Model.Data.Monster.Monster
+import Model.Data.Monster.SpecialAbilities
+import Model.Data.Spell.Spell
 
 import View.Common.*
 import ViewModel.Content.ContentEvent

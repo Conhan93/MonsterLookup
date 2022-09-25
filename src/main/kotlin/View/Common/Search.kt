@@ -10,7 +10,7 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.unit.dp
 
-import State.State
+import View.State.State
 import Util.formattedToReadable
 import ViewModel.Search.SearchEvent
 import ViewModel.Search.SearchViewModel

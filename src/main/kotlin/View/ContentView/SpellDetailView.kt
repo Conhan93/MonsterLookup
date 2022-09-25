@@ -1,6 +1,6 @@
 package View.ContentView
 
-import Model.Spell.Spell
+import Model.Data.Spell.Spell
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

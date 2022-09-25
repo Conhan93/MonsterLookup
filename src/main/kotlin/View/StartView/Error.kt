@@ -1,6 +1,6 @@
 package View
 
-import State.State
+import View.State.State
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*

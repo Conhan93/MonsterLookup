@@ -1,14 +1,16 @@
 package ViewModel.Content
 
-import Model.Base.APIReference
-import Model.Monster.Action
-import Model.Monster.SpecialAbilities
-import Model.Spell.Spell
-import Model.Util.DamageRoll
-import Model.Util.ItemRoll
-import Service.ContentRequest
-import Service.ContentService
-import Service.DiceService
+import Model.Data.Base.APIReference
+import Model.Data.Monster.Action
+import Model.Data.Monster.SpecialAbilities
+import Model.Data.Spell.Spell
+import Model.Data.Util.DamageRoll
+import Model.Data.Util.ItemRoll
+
+import Model.Service.ContentService.ContentRequest
+import Model.Service.ContentService.ContentService
+import Model.Service.DiceService.DiceService
+
 import ViewModel.Search.SearchViewModel
 import androidx.compose.runtime.*
 import kotlinx.coroutines.CoroutineScope

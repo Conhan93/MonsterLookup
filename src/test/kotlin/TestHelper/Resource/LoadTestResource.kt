@@ -1,8 +1,8 @@
 package TestHelper.Resource
 
-import Model.Base.Base
-import Model.Monster.Monster
-import Model.Spell.Spell
+import Model.Data.Base.Base
+import Model.Data.Monster.Monster
+import Model.Data.Spell.Spell
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 

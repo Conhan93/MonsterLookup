@@ -2,8 +2,8 @@
 import DI.contentModule
 import DI.storageModule
 import DI.viewModelModule
-import State.State
-import Storage.ILocalStorage
+import View.State.State
+import Model.Storage.ILocalStorage
 import Theme.AppTheme
 import View.*
 import View.Common.FullscreenPopUpEnabledApp

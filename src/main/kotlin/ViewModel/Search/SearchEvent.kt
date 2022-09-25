@@ -1,6 +1,6 @@
 package ViewModel.Search
 
-import Model.Monster.Monster
+import Model.Data.Monster.Monster
 
 sealed class SearchEvent {
     data class onSetSearch(val isSearching : Boolean) : SearchEvent()

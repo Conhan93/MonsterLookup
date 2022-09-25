@@ -1,6 +1,6 @@
 package View.InfoAndStats
 
-import Model.Monster.Monster
+import Model.Data.Monster.Monster
 import View.Common.SolidTextListLazy
 
 import androidx.compose.foundation.layout.Arrangement

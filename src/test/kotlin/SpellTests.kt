@@ -1,4 +1,4 @@
-import Model.Spell.Spell
+import Model.Data.Spell.Spell
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
