@@ -2,6 +2,7 @@ package Service
 
 import Model.Monster.Action
 import Model.Monster.Damage
+import Model.Util.HitRoll
 
 import mu.KotlinLogging
 
@@ -16,6 +17,13 @@ class DiceServiceImpl : DiceService {
             .associate {
                  it.damage_type.name!! to rollDice(it)
             }
+    }
+
+    override fun rollHitDice(attackBonus: Int?): HitRoll {
+        val roll = (1..20).random()
+
+        val bonus = attackBonus ?: 0
+        return HitRoll(roll, roll + bonus)
     }
 
     private data class DamageDice(

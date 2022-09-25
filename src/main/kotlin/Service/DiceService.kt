@@ -2,6 +2,7 @@ package Service
 
 
 import Model.Monster.Action
+import Model.Util.HitRoll
 
 interface DiceService {
 
@@ -16,4 +17,6 @@ interface DiceService {
      * are the values of the rolls
      */
     fun rollActionDamageDice(action: Action): Map<String, Int>
+
+    fun rollHitDice(attackBonus: Int? = null) : HitRoll
 }

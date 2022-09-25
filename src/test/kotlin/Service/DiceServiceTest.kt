@@ -57,6 +57,31 @@ class DiceServiceTest {
     }
 
     @Test
+    fun `Should give correct hit dice result`() {
+        val service: DiceService = DiceServiceImpl()
+
+        repeat(100) {
+            val attackBonus = (0..999).random()
+
+            val result = service.rollHitDice(attackBonus)
+
+            assert((1..1019).contains(result.total))
+            assert((1..20).contains(result.roll))
+        }
+    }
+
+    @Test
+    fun `Should give correct hit dice result without bonus`() {
+        val service: DiceService = DiceServiceImpl()
+
+        repeat(50) {
+            val result = service.rollHitDice()
+            assert((1..20).contains(result.roll))
+            assert(result.roll == result.total)
+        }
+    }
+
+    @Test
     fun `Should throw on none matching dice string`() {
         val service: DiceService = DiceServiceImpl()
 

@@ -82,6 +82,7 @@ class ContentViewModel(
             rolls = diceService
                 .rollActionDamageDice(action)
                 .map { DamageRoll(damageType = it.key, damage = it.value) },
+            hitRoll = diceService.rollHitDice(action.attack_bonus),
             itemName = action.name ?: "No name",
             itemDescr = action.desc ?: ""
         )
