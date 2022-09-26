@@ -3,6 +3,7 @@ package ViewModel.Search
 import Model.Data.Monster.Monster
 import Model.Service.ContentService.ContentRequest
 import Model.Service.ContentService.ContentService
+import Model.Service.SharedPropertiesService
 import Model.Storage.ILocalStorage
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,15 +11,17 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import mu.KotlinLogging
 
 class SearchViewModel(
     private val contentService: ContentService,
-    private val storage: ILocalStorage
+    private val storage: ILocalStorage,
+    private val sharedPropertiesService: SharedPropertiesService
 ) {
 
     private val scope = CoroutineScope(Dispatchers.Default)
+    private val logger = KotlinLogging.logger {  }
 
-    val monsterState = mutableStateOf(Monster())
     var name by mutableStateOf("")
         private set
 
@@ -61,8 +64,11 @@ class SearchViewModel(
                 contentService
                     .getContentAsync(request)
                     ?.let {
-                        monsterState.value = it as Monster
-                        onResult(Result.success(it as Monster))
+                        val monster = it as Monster
+
+                        sharedPropertiesService.setPropertyValue("search_monster", monster)
+                        onResult(Result.success(monster))
+
                         isSearching = false
                     }
             } catch (e : Exception) {

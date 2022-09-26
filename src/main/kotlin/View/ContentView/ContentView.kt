@@ -15,6 +15,8 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +29,8 @@ fun ContentView(
     onStateChange : (State) -> Unit,
 ) {
 
+    val monster by viewModel.monsterSubscription.collectAsState()
+
     Surface {
         Column(
             modifier = Modifier
@@ -36,7 +40,7 @@ fun ContentView(
             verticalArrangement = Arrangement.Top
         ) {
             TopBar(
-                monster = viewModel.monster,
+                monster = monster!!,
                 onStateChange = onStateChange
             )
             Divider(
@@ -51,7 +55,7 @@ fun ContentView(
             )
 
             BottomBar(
-                monster = viewModel.monster,
+                monster = monster!!,
                 isSpecialAbilityClicked = viewModel.isAbilityClicked,
                 onEvent = viewModel::onEvent
             )

@@ -7,6 +7,6 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
 
-    single { SearchViewModel(get(), get())}
-    single { ContentViewModel(get(), get()) }
+    single { SearchViewModel(get(), get(), get())}
+    single(createdAtStart = true) { ContentViewModel(get(), get()) }
 }

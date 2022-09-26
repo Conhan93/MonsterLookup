@@ -2,6 +2,7 @@ package ViewModel.Content
 
 import Model.Data.Base.APIReference
 import Model.Data.Monster.Action
+import Model.Data.Monster.Monster
 import Model.Data.Monster.SpecialAbilities
 import Model.Data.Spell.Spell
 import Model.Data.Util.DamageRoll
@@ -10,25 +11,24 @@ import Model.Data.Util.ItemRoll
 import Model.Service.ContentService.ContentRequest
 import Model.Service.ContentService.ContentService
 import Model.Service.DiceService.DiceService
+import Model.Service.SharedPropertiesService
 
-import ViewModel.Search.SearchViewModel
+
 import androidx.compose.runtime.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+
 import mu.KotlinLogging
 import org.koin.java.KoinJavaComponent.get
 
 class ContentViewModel(
     private val contentService : ContentService,
-    searchViewModel: SearchViewModel
+    sharedPropertiesService: SharedPropertiesService
 ) {
 
     private val scope = CoroutineScope(Dispatchers.Default)
     private val logger = KotlinLogging.logger {}
 
-    var monster by searchViewModel.monsterState
-        private set
+    val monsterSubscription = sharedPropertiesService.observeProperty<Monster>("search_monster")
 
     var diceRoll : ItemRoll<DamageRoll>? = null
         private set
