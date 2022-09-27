@@ -2,7 +2,6 @@ package View
 
 import Model.Data.Monster.Action
 import Model.Data.Monster.ActionUsage
-import Model.Data.Monster.Monster
 import ViewModel.Content.ContentEvent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,13 +17,12 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun ActionsView(
-    monster: Monster,
+fun ActionList(
+    actions: List<Action>,
+    header: String,
     onEvent: (ContentEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    val actions = monster.actions
 
     LazyColumn(
         modifier = Modifier
@@ -41,7 +39,7 @@ fun ActionsView(
         // action view header
         item {
             Text(
-                text = "Actions",
+                text = header,
                 style = MaterialTheme.typography.h5
             )
 

@@ -151,8 +151,9 @@ private fun BottomBar(
             .padding(10.dp)
 
         bottomSurface(elementModifier) {
-            ActionsView(
-                monster = monster,
+            ActionList(
+                header = "Actions",
+                actions = monster.actions,
                 onEvent = onEvent
             )
         }
