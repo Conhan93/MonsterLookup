@@ -39,10 +39,7 @@ fun ContentView(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top
         ) {
-            TopBar(
-                monster = monster!!,
-                onStateChange = onStateChange
-            )
+            TopBar(monster = monster!!, onStateChange = onStateChange)
             Divider(
                 color = Color.Gray,
                 thickness = 1.dp,
@@ -53,12 +50,7 @@ fun ContentView(
                     )
                     .fillMaxWidth(1f)
             )
-
-            BottomBar(
-                monster = monster!!,
-                isSpecialAbilityClicked = viewModel.isAbilityClicked,
-                onEvent = viewModel::onEvent
-            )
+            BottomBar(monster = monster!!, onEvent = viewModel::onEvent)
         }
     }
 
@@ -123,7 +115,6 @@ private fun TopBar(
 @Composable
 private fun BottomBar(
     monster: Monster,
-    isSpecialAbilityClicked : Boolean,
     onEvent : (ContentEvent) -> Unit
 ) {
 
@@ -161,7 +152,6 @@ private fun BottomBar(
         bottomSurface(elementModifier) {
             SpecialAbilitiesView(
                 monster = monster,
-                isAbilityClicked = isSpecialAbilityClicked,
                 onEvent = onEvent
             )
         }

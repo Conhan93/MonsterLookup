@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 fun SpecialAbilitiesView(
     monster: Monster,
     modifier: Modifier = Modifier,
-    isAbilityClicked : Boolean,
     onEvent : (ContentEvent) -> Unit,
 ) {
 
@@ -48,7 +47,6 @@ fun SpecialAbilitiesView(
         items(specialAbilities) {
             SpecialAbilityItem(
                 ability = it,
-                isAbilityClicked = isAbilityClicked,
                 onEvent = onEvent,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -63,7 +61,6 @@ fun SpecialAbilitiesView(
 fun SpecialAbilityItem(
     ability : SpecialAbilities,
     modifier: Modifier = Modifier,
-    isAbilityClicked : Boolean,
     onEvent: (ContentEvent) -> Unit,
 ) {
 
@@ -73,7 +70,7 @@ fun SpecialAbilityItem(
         shape = RoundedCornerShape(4.dp),
         elevation = 2.dp,
         enabled = ability.spellcasting.spells.isNotEmpty(), // only clickable if ability has spells
-        onClick = { onEvent(ContentEvent.onClickSpecialAbility(isAbilityClicked.not(), ability)) }
+        onClick = { onEvent(ContentEvent.onClickSpecialAbility(true, ability)) }
     ) {
         Column(
             modifier = Modifier.padding(5.dp)
