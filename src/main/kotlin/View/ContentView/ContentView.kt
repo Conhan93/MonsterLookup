@@ -166,6 +166,15 @@ private fun BottomBar(
             )
         }
 
+        if (monster.legendary_actions.isNotEmpty())
+            bottomSurface(elementModifier) {
+                ActionList(
+                    header = "Legendary Actions",
+                    actions = monster.legendary_actions,
+                    onEvent = onEvent
+                )
+            }
+
         if (monster.reactions.isNotEmpty())
             bottomSurface(elementModifier) {
                 ReactionsView(monster)
