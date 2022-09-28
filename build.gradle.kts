@@ -24,9 +24,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.junit.jupiter:junit-jupiter:5.9.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-    testImplementation(kotlin("test"))
     implementation(compose.desktop.currentOs)
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
@@ -46,7 +45,8 @@ dependencies {
     // Koin Core features
     implementation("io.insert-koin:koin-core:$koinVersion")
     // Koin Test features
-    //testImplementation("io.insert-koin:koin-test:$koinVersion")
+    testImplementation("io.insert-koin:koin-test:$koinVersion")
+    testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
     // Jetpack Compose
     //implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
 
