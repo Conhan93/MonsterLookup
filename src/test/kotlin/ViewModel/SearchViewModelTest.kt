@@ -9,8 +9,11 @@ import TestHelper.Resource.LoadTestResource
 import TestHelper.Resource.getTestResource
 import ViewModel.Search.SearchEvent
 import ViewModel.Search.SearchViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withContext
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,6 +24,7 @@ import org.mockito.kotlin.whenever
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SearchViewModelTest {
 
     private lateinit var contentService: ContentService
@@ -89,6 +93,7 @@ class SearchViewModelTest {
 
     }
 
+
     @Test
     fun `OnSearch should fetch monster`() = runTest {
         val testMonster = getTestResource(LoadTestResource.blackDragon) as Monster
@@ -101,7 +106,7 @@ class SearchViewModelTest {
             assertEquals(testMonster, it.getOrNull())
         } )
         assertEquals(false, viewModel.isDropDownMenuExpanded)
-        delay(1) // let contentrequest finish
+        withContext(Dispatchers.Default) { delay(10) } // let contentrequest finish
         assertEquals(false, viewModel.isSearching)
         assert(viewModel.name.isEmpty())
     }
@@ -125,7 +130,7 @@ class SearchViewModelTest {
 
         viewModel.onEvent(SearchEvent.onSearch {})
         // let value be found and set
-        delay(2)
+        withContext(Dispatchers.Default) {delay(10)}
 
         assertEquals(testMonster, property.value)
     }

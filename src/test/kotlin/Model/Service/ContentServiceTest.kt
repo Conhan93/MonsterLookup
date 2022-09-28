@@ -10,6 +10,7 @@ import Model.Service.ContentService.ContentServiceImpl
 import Model.Storage.ILocalStorage
 import TestHelper.Resource.LoadTestResource
 import TestHelper.Resource.getTestResource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -23,6 +24,7 @@ import java.net.http.HttpResponse
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ContentServiceTest {
 
     val testMonster = getTestResource(LoadTestResource.blackDragon) as Monster
@@ -37,6 +39,7 @@ class ContentServiceTest {
         `when`(storage.getMonsterByName(Mockito.anyString())).thenReturn(null)
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun mockClientReturnsBody(body : String) : HttpClient {
         val mockClient = mock(HttpClient::class.java)
 
@@ -50,6 +53,7 @@ class ContentServiceTest {
 
         return mockClient
     }
+
 
     @Test
     fun `Monster request by name returns monster`() = runTest {
