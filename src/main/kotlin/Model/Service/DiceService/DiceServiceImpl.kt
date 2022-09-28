@@ -65,7 +65,7 @@ class DiceServiceImpl : DiceService {
                 .map { it.groups }
                 .first()
                 .mapNotNull { it?.value?.toIntOrNull() }
-            logger.info { "Matched values: $values" }
+            logger.debug { "Matched values: $values" }
 
             return if(values.size >= 3)
                 DamageDice(values[0], values[1], values[2] )

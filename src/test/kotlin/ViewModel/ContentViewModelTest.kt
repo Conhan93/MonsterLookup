@@ -1,38 +1,37 @@
 package ViewModel
 
 import Model.Data.Base.APIReference
-import Model.Data.Base.Base
+import Model.Data.Monster.Action
+import Model.Data.Monster.Damage
 import Model.Data.Monster.Monster
-import Model.Data.Monster.SpecialAbilities
-import Model.Data.Monster.Spells.SpellCasting
-import Model.Data.Spell.Spell
-import Model.Service.ContentService.ContentRequest
 import Model.Service.ContentService.ContentService
+import Model.Service.DiceService.DiceService
+import Model.Service.DiceService.DiceServiceImpl
 import Model.Service.SharedPropertiesServiceImpl
 import TestHelper.Resource.LoadTestResource
 import TestHelper.Resource.getTestResource
 import ViewModel.Content.ContentEvent
 import ViewModel.Content.ContentViewModel
-import androidx.compose.animation.core.snap
-import androidx.compose.runtime.snapshotFlow
-import androidx.compose.runtime.snapshots.readable
+
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
+
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-//import org.mockito.Mockito.*
+import org.junit.jupiter.api.extension.RegisterExtension
+
+import org.koin.dsl.module
+import org.koin.java.KoinJavaComponent.get
+import org.koin.test.KoinTest
+import org.koin.test.junit5.KoinTestExtension
+
 import org.mockito.kotlin.*
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ContentViewModelTest {
+class ContentViewModelTest: KoinTest {
 
     private var mockContentService = mock<ContentService> {}
     private val sharedPropertiesService = SharedPropertiesServiceImpl()
@@ -41,6 +40,12 @@ class ContentViewModelTest {
     fun before() {
         mockContentService = mock {}
         sharedPropertiesService.clear()
+    }
+
+    @RegisterExtension
+    @JvmField
+    val koinTestExtension = KoinTestExtension.create {
+        modules(  module {  factory<DiceService> { DiceServiceImpl() } } )
     }
 
     @Test
@@ -91,6 +96,26 @@ class ContentViewModelTest {
         sharedPropertiesService.setPropertyValue("search_monster", null)
 
         assertNull(viewModel.monsterSubscription.value)
+    }
+
+    @Test
+    fun `On action clicked should update diceRoll`() {
+
+        assertNotNull(get(DiceService::class.java))
+
+        val viewModel = ContentViewModel(mockContentService, sharedPropertiesService)
+
+        assertNull(viewModel.diceRoll)
+
+        val action = Action(damage = listOf(Damage(APIReference(name="foo"), "1d6")))
+
+        viewModel.onEvent(ContentEvent.onClickAction(true, action))
+
+        assertNotNull(viewModel.diceRoll)
+        assert(viewModel.diceRoll!!.itemDescr.isEmpty())
+        assertEquals("foo", viewModel.diceRoll!!.rolls[0].damageType)
+        assert((1..6).contains(viewModel.diceRoll!!.rolls[0].damage))
+
     }
 
 }
