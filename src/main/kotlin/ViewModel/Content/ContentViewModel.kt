@@ -32,8 +32,6 @@ class ContentViewModel(
 
     var diceRoll : ItemRoll<DamageRoll>? = null
         private set
-
-
     var isAbilityClicked by mutableStateOf(false)
         private set
     var isActionClicked by mutableStateOf(false)
@@ -49,13 +47,16 @@ class ContentViewModel(
                 isAbilityClicked = event.expand
 
                 if (isAbilityClicked)
-                    loadPopupSpells(event.ability!!)
+                    event.ability?.let { loadPopupSpells(it) }
                 else
                     spellDetailSpells.clear()
             }
             is ContentEvent.onClickAction -> {
-                if (event.isClicked)
+                if (event.isClicked) {
                     event.action?.let { onActionDiceRoll(it) }
+                    isActionClicked = true
+                }
+
                 else
                     isActionClicked = false
 
@@ -88,8 +89,6 @@ class ContentViewModel(
             itemName = action.name ?: "No name",
             itemDescr = action.desc ?: ""
         )
-
-        isActionClicked = true
         logger.debug { "roll result: $diceRoll" }
     }
 }
