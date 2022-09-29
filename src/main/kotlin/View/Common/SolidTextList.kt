@@ -1,5 +1,7 @@
 package View.Common
 
+import Util.capitalise
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -56,7 +58,7 @@ fun SolidTextListLazy(
                 if(textItems.isNotEmpty())
                     items(textItems) {
                         Text(
-                            text = it.capitalize(),
+                            text = it.capitalise(),
                             color = textColour,
                         )
                     }
@@ -108,7 +110,7 @@ fun SolidTextList(
                 else
                     textItems.forEach {
                         Text(
-                            text = it.capitalize(),
+                            text = it.capitalise(),
                             color = textColour,
                         )
                     }

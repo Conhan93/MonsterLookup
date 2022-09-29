@@ -28,3 +28,13 @@ fun String.formattedToReadable() : String
             else
                 it.toString()
         }
+
+
+/**
+ * Returns a capitalised copy of the string
+ */
+fun String.capitalise(): String {
+    return this.replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+    }
+}

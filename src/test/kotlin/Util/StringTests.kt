@@ -24,4 +24,11 @@ class StringTests {
 
         assertEquals(expected,actual)
     }
+
+    @Test
+    fun `Should return capitalised version of string`() {
+        val foo = "foo"
+
+        assertEquals("Foo", foo.capitalise())
+    }
 }
