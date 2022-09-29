@@ -115,5 +115,5 @@ private fun getMonsterLanguages(monster: Monster) : List<String> {
     return if (monster.languages.isNullOrEmpty())
                 listOf()
             else
-                monster.languages!!.split(",").map(String::trim)
+                monster.languages.split(",").map(String::trim)
 }
