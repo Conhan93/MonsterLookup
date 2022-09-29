@@ -8,18 +8,19 @@ import Model.Service.ContentService.ContentService
 import Model.Service.ContentService.ContentServiceException
 import Model.Service.ContentService.ContentServiceImpl
 import Model.Storage.ILocalStorage
+
 import TestHelper.Resource.LoadTestResource
 import TestHelper.Resource.getTestResource
+
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
+
+import org.mockito.kotlin.*
 import java.net.http.HttpClient
-import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -27,28 +28,28 @@ import kotlin.test.assertNotNull
 @OptIn(ExperimentalCoroutinesApi::class)
 class ContentServiceTest {
 
-    val testMonster = getTestResource(LoadTestResource.blackDragon) as Monster
-    val testSpell = getTestResource(LoadTestResource.acidArrow) as Spell
+    private val testMonster = getTestResource(LoadTestResource.blackDragon) as Monster
+    private val testSpell = getTestResource(LoadTestResource.acidArrow) as Spell
 
-    val storage = mock(ILocalStorage::class.java)
+    private val storage: ILocalStorage = mock {}
 
     @BeforeEach
     fun before() {
         // disables testing storage
-        `when`(storage.getSpellByName(Mockito.anyString())).thenReturn(null)
-        `when`(storage.getMonsterByName(Mockito.anyString())).thenReturn(null)
+        whenever(storage.getSpellByName(any())).thenReturn(null)
+        whenever(storage.getMonsterByName(any())).thenReturn(null)
+
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun mockClientReturnsBody(body : String) : HttpClient {
-        val mockClient = mock(HttpClient::class.java)
+    private fun mockClientReturnsBody(body : String) : HttpClient {
+        val mockClient: HttpClient = mock {  }
+        val mockResponse: HttpResponse<String> = mock {  }
 
-        val mockResponse = mock(HttpResponse::class.java)
+        whenever(mockResponse.statusCode()).thenReturn(200)
+        whenever(mockResponse.body()).thenReturn(body)
 
-        `when`(mockResponse.statusCode()).thenReturn(200)
-        `when`(mockResponse.body()).thenReturn(body)
-
-        `when`(mockClient.send(Mockito.any(HttpRequest::class.java),Mockito.eq(HttpResponse.BodyHandlers.ofString())))
+        whenever(mockClient.send(any(), eq(HttpResponse.BodyHandlers.ofString())))
             .thenReturn(mockResponse as HttpResponse<String>?)
 
         return mockClient
@@ -145,9 +146,9 @@ class ContentServiceTest {
 
     @Test
     fun `Should throw connection error on client send throw`() = runTest {
-        val mockClient = mock(HttpClient::class.java)
+        val mockClient: HttpClient = mock {}
 
-        `when`(mockClient.send(Mockito.any(HttpRequest::class.java),Mockito.eq(HttpResponse.BodyHandlers.ofString())))
+        whenever(mockClient.send(any(), eq(HttpResponse.BodyHandlers.ofString())))
             .thenThrow(InterruptedException("foo"))
 
         val service : ContentService = ContentServiceImpl(mockClient, storage)
@@ -176,13 +177,11 @@ class ContentServiceTest {
 
     @Test
     fun `Get by name should return content not found exception`() = runTest {
-        val mockClient = mock(HttpClient::class.java)
+        val mockClient: HttpClient = mock {}
+        val mockResponse: HttpResponse<String> = mock {}
 
-        val mockResponse = mock(HttpResponse::class.java)
-
-        `when`(mockResponse.statusCode()).thenReturn(404)
-
-        `when`(mockClient.send(Mockito.any(HttpRequest::class.java), Mockito.eq(HttpResponse.BodyHandlers.ofString())))
+        whenever(mockResponse.statusCode()).thenReturn(404)
+        whenever(mockClient.send(any(), eq(HttpResponse.BodyHandlers.ofString())))
             .thenReturn(mockResponse as HttpResponse<String>?)
 
         val service : ContentService = ContentServiceImpl(mockClient, storage)
@@ -200,13 +199,11 @@ class ContentServiceTest {
 
     @Test
     fun `Get by reference should return content not found exception`() = runTest {
-        val mockClient = mock(HttpClient::class.java)
+        val mockClient: HttpClient = mock {}
+        val mockResponse: HttpResponse<String> = mock {}
 
-        val mockResponse = mock(HttpResponse::class.java)
-
-        `when`(mockResponse.statusCode()).thenReturn(404)
-
-        `when`(mockClient.send(Mockito.any(HttpRequest::class.java), Mockito.eq(HttpResponse.BodyHandlers.ofString())))
+        whenever(mockResponse.statusCode()).thenReturn(404)
+        whenever(mockClient.send(any(), eq(HttpResponse.BodyHandlers.ofString())))
             .thenReturn(mockResponse as HttpResponse<String>?)
 
         val service : ContentService = ContentServiceImpl(mockClient, storage)
@@ -233,7 +230,8 @@ class ContentServiceTest {
 
     @Test
     fun `Get by reference throws on null url`() = runTest {
-        val mockClient = mock(HttpClient::class.java)
+        val mockClient: HttpClient = mock {}
+
         val service : ContentService = ContentServiceImpl(mockClient, storage)
         assertThrows<ContentServiceException.BadURLException> {
             val reference = APIReference(
@@ -255,7 +253,7 @@ class ContentServiceTest {
 
     @Test
     fun `Get by reference throws on bad url`() = runTest {
-        val mockClient = mock(HttpClient::class.java)
+        val mockClient: HttpClient = mock {}
         val service : ContentService = ContentServiceImpl(mockClient, storage)
         assertThrows<ContentServiceException.BadURLException> {
             val reference = APIReference(
