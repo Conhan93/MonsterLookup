@@ -25,6 +25,7 @@ import java.net.http.HttpResponse
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
+@Suppress("UNCHECKED_CAST")
 @OptIn(ExperimentalCoroutinesApi::class)
 class ContentServiceTest {
 
@@ -41,7 +42,7 @@ class ContentServiceTest {
 
     }
 
-    @Suppress("UNCHECKED_CAST")
+
     private fun mockClientReturnsBody(body : String) : HttpClient {
         val mockClient: HttpClient = mock {  }
         val mockResponse: HttpResponse<String> = mock {  }
@@ -152,7 +153,7 @@ class ContentServiceTest {
             .thenThrow(InterruptedException("foo"))
 
         val service : ContentService = ContentServiceImpl(mockClient, storage)
-        var request = ContentRequest.RequestByName(testMonster.name!!, Monster::class)
+        val request = ContentRequest.RequestByName(testMonster.name!!, Monster::class)
         assertThrows<ContentServiceException.ConnectionException> {
             service.getContentAsync(request)
         }
