@@ -3,11 +3,12 @@ import DI.contentModule
 import DI.storageModule
 import DI.viewModelModule
 import View.State.State
-import Model.Storage.ILocalStorage
 import Theme.AppTheme
 import View.*
 import View.Common.FullscreenPopUpEnabledApp
 import View.ContentView.ContentView
+import ViewModel.Main.MainEvent
+import ViewModel.Main.MainViewModel
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+
 import org.koin.core.context.startKoin
 import org.koin.java.KoinJavaComponent.get
 
@@ -36,9 +38,9 @@ fun App() {
 fun main() {
     startKoin { modules(contentModule, viewModelModule, storageModule) }
 
-    application {
+    val viewModel: MainViewModel = get(MainViewModel::class.java)
 
-        val isDarkMode = remember { mutableStateOf(false) }
+    application {
 
         Window(
             title = "Monster Lookup",
@@ -47,25 +49,21 @@ fun main() {
                 height = 600.dp
             ),
             icon = painterResource("icons8-dungeons-and-dragons-48.png"),
-            onCloseRequest = ::exitApplication
+            onCloseRequest = { viewModel.onEvent(MainEvent.ExitAppEvent(::exitApplication)) }
 
         ) {
 
             MenuBar {
                 Menu("File") {
-                    Item("Quit", onClick = { exitApplication() })
-                    Item("Clear Cache", onClick = {
-                        val storage : ILocalStorage = get(ILocalStorage::class.java)
-                        storage.clear()
-                    })
+                    Item("Quit", onClick = { viewModel.onEvent(MainEvent.ExitAppEvent(::exitApplication))})
+                    Item("Clear Cache", onClick = {viewModel.onEvent(MainEvent.ClearCacheEvent)})
                 }
                 Menu("Appearance") {
-                    val darkModeItemString = if (isDarkMode.value) "Light Mode" else "Dark Mode"
-                    Item(darkModeItemString, onClick = { isDarkMode.value = isDarkMode.value.not() })
+                    Item(viewModel.darkModeItemString, onClick = { viewModel.onEvent(MainEvent.SwitchLightModeEvent) })
                 }
             }
 
-            AppTheme(isDarkMode = isDarkMode.value) {
+            AppTheme(isDarkMode = viewModel.isDarkMode) {
                 FullscreenPopUpEnabledApp { App() }
             }
         }
