@@ -3,8 +3,8 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.7.10"
-    id("org.jetbrains.compose") version "1.2.0-alpha01-dev774"
+    kotlin("jvm") version "1.9.20"
+    id("org.jetbrains.compose") version "1.5.10"
     kotlin("plugin.serialization") version "1.6.10"
 }
 
@@ -24,11 +24,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     implementation(compose.desktop.currentOs)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
 
@@ -51,8 +51,8 @@ dependencies {
     //implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
 
     // logger
-    implementation("org.slf4j:slf4j-simple:2.0.0")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.0")
+    implementation("org.slf4j:slf4j-simple:2.0.5")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
 }
 
 tasks.test {
