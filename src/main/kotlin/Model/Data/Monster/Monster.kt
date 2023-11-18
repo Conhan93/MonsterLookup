@@ -17,7 +17,7 @@ data class Monster(
     val type : String? = null,
     val subtype : String? = null,
     val alignment : String? = null,
-    val armor_class : Int? = null,
+    val armor_class: List<ArmorClass>? = null,
     val hit_points : Int? = null,
     val hit_dice : String? = null,
 
@@ -42,4 +42,6 @@ data class Monster(
 
     val speed : Speed = Speed(),
     val xp : Int? = null
-) : Base()
+) : Base() {
+    val ac: Int by lazy { armor_class?.fold(0) {  acc, armorClass -> acc + (armorClass.value) } ?: 0 }
+}

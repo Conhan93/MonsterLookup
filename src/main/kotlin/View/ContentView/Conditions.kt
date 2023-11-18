@@ -1,5 +1,6 @@
 package View.InfoAndStats
 
+import Model.Data.Monster.ArmorClass
 import Model.Data.Monster.Monster
 import View.Common.SolidTextListLazy
 
@@ -17,7 +18,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
-
     val info = getAboutInfo(monster)
 
     Row(
@@ -61,17 +61,14 @@ fun Conditions(monster : Monster, modifier : Modifier = Modifier) {
 }
 
 
-private fun getAboutInfo(monster: Monster) : List<String> {
-    val info = mutableListOf<String>()
-
+private fun getAboutInfo(monster: Monster) = buildList {
     with(monster) {
-        type?.let { info.add("Type: $it") }
-        subtype?.let { info.add("Subtype: $it") }
-        size?.let { info.add("Size: $it") }
-        alignment?.let { info.add("Alignment: $it") }
-        armor_class?.let { info.add("AC: $it") }
-        hit_points?.let { info.add("HP: $it") }
+        type?.let { add("Type: $it") }
+        subtype?.let { add("Subtype: $it") }
+        size?.let { add("Size: $it") }
+        alignment?.let { add("Alignment: $it") }
+        add("AC: ${monster.ac}")
+//        armor_class?.let { add("AC: ${}") }
+        hit_points?.let { add("HP: $it") }
     }
-
-    return info
 }
